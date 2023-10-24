@@ -10,7 +10,7 @@ import java.sql.SQLException;
 
 public class UserMapper {
 
-
+    /*Login method, takes login credentials from the UserController and tries to connect to the database to return the existing user*/
     public static User login(String username, String password, ConnectionPool connectionPool) throws DatabaseException {
         String sql = "select * from users where name=? and password=?";
         try(Connection connection = connectionPool.getConnection()){
@@ -32,6 +32,8 @@ public class UserMapper {
         }
     }
 
+    /*RegisterUser method to register user based on the credentials sent from the UserMapper, updates the database with the corresponding credentials if the
+    * given input is valid*/
     public static void registerUser(String username, String password, int balance, boolean isAdmin, ConnectionPool connectionPool) throws DatabaseException{
         String sql = "insert into users (email, password, balanace, is_admin) values (?,?,?,?)";
         try(Connection connection = connectionPool.getConnection()){
