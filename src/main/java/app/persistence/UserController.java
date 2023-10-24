@@ -6,12 +6,12 @@ import io.javalin.http.Context;
 
 public class UserController {
 
-    public static User login(Context ctx, ConnectionPool connectionPool){
-        return null;
+    public static void login(Context ctx, ConnectionPool connectionPool){
+
     }
 
-    public static User registerUser(Context ctx, ConnectionPool connectionPool){
-        return null;
+    public static void registerUser(Context ctx, ConnectionPool connectionPool){
+        
     }
 
 }
