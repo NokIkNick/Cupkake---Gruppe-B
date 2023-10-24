@@ -35,12 +35,7 @@ public class Main {
         // Routing
 
         app.get("/", ctx ->  ctx.render("index.html"));
-
-        try{
-            System.out.println(AdminMapper.deleteOrder(2,3,connectionPool));
-        }catch (Exception e){
-            System.out.println(e.getMessage());
-        }
+        
 
 
     }
