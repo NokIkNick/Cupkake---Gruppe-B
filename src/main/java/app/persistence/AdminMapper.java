@@ -1,11 +1,11 @@
 package app.persistence;
 
+import app.entities.Order;
 import app.entities.User;
 import app.exceptions.DatabaseException;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class AdminMapper {
@@ -59,10 +59,48 @@ public class AdminMapper {
         }
     }
 
-    public static List<User> showAllUsers(ConnectionPool connectionPool){
+    public static List<User> getAllUsers(ConnectionPool connectionPool) throws DatabaseException{
+        List<User> userList = new ArrayList<>();
         String sql = "select * from users";
-        return null;
+        try(Connection connection = connectionPool.getConnection()){
+            try(PreparedStatement ps = connection.prepareStatement(sql)){
+                ResultSet rs = ps.executeQuery();
+
+                while(rs.next()){
+                    int userId = rs.getInt("user_id");
+                    String email = rs.getString("email");
+                    String password = rs.getString("password");
+                    int balance = rs.getInt("balanace");
+                    boolean isAdmin = rs.getBoolean("is_admin");
+                    userList.add(new User(userId,email,password,balance,isAdmin));
+                }
+            }
+        }catch(SQLException e){
+            throw new DatabaseException("Error while fetching user list");
+        }
+        return userList;
     }
 
 
+    public static List<Order> getAllOrders(ConnectionPool connectionPool) throws DatabaseException{
+        List<Order> orderList = new ArrayList<>();
+        String sql = "select * from orders";
+        try(Connection connection = connectionPool.getConnection()){
+            try(PreparedStatement ps = connection.prepareStatement(sql)){
+                ResultSet rs = ps.executeQuery();
+
+                while(rs.next()){
+                    int orderId = rs.getInt("order_id");
+                    int userId = rs.getInt("user_id");
+                    int workerId = rs.getInt("worker_id");
+                    String status = rs.getString("status");
+                    Date date = rs.getDate("date");
+                    orderList.add(new Order(orderId,userId,workerId,status,date));
+                }
+            }
+        }catch(SQLException e){
+            throw new DatabaseException("Error while fetching order list");
+        }
+        return orderList;
+    }
 }
