@@ -1,7 +1,9 @@
 package app;
 
 import app.config.ThymeleafConfig;
+import app.persistence.AdminMapper;
 import app.persistence.ConnectionPool;
+import app.persistence.UserMapper;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinThymeleaf;
 
@@ -33,6 +35,13 @@ public class Main {
         // Routing
 
         app.get("/", ctx ->  ctx.render("index.html"));
+
+        try{
+            System.out.println(AdminMapper.deleteOrder(2,3,connectionPool));
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+
 
     }
 }
