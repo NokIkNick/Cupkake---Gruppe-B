@@ -1,4 +1,4 @@
-package app.persistence;
+package app.controllers;
 
 import app.entities.User;
 import app.persistence.ConnectionPool;
