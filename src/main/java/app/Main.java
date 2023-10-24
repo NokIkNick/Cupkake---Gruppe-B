@@ -2,6 +2,7 @@ package app;
 
 import app.config.ThymeleafConfig;
 import app.persistence.ConnectionPool;
+import app.persistence.PasswordValidator;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinThymeleaf;
 
@@ -33,6 +34,6 @@ public class Main {
         // Routing
 
         app.get("/", ctx ->  ctx.render("index.html"));
-
+        // System.out.println(PasswordValidator.isValidPassword("Hest!2rt")); // password validator test
     }
 }
