@@ -36,7 +36,8 @@ public class UserController {
         }
         if( PasswordValidator.isValidPassword(password)) {
             try {
-                UserMapper.registerUser(username,password,connectionPool);
+                UserMapper.registerUser(username,password,2000,false,connectionPool); // balance is hardcoded right now
+                //TODO fix balance so its not hardcoded, maybe?
                 ctx.attribute("message","You can now log in with your new user");
                 ctx.render("index.html");
             } catch (DatabaseException e) {
