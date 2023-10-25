@@ -8,11 +8,8 @@ import io.javalin.http.Context;
 import app.exceptions.DatabaseException;
 
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 public class UserController {
-
+    // TODO make sure the functions render the right pages and has the correct attribute / formParam names.
     public static void login(Context ctx, ConnectionPool connectionPool){
         String name = ctx.formParam("username");
         String password = ctx.formParam("password");
