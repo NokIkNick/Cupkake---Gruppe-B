@@ -8,21 +8,32 @@
 </head>
 
 <body>
-<div ID="Header">
-    <a href="index.html">
-    <div class="imageDiv">
-        <img ID="Logo" src="../public/images/OlskerLogo.png" alt="Olsker Cupcakes"/>
+<div ID="Header" class="HeaderSpace">
+    <div ID="HeaderLine1">
+        <a href="/index.html" ID="LogoDiv">
+            <img ID="Logo" src="../public/images/OlskerLogo.png" alt="Olsker Cupcakes"/>
+        </a>
+        <div class="center">
+            <img ID="HeaderImage" src="../public/images/cupcakes.png" alt="Olsker Cupcakes"/>
+        </div>
     </div>
-    </a>
-    <div class="imageDiv center">
-        <img ID="HeaderImage" src="../public/images/cupcakes.png" alt="Olsker Cupcakes"/>
+    <div ID="HeaderLine2">
+        <div ID="Nav">
+            <a href="/orders">Ordre</a>
+            <!--<a href="/kunder" th:if="${ctx.session.activeUser.isAdmin}">Kunder</a>-->
+        </div>
+        <div ID="UserSpecifics">
+            <a href="/logout" th:unless="${ctx.session.activeUser==null}" th:text="${ctx.session.activeUser.email}"></a>
+            <a href="/login" th:if="${ctx.session.activeUser==null}">Login</a>
+            <div id="KurvIkon">
+                <a><img class="fullyRound whiteBackground" src="../public/images/kurv-ikon-360x360.png" alt="kurv"/></a>
+            </div>
+        </div>
     </div>
 </div>
-<div ID="AfterHeaderSpace"></div>
 <div ID="Content">
-    <h1>Welcome to the Javalin / Thymeleaf demo</h1>
-
-    <p>This is your first web application in this world</p>
+    <h1>Bonholms bedste (og eneste) kagebutik til rådighed</h1>
+    <p>hvad kunne du tænke dig at bestile?</p>
 </div>
 </body>
 </html>
