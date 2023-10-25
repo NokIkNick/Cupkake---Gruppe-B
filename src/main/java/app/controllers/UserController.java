@@ -16,30 +16,37 @@ public class UserController {
         try {
             User user =  UserMapper.login(name,password,connectionPool);
             ctx.sessionAttribute("currentuser",user); // a way to store info for the session, last until are idle to long or closes your explore or gets overridden
-            ctx.render("index.html");
+            ctx.render("index.html");        // TODO
         } catch (DatabaseException e) {
             ctx.attribute("message",e.getMessage()); // gets the message from the error
-            ctx.render("index.html");
+            ctx.render("index.html");          // TODO
         }
     }
 
     public static void registerUser(Context ctx, ConnectionPool connectionPool){
         String username = ctx.formParam("username");
         String password = ctx.formParam("password");
-        String repeatPassword = ctx.formParam("password2");
-        if (!password.equals(repeatPassword)) {
-            ctx.attribute("message", "Passwords did not match");
+        String repeatPassword = ctx.formParam("password_repeat");
+        if(password != null && repeatPassword != null) {
+            if (!password.equals(repeatPassword)) {
+                ctx.attribute("message", "Passwords did not match");
+                ctx.render("createuser.html");  // TODO
+                return;
+            }
+        }else {
+            ctx.attribute("message", "Password cannot be empty");
             ctx.render("createuser.html");
+            return;
         }
         if( PasswordValidator.isValidPassword(password)) {
             try {
                 UserMapper.registerUser(username,password,2000,false,connectionPool); // balance is hardcoded right now
                 //TODO fix balance so its not hardcoded, maybe?
                 ctx.attribute("message","You can now log in with your new user");
-                ctx.render("index.html");
+                ctx.render("index.html");       // TODO
             } catch (DatabaseException e) {
                 ctx.attribute("message",e.getMessage());
-                ctx.render("createuser.html");
+                ctx.render("createuser.html");      // TODO
             }
         }else {
             ctx.attribute("message", "Password was not complicated enough");
@@ -47,17 +54,17 @@ public class UserController {
         }
     }
     public void updateBalance(Context ctx, ConnectionPool connectionPool){
-        User user = ctx.sessionAttribute("currentuser");
-        String email = user.getEmail();
         try {
+            User user = ctx.sessionAttribute("currentuser");
+            String email = user.getEmail();
             int balanceToAdd = Integer.parseInt(ctx.formParam("update_balance"));
             UserMapper.updateBalance(email,balanceToAdd, connectionPool);
         }catch (NumberFormatException e){
             ctx.attribute("PLACEHOLDER.message", "That's not a valid number!");
-            ctx.render("PLACEHOLDER.HTML");
-        } catch (DatabaseException e) {
+            ctx.render("PLACEHOLDER.HTML");    // TODO
+        } catch (DatabaseException | NullPointerException e) {
             ctx.attribute("PLACEHOLDER.message", e.getMessage());
-            ctx.render("PLACEHOLDER.HTML");
+            ctx.render("PLACEHOLDER.HTML");     // TODO
         }
     }
 
