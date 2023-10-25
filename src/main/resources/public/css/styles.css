@@ -1,46 +1,50 @@
 /* Stylesheet for the application */
 
-h1 {
-    color: #369;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 3rem;
+Body {
+    margin: 0;
+    background: #FFF3DA;
 }
 
-a {
-    height: auto;
-    width: auto;
-}
-
-.center {
-    margin-left: auto;
-    margin-right: auto;
-}
-
-#Content {
-    height: 120vh;
-}
-
+/* Header Styling */
 #Header {
-    position: fixed;
-    top:0;
+    position: sticky;
+    top: -20vh;
     left: 0;
-    width: 100vw;
-    height: 10vh;
-    background: purple;
+    width: 100%;
+    background: #D0BFFF; /* nicks own color scheme */
+    /* background: #37195d; */ /* Original Color */
+}
+
+#Header > Div {
     display: flex;
+    width:100%;
+    text-align: center;
 }
 
-#AfterHeaderSpace {
-    height: 10vh;
+#HeaderLine1 {
+    height:20vh;
 }
 
-#Header #Logo {
-    margin-left:1vw;
+#LogoDiv {
+    margin-top: 0.5vh;
+    margin-left:0.5vw;
+    margin-bottom: 0;
+    margin-right: calc(-20vh - 0.5vw);
 }
 
-#Header .imageDiv{
-    width: fit-content;
-    height:100%;
+#HeaderLine2 {
+    height:4vh;
+    justify-content: space-between;
+    background: #DFCCFB;
+    font-size: 1.5em;
+}
+
+#HeaderLine2 a{
+    margin: 8px;
+}
+
+#KurvIkon {
+    margin: 0.25vh 0.25vw;
 }
 
 #Header img {
@@ -49,4 +53,52 @@ a {
     max-height: 100%;
     margin-left: auto;
     margin-right: auto;
+}
+
+#UserSpecifics a {
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+/* Content Styling */
+#Content {
+    height: 120vh;
+    margin: 8px;
+    color: #000;
+}
+
+/* General Styling */
+.fullyRound {
+    border-radius: 100%;
+}
+
+.center {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+h1 {
+    color: #37195d;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 3rem;
+    margin-block-start: 0.2em;
+    margin-block-end: 0.2em;
+}
+
+a {
+    height: auto;
+    width: auto;
+    color: #37195d;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.whiteBackground {
+    background: white;
+}
+
+
+/* Experimental */
+#Header > Div > * {
+    display: flex;
 }

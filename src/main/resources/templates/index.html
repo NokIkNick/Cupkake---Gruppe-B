@@ -21,30 +21,15 @@
     </div>
     <div ID="HeaderLine2">
         <div ID="Nav">
-            <a href="/orders">
-                <div class="NavButton">
-                    Ordre
-                </div>
-            </a>
+            <a href="/orders">Ordre</a>
             <!--<a href="/kunder" th:if="${ctx.session.activeUser.isAdmin}">Kunder</a>-->
         </div>
         <div ID="UserSpecifics">
-            <a href="/logout" th:unless="${session.active_user==null}">
-                <div class="NavButton" th:text="${session.active_user.email}"></div>
-            </a>
-            <a href="/login" th:if="${session.active_user==null}">
-                <div class="NavButton">
-                    Login
-                </div>
-            </a>
+            <a href="/logout" th:unless="${ctx.session.activeUser==null}" th:text="${ctx.session.activeUser.email}"></a>
+            <a href="/login" th:if="${ctx.session.activeUser==null}">Login</a>
             <div id="KurvIkon">
-                <a href="/basket">
-                    <img class="fullyRound whiteBackground" src="../static/images/kurv-ikon-360x360.png" th:src="@{/images/kurv-ikon-360x360.png}" alt="kurv"/>
-                    <div class="fullyRound" ID="ItemsInBasket" th:if="${session.basket_orderlines!=null}" th:text="${session.basket_orderlines.size()}"></div>
-                </a>
+                <a><img class="fullyRound whiteBackground" src="../public/images/kurv-ikon-360x360.png" alt="kurv"/></a>
             </div>
-
-
         </div>
     </div>
 </div>
