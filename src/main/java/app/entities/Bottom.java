@@ -1,15 +1,20 @@
 package app.entities;
 
 public class Bottom {
-    private int id;
+
+    private int bottomId;
     private String name;
     private int price;
 
-    public Bottom(int id, String name, int price){
-        this.price = price;
+    public Bottom(int bottomId, String name, int price) {
+        this.bottomId = bottomId;
         this.name = name;
+        this.price = price;
     }
 
+    public int getBottomId() {
+        return bottomId;
+    }
 
     public String getName() {
         return name;
@@ -17,20 +22,5 @@ public class Bottom {
 
     public int getPrice() {
         return price;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    @Override
-    public String toString(){
-        return "Top{ "+"id: "
-                +getId()+
-                " name: "
-                +name+
-                " price: " +
-                getPrice()+
-                "}";
     }
 }
