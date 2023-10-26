@@ -12,6 +12,7 @@ public class CupCakeController {
 
         // TODO  make sure the names of the variables matches the thymeleaf context variables.
         // TODO add all the extra variables that is needed to render the index plage properly.
+        // TODO add global list for top and bottom info.
     public static void loadIndexSite(Context ctx, ConnectionPool connectionPool){
         try {
             ctx.attribute("top_info", TopMapper.getAllTopInfo(connectionPool));          // TODO

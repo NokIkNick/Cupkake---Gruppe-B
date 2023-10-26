@@ -15,7 +15,7 @@ public class UserController {
         String password = ctx.formParam("password");
         try {
             User user =  UserMapper.login(name,password,connectionPool);
-            ctx.sessionAttribute("currentuser",user); // a way to store info for the session, last until are idle to long or closes your explore or gets overridden
+            ctx.sessionAttribute("active_user",user); // a way to store info for the session, last until are idle to long or closes your explore or gets overridden
             CupCakeController.loadIndexSite(ctx,connectionPool);       // TODO
         } catch (DatabaseException e) {
             ctx.attribute("message",e.getMessage()); // gets the message from the error
@@ -55,7 +55,7 @@ public class UserController {
     }
     public void updateBalance(Context ctx, ConnectionPool connectionPool){
         try {
-            User user = ctx.sessionAttribute("currentuser");
+            User user = ctx.sessionAttribute("active_user");
             String email = user.getEmail();
             int balanceToAdd = Integer.parseInt(ctx.formParam("update_balance"));
             UserMapper.updateBalance(email,balanceToAdd, connectionPool);

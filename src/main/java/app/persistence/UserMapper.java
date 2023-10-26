@@ -67,6 +67,21 @@ public class UserMapper {
             throw new DatabaseException("Error while connecting to database "+e);
         }
     }
-
+    public static int getBalance(String email, ConnectionPool connectionPool) throws DatabaseException{
+        String sql = "select balanace from users where name=?";
+        try(Connection connection = connectionPool.getConnection()){
+            try(PreparedStatement ps = connection.prepareStatement(sql)) {
+                ps.setString(1, email);
+                ResultSet rs = ps.executeQuery();
+                if(rs.next()){
+                    return rs.getInt("balanace");
+                }else {
+                    throw new DatabaseException("Error while getting you balance, get an admin for help.");
+                }
+            }
+        }catch(SQLException e){
+            throw new DatabaseException("Error while connecting to database "+e);
+        }
+    }
 
 }
