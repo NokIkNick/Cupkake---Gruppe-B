@@ -7,6 +7,9 @@ import app.persistence.UserMapper;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinThymeleaf;
 
+import java.time.LocalDate;
+import java.util.Date;
+
 public class Main {
 
     private static final String USER = "postgres";
@@ -35,7 +38,6 @@ public class Main {
         // Routing
 
         app.get("/", ctx ->  ctx.render("index.html"));
-
 
 
     }

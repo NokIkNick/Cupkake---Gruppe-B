@@ -1,17 +1,56 @@
 package app.persistence;
 
+import app.config.ThymeleafConfig;
 import app.entities.Orderline;
 import app.entities.User;
 import app.exceptions.DatabaseException;
+import io.javalin.Javalin;
+import io.javalin.rendering.template.JavalinThymeleaf;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.sql.*;
-import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class OrderMapper {
+import static org.junit.jupiter.api.Assertions.*;
 
-    public static void addOrder(List<Orderline> orderlines, ConnectionPool connectionPool, String note, User currentUser) throws DatabaseException {
+class OrderMapperTest {
+
+
+    private static final String USER = "postgres";
+    private static final String PASSWORD = "postgres";
+    private static final String URL = "jdbc:postgresql://localhost:5432/%s?currentSchema=public";
+    private static final String DB = "cupcakeTest";
+    private static ConnectionPool connectionPool = null;
+
+    private List<Orderline> orderlines;
+    private User currentUser;
+    private String note;
+
+    @BeforeEach
+    void setUp() {
+        Javalin app = Javalin.create(config -> {
+            config.staticFiles.add("/public");
+            JavalinThymeleaf.init(ThymeleafConfig.templateEngine());
+        }).start(7070);
+
+        try{
+            connectionPool = ConnectionPool.getInstance(USER, PASSWORD, URL, DB);
+        } catch (Exception e){
+            app.get("*", ctx -> ctx.render("/"));
+            app.post("*", ctx -> ctx.render("/"));
+        }
+        orderlines = new ArrayList<>();
+        orderlines.add(new Orderline(1,1,100,1));
+        orderlines.add(new Orderline(1,1,200,2));
+        currentUser = new User(1,"admin@test.dk","1234",2000,true);
+        note = "Hej jeg vil gerne have kage, tak";
+    }
+
+    @Test
+    void addOrder() throws DatabaseException {
         int orderId = 0;
         String sql = "insert into orders (user_id,worker_id,status,date,note) values (?,?,?,?,?)";
         try(Connection connection = connectionPool.getConnection()){
@@ -38,9 +77,12 @@ public class OrderMapper {
 
             }
         }catch(SQLException e){
-            throw new DatabaseException("Error while connecting to database");
+            throw new DatabaseException("Error while connecting to database" + e.getMessage());
         }
+
+
     }
+
 
     private static void createOrderlines(List<Orderline> orderlines, int orderId, ConnectionPool connectionPool) throws DatabaseException{
         for(Orderline orderline : orderlines){
