@@ -1,10 +1,12 @@
 package app;
 
 import app.config.ThymeleafConfig;
+import app.controllers.CupCakeController;
 import app.persistence.ConnectionPool;
 import app.persistence.PasswordValidator;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinThymeleaf;
+import org.thymeleaf.context.Context;
 
 public class Main {
 
@@ -35,5 +37,6 @@ public class Main {
 
         app.get("/", ctx ->  ctx.render("index.html"));
         // System.out.println(PasswordValidator.isValidPassword("Hest!2rt")); // password validator test
+        
     }
 }

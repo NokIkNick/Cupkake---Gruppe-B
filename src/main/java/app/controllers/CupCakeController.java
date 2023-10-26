@@ -1,5 +1,6 @@
-package app.controller;
+package app.controllers;
 
+import app.entities.User;
 import app.exceptions.DatabaseException;
 import app.persistence.BottomMapper;
 import app.persistence.ConnectionPool;
@@ -15,6 +16,10 @@ public class CupCakeController {
         try {
             ctx.attribute("top_info", TopMapper.getAllTopInfo(connectionPool));          // TODO
             ctx.attribute("bottom_info", BottomMapper.getAllBottomInfo(connectionPool)); // TODO
+            User user = ctx.sessionAttribute("currentuser");
+            if(!user.equals(null)){
+                ctx.attribute("login", user.getEmail());
+            }
             ctx.render("indexPLACEHOLDER.html");    // TODO
         }catch (DatabaseException e){
             ctx.attribute("message", e.getMessage());
