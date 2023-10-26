@@ -1,5 +1,6 @@
 package app.persistence;
 
+import app.entities.Bottom;
 import app.exceptions.DatabaseException;
 
 import java.awt.*;
@@ -12,15 +13,17 @@ import java.util.List;
 
 public class TopMapper {
 
-    public static List<String> getAllTopNames(ConnectionPool connectionPool) throws DatabaseException{
-        List<String> nameList = new ArrayList<>();
-        String sql = "select name from top";
+    public static List<Bottom> getAllTopInfo(ConnectionPool connectionPool) throws DatabaseException {
+        List<Bottom> topInfoList = new ArrayList<>();
+        String sql = "select * from top";
         try(Connection connection = connectionPool.getConnection()){
             try(PreparedStatement ps = connection.prepareStatement(sql)){
                 ResultSet rs = ps.executeQuery();
                 while(rs.next()){
+                    int id = rs.getInt("bottom_id");
                     String name = rs.getString("name");
-                    nameList.add(name);
+                    int price = rs.getInt("price");
+                    topInfoList.add(new Bottom(id,name,price));
                 }
             }catch (SQLException e){
                 throw new DatabaseException("hello there");
@@ -28,27 +31,8 @@ public class TopMapper {
         }catch (SQLException e){
             throw new DatabaseException("you failed to connect dingus");
         }
-        return nameList;
+        return topInfoList;
     }
-    public static int getTopPrice(String name,ConnectionPool connectionPool) throws DatabaseException{
-        int price = 0;
-        String sql = "select price from top where name = ?";
 
-        try(Connection connection = connectionPool.getConnection()){
-            try(PreparedStatement ps = connection.prepareStatement(sql)){
-                ps.setString(1,name);
-                try(ResultSet rs = ps.executeQuery()){
-                    if(rs.next()){
-                        price = rs.getInt("price");
-                    }
-                }
-            }catch (SQLException e){
-                throw new DatabaseException("hello there");
-            }
-        }catch (SQLException e){
-            throw new DatabaseException("you failed to connect dingus");
-        }
-        return price;
-    }
 
 }
