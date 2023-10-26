@@ -16,7 +16,7 @@ public class UserController {
         try {
             User user =  UserMapper.login(name,password,connectionPool);
             ctx.sessionAttribute("currentuser",user); // a way to store info for the session, last until are idle to long or closes your explore or gets overridden
-            ctx.render("index.html");        // TODO
+            CupCakeController.loadIndexSite(ctx,connectionPool);       // TODO
         } catch (DatabaseException e) {
             ctx.attribute("message",e.getMessage()); // gets the message from the error
             ctx.render("index.html");          // TODO
@@ -30,26 +30,26 @@ public class UserController {
         if(password != null && repeatPassword != null) {
             if (!password.equals(repeatPassword)) {
                 ctx.attribute("message", "Passwords did not match");
-                ctx.render("createuser.html");  // TODO
+                ctx.render("create_user.html");  // TODO
                 return;
             }
         }else {
             ctx.attribute("message", "Password cannot be empty");
-            ctx.render("createuser.html");
+            ctx.render("create_user.html");
             return;
         }
-        if( PasswordValidator.isValidPassword(password)) {
+        if(PasswordValidator.isValidPassword(password)) {
             try {
                 UserMapper.registerUser(username,password,2000,false,connectionPool); // balance is hardcoded right now
                 //TODO fix balance so its not hardcoded, maybe?
                 ctx.attribute("message","You can now log in with your new user");
-                ctx.render("index.html");       // TODO
+                ctx.render("login.html");       // TODO
             } catch (DatabaseException e) {
                 ctx.attribute("message",e.getMessage());
                 ctx.render("createuser.html");      // TODO
             }
         }else {
-            ctx.attribute("message", "Password was not complicated enough");
+            ctx.attribute("message", "Password was not complicated enough,length needs to be atleast 8 and you need atleast one uppercase letter, one number and one special character");
             ctx.render("createuser.html");
         }
     }
