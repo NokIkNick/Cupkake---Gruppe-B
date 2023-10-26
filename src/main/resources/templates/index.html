@@ -29,14 +29,17 @@
             <!--<a href="/kunder" th:if="${ctx.session.activeUser.isAdmin}">Kunder</a>-->
         </div>
         <div ID="UserSpecifics">
-            <a href="/logout" th:unless="${ctx.session.activeUser==null}" th:text="${ctx.session.activeUser.email}"></a>
-            <a href="/login" th:if="${ctx.session.activeUser==null}">
+            <a href="/logout" th:unless="${ctx.session.active_user==null}" th:text="${ctx.session.active_user.email}"></a>
+            <a href="/login" th:if="${ctx.session.active_user==null}">
                 <div class="NavButton">
                     Login
                 </div>
             </a>
             <div id="KurvIkon">
-                <a href="/kurv"><img class="fullyRound whiteBackground" src="../public/images/kurv-ikon-360x360.png" alt="kurv"/></a>
+                <a href="/kurv">
+                    <img class="fullyRound whiteBackground" src="../public/images/kurv-ikon-360x360.png" alt="kurv"/>
+                    <div class="fullyRound" ID="ItemsInBasked" th:text="${ctx.session.basket_orderlines.count}" th:unless="${ctx.session.basket_orderlines.count == 0}">0</div>
+                </a>
             </div>
         </div>
     </div>

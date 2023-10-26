@@ -39,6 +39,18 @@ Body {
     margin-right: calc(-20vh - 0.5vw);
 }
 
+#ItemsInBasked {
+    background: #F00;
+    position: relative;
+    top: calc(-100% - 5px);
+    font-size: 0.5em;
+    width: 10px;
+    height: 10px;
+    margin: 0;
+    padding: 2px;
+    color: white;
+}
+
 #HeaderLine2 {
     height:4vh;
     justify-content: space-between;
@@ -63,8 +75,6 @@ Body {
     width: auto;
     height: auto;
     max-height: 100%;
-    margin-left: auto;
-    margin-right: auto;
 }
 
 .NavButton {
@@ -106,8 +116,7 @@ h1 {
 }
 
 a {
-    height: auto;
-    width: auto;
+    display: contents;
     color: #37195d;
     text-decoration: none;
     font-weight: bold;
