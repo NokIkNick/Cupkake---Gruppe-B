@@ -21,6 +21,13 @@ Body {
     text-align: center;
 }
 
+#Header > Div > Div {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 #HeaderLine1 {
     height:20vh;
 }
@@ -39,12 +46,17 @@ Body {
     font-size: 1.5em;
 }
 
-#HeaderLine2 a{
-    margin: 8px;
+#HeaderLine2 > Div > a{
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height:100%;
 }
 
 #KurvIkon {
     margin: 0.25vh 0.25vw;
+    height: 100%;
 }
 
 #Header img {
@@ -55,9 +67,8 @@ Body {
     margin-right: auto;
 }
 
-#UserSpecifics a {
-    margin-top: auto;
-    margin-bottom: auto;
+.NavButton {
+    margin: auto 8px;
 }
 
 /* Content Styling */
@@ -65,6 +76,10 @@ Body {
     height: 120vh;
     margin: 8px;
     color: #000;
+}
+
+#Content p {
+    white-space: pre-line;
 }
 
 /* General Styling */
@@ -75,6 +90,11 @@ Body {
 .center {
     margin-left: auto;
     margin-right: auto;
+}
+
+p {
+    margin-block-start: 0.1em;
+    margin-block-end: 0.1em;
 }
 
 h1 {
@@ -99,6 +119,3 @@ a {
 
 
 /* Experimental */
-#Header > Div > * {
-    display: flex;
-}
