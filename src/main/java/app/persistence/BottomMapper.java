@@ -24,11 +24,9 @@ public class BottomMapper {
                     int price = rs.getInt("price");
                     bottomInfoList.add(new Bottom(id,name,price));
                 }
-            }catch (SQLException e){
-                throw new DatabaseException("hello there");
             }
         }catch (SQLException e){
-            throw new DatabaseException("you failed to connect dingus");
+            throw new DatabaseException("you failed to connect DB");
         }
         return bottomInfoList;
     }
