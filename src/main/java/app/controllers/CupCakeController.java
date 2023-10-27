@@ -24,7 +24,7 @@ public class CupCakeController {
             if(user != null){
                 ctx.attribute("login", user.getEmail());
             }
-            ctx.render("login.html");    // TODO
+            ctx.render("index.html");    // TODO
         }catch (DatabaseException e){
             ctx.attribute("message", e.getMessage());
             ctx.render("indexPLACEHOLDER.html");  // TODO

@@ -5,10 +5,8 @@ import app.controllers.BasketController;
 import app.controllers.CupCakeController;
 import app.controllers.UserController;
 import app.persistence.ConnectionPool;
-import app.persistence.PasswordValidator;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinThymeleaf;
-import org.thymeleaf.context.Context;
 
 public class Main {
 
