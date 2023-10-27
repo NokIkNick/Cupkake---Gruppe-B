@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
-<title>Frontpage</title>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="../public/css/loginStyles.css" th:href="@{/css/loginStyles.css}" rel="stylesheet"/>
+<head>
+    <title>Frontpage</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/css/loginStyles.css" th:href="@{/css/loginStyles.css}" rel="stylesheet"/>
 </head>
 
 <body>
@@ -12,10 +13,10 @@
 <div ID="Header" class="HeaderSpace">
     <div ID="HeaderLine1">
         <a href="/index.html" ID="LogoDiv">
-            <img ID="Logo" src="../public/images/OlskerLogo.png" alt="Olsker Cupcakes"/>
+            <img ID="Logo" th:src="@{/images/OlskerLogo.png}" alt="Olsker Cupcakes"/>
         </a>
         <div class="center">
-            <img ID="HeaderImage" src="../public/images/cupcakes.png" alt="Olsker Cupcakes"/>
+            <img ID="HeaderImage" th:src="@{/images/cupcakes.png}" alt="Olsker Cupcakes"/>
         </div>
     </div>
     <div ID="HeaderLine2">
@@ -25,41 +26,43 @@
                     Ordre
                 </div>
             </a>
-            <!--<a href="/kunder" th:if="${ctx.session.activeUser.isAdmin}">Kunder</a>-->
+            <!--<a href="/kunder" th:if="${#vars.containsKey('ctx') and #vars.ctx.session.active_user.isAdmin}">Kunder</a>-->
         </div>
         <div ID="UserSpecifics">
-            <a href="/logout" th:unless="${ctx.session.active_user==null}" th:text="${ctx.session.active_user.email}"></a>
-            <a href="/login" th:if="${ctx.session.active_user==null}">
+            <a href="/logout" th:if="${#vars.containsKey('ctx') and #vars.ctx.session.active_user != null}" th:text="${#vars.ctx.session.active_user.email}"></a>
+            <a href="/login" th:if="${#vars.containsKey('ctx') and #vars.ctx.session.active_user == null}">
                 <div class="NavButton">
                     Login
                 </div>
             </a>
             <div id="KurvIkon">
                 <a href="/kurv">
-                    <img class="fullyRound whiteBackground" src="../public/images/kurv-ikon-360x360.png" alt="kurv"/>
-                    <div class="fullyRound" ID="ItemsInBasked" th:text="${ctx.session.basket_orderlines.count}" th:unless="${ctx.session.basket_orderlines.count == 0}">0</div>
+                    <img class="fullyRound whiteBackground" th:src="@{/images/kurv-ikon-360x360.png}" alt="kurv"/>
+                    <div class="fullyRound" ID="ItemsInBasked" th:text="${#vars.ctx.session.basket_orderlines != null ? #vars.ctx.session.basket_orderlines.count : 0}" th:unless="${#vars.ctx.session.basket_orderlines != null && #vars.ctx.session.basket_orderlines.count == 0}">0</div>
                 </a>
             </div>
         </div>
     </div>
 </div>
 
-
 <div id="loginBox">
     <h1>Login</h1>
-    <form id="loginForm" method="post">
+    <form id="loginForm" method="post" action="/login">
         <label for="email">E-mail:</label><br>
         <input type="email" id="email" name="email"><br>
         <label for="password">Password:</label><br>
         <input type="password" id="password" name="password"><br>
-        <input type="button" formaction="login" value="Login"><br><br>
+        <input type="submit" value="Login"><br><br>
     </form>
 
-    <form method="get">
+    <form method="get" action="/registration">
         <label>Are you not a customer already? Register yourself here and start ordering today:</label>
-        <input type="button" formaction="login" value="Login">
+        <input type="button" value="Register">
     </form>
 </div>
 
 </body>
 </html>
+
+
+

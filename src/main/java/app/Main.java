@@ -53,7 +53,7 @@ public class Main {
         // Admin related:
         // TODO
 
-        app.get("/", ctx ->  ctx.render("index.html"));
+        //app.get("/", ctx ->  ctx.render("index.html"));
         // System.out.println(PasswordValidator.isValidPassword("Hest!2rt")); // password validator test
     }
 }

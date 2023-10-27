@@ -18,10 +18,10 @@ public class CupCakeController {
             ctx.attribute("top_info", TopMapper.getAllTopInfo(connectionPool));          // TODO
             ctx.attribute("bottom_info", BottomMapper.getAllBottomInfo(connectionPool)); // TODO
             User user = ctx.sessionAttribute("currentuser");
-            if(!user.equals(null)){
+            if(user != null){
                 ctx.attribute("login", user.getEmail());
             }
-            ctx.render("indexPLACEHOLDER.html");    // TODO
+            ctx.render("login.html");    // TODO
         }catch (DatabaseException e){
             ctx.attribute("message", e.getMessage());
             ctx.render("indexPLACEHOLDER.html");  // TODO
