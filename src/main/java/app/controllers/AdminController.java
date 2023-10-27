@@ -41,6 +41,9 @@ public class AdminController {
             ctx.render("adminPLACEHOLDER.html"); // TODO
         }
     }
+
+
+
     public static void deleteAnOrder(Context ctx, ConnectionPool connectionPool){
         try{User user = ctx.sessionAttribute("choosen_user");
            int orderID =  Integer.parseInt(ctx.formParam("order_id"));
@@ -60,20 +63,20 @@ public class AdminController {
         try {
              userList = AdminMapper.getAllUsers(connectionPool);
              ctx.sessionAttribute("userlist",userList);
-             ctx.render("adminPLACEHOLDER.html");        // TODO
+             ctx.render("admin.html");        // TODO
         }catch (DatabaseException e){
             ctx.attribute("message",e.getMessage());
-            ctx.render("adminPLACEHOLDER.html");         // TODO
+            ctx.render("admin.html");         // TODO
         }
     } public static void allOrders(Context ctx, ConnectionPool connectionPool){
         List<Order> orderList = new ArrayList<>();
         try {
              orderList = AdminMapper.getAllOrders(connectionPool);
-             ctx.sessionAttribute("userlist", orderList);
-             ctx.render("adminPLACEHOLDER.html");        // TODO
+             ctx.sessionAttribute("orderlist", orderList);
+             ctx.render("admin.html");        // TODO
         }catch (DatabaseException e){
             ctx.attribute("message",e.getMessage());
-            ctx.render("adminPLACEHOLDER.html");         // TODO
+            ctx.render("admin.html");         // TODO
         }
     }
 }

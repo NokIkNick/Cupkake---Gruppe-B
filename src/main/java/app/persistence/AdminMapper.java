@@ -3,6 +3,7 @@ package app.persistence;
 import app.entities.Order;
 import app.entities.User;
 import app.exceptions.DatabaseException;
+import io.javalin.http.ExceptionHandler;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -79,6 +80,29 @@ public class AdminMapper {
             throw new DatabaseException("Error while fetching user list");
         }
         return userList;
+    }
+
+    public static List<Order> getAllOrdersFromCostumer(int user_Id,ConnectionPool connectionPool) throws DatabaseException{
+        List<Order> orderList = new ArrayList<>();
+        String sql = "select * from orders where user_id = ?";
+        try(Connection connection = connectionPool.getConnection()){
+            try(PreparedStatement ps = connection.prepareStatement(sql)){
+                ps.setInt(1,user_Id);
+                ResultSet rs = ps.executeQuery();
+
+                while(rs.next()){
+                    int orderId = rs.getInt("order_id");
+                    int userId = rs.getInt("user_id");
+                    int workerId = rs.getInt("worker_id");
+                    String status = rs.getString("status");
+                    Date date = rs.getDate("date");
+                    orderList.add(new Order(orderId,userId,workerId,status,date));
+                }
+            }
+        }catch(SQLException e){
+            throw new DatabaseException("Error while fetching order list");
+        }
+        return orderList;
     }
 
 

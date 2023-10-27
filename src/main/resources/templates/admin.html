@@ -27,6 +27,14 @@
             </a>
             <!--<a href="/kunder" th:if="${ctx.session.activeUser.isAdmin}">Kunder</a>-->
         </div>
+        <div id = "Nav2">
+            <a href="/admin">
+                <div class="NavButton">
+                    Admin
+                </div>
+            </a>
+        </div>
+
         <div ID="UserSpecifics">
             <!--<a href="/logout" th:unless="${ctx.session.active_user==null}" th:text="${ctx.session.active_user.email}"></a>-->
             <!--<a href="/login" th:if="${ctx.session.active_user==null}">-->
@@ -46,20 +54,32 @@
 
 
 <div id="loginBox">
-    <h1>Login</h1>
-    <form id="loginForm" method="post">
-        <label for="email">E-mail:</label><br>
-        <input type="email" id="email" name="email"><br>
-        <label for="password">Password:</label><br>
-        <input type="password" id="password" name="password"><br>
-        <input type="button" formaction="login" value="Login"><br><br>
-    </form>
+    <p>kunder</p>
+    <label>
+        <select id="userSelect" name = "selectedUser">
+            <option th:each="user : ${userlist}" th:value="${user.user_id}" th:text="${user.email}"></option>
+        </select>
+    </label>
+    <button id = 'deleteUser'>delete user</button>
+    <p>kundeOrdrer</p>
+    <label>
+        <select id="orderSelect" name="selectedOrder">
+            <option th:each="order : ${orderlist}" th:value="${order.user_id}" th:text="${order.status}"></option>
+        </select>
+    </label>
+    <p>indsæt penge</p>
+    <input type="number" id="money"  placeholder="indsæt penge her:">
+    <label id="orderDetail">
+        order beskrivelse her:
+        <p>
+            //todo inset order text description here
+        </p>
+    </label>
 
-    <form method="get">
-        <label>Are you not a customer already? Register yourself here and start ordering today:</label>
-        <input type="button" formaction="login" value="Login">
-    </form>
+        <button>delete order</button>
+
 </div>
+
 
 </body>
 </html>

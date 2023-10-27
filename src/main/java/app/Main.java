@@ -1,14 +1,20 @@
 package app;
 
 import app.config.ThymeleafConfig;
+import app.controllers.AdminController;
 import app.controllers.BasketController;
 import app.controllers.CupCakeController;
 import app.controllers.UserController;
+import app.entities.Order;
+import app.entities.User;
 import app.persistence.ConnectionPool;
 import app.persistence.PasswordValidator;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinThymeleaf;
 import org.thymeleaf.context.Context;
+
+import java.util.List;
+import java.util.Map;
 
 public class Main {
 
@@ -47,12 +53,22 @@ public class Main {
             app.post("/add_to_basket", ctx -> BasketController.addToBasket(ctx, connectionPool));
             app.post("/kurv", ctx -> BasketController.loadBasket(ctx,connectionPool));
             app.post("/add_order", ctx -> BasketController.addOrder(ctx , connectionPool));
+            //admin related:
+            app.get("../admin", ctx -> {
+                if (connectionPool != null) {
+                    AdminController.allUsers(ctx, connectionPool);
+                    AdminController.allOrders(ctx, connectionPool);
+                }
+                ctx.render("../admin.html");
+            });
+
+
 
         }
         // Routing
 
-        app.get("/", ctx ->  ctx.render("index.html"));
+        app.get("/", ctx -> ctx.render("index.html"));
         // System.out.println(PasswordValidator.isValidPassword("Hest!2rt")); // password validator test
-        
+
     }
 }
