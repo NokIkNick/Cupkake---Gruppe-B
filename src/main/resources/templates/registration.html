@@ -46,18 +46,20 @@
 
 
 <div id="loginBox">
-    <h1>Login</h1>
+    <h1>Account Registration:</h1>
     <form id="loginForm" method="post">
         <label for="email">E-mail:</label><br>
         <input type="email" id="email" name="email"><br>
         <label for="password">Password:</label><br>
         <input type="password" id="password" name="password"><br>
-        <input type="button" formaction="login" value="Login"><br><br>
+        <label for="rpt_password">Repeat Password:</label><br>
+        <input type="password" id="rpt_password" name="rpt_password"><br>
+        <input type="button" formaction="login" value="Create Account"><br><br>
     </form>
 
     <form method="get">
-        <label>Are you not a customer already? Register yourself here and start ordering today:</label>
-        <input type="button" formaction="login" value="Login">
+        <label>Are you a customer already? Login here and start ordering today:</label>
+        <input type="button" formaction="login_screen" value="Login">
     </form>
 </div>
 
