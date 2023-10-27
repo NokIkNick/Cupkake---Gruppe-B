@@ -32,12 +32,14 @@ public class Main {
         try{
             connectionPool = ConnectionPool.getInstance(USER, PASSWORD, URL, DB);
         } catch (Exception e){
-            app.get("*", ctx -> CupCakeController.loadIndexSite(ctx,connectionPool));
-            app.post("*", ctx -> ctx.render("/"));
+
+
         }
+        // Routing
+
         // render start:
-        app.get("*", ctx -> CupCakeController.loadIndexSite(ctx,connectionPool));
-        app.post("*", ctx -> ctx.render("/"));
+        app.get("*", ctx -> CupCakeController.loadInitialIndexSite(ctx,connectionPool));
+        //app.post("*", ctx -> ctx.render("index.html"));
 
         // login related:
         app.get("/login", ctx -> ctx.render("login.html"));
@@ -47,13 +49,13 @@ public class Main {
 
         // Basket related:
         app.post("/add_to_basket", ctx -> BasketController.addToBasket(ctx, connectionPool));
-        app.post("/basket", ctx -> BasketController.loadBasket(ctx));
+        app.post("/kurv", ctx -> BasketController.loadBasket(ctx,connectionPool));
         app.post("/add_order", ctx -> BasketController.addOrder(ctx , connectionPool));
 
-        // Admin related:
-        // TODO
+
 
         //app.get("/", ctx ->  ctx.render("index.html"));
         // System.out.println(PasswordValidator.isValidPassword("Hest!2rt")); // password validator test
+        
     }
 }
