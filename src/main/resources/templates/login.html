@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
+<head>
 <title>Frontpage</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="../public/css/loginStyles.css" th:href="@{/css/loginStyles.css}" rel="stylesheet"/>
+<link th:href="@{resources/public/css/loginStyles.css}" rel="stylesheet"/>
 </head>
 
 <body>
 
 <div ID="Header" class="HeaderSpace">
     <div ID="HeaderLine1">
-        <a href="/index.html" ID="LogoDiv">
+        <a href="index.html" ID="LogoDiv">
             <img ID="Logo" src="../public/images/OlskerLogo.png" alt="Olsker Cupcakes"/>
         </a>
         <div class="center">
@@ -28,8 +29,8 @@
             <!--<a href="/kunder" th:if="${ctx.session.activeUser.isAdmin}">Kunder</a>-->
         </div>
         <div ID="UserSpecifics">
-            <a href="/logout" th:unless="${ctx.session.active_user==null}" th:text="${ctx.session.active_user.email}"></a>
-            <a href="/login" th:if="${ctx.session.active_user==null}">
+            <a href="/logout" th:unless="${#ctx.session.active_user}==null" th:text="${#ctx.session.active_user.email}"></a>
+            <a href="/login" th:if="${#ctx.session.active_user}==null">
                 <div class="NavButton">
                     Login
                 </div>
@@ -37,7 +38,10 @@
             <div id="KurvIkon">
                 <a href="/kurv">
                     <img class="fullyRound whiteBackground" src="../public/images/kurv-ikon-360x360.png" alt="kurv"/>
-                    <div class="fullyRound" ID="ItemsInBasked" th:text="${ctx.session.basket_orderlines.count}" th:unless="${ctx.session.basket_orderlines.count == 0}">0</div>
+                    <div class="fullyRound" ID="ItemsInBasked">
+                        <span th:if="${#ctx.session.basket_orderlines.size}">0</span>
+                        <span th:unless="${#ctx.session.basket_orderlines.size}"> <p th:text="${#ctx.session.basket_orderlines.size}"></p> </span>
+                    </div>
                 </a>
             </div>
         </div>

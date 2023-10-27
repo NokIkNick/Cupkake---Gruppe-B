@@ -1,11 +1,15 @@
 package app.controllers;
 
+import app.entities.Orderline;
 import app.entities.User;
 import app.exceptions.DatabaseException;
 import app.persistence.BottomMapper;
 import app.persistence.ConnectionPool;
 import app.persistence.TopMapper;
 import io.javalin.http.Context;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class CupCakeController {
@@ -16,14 +20,26 @@ public class CupCakeController {
         try {
             ctx.attribute("top_info", TopMapper.getAllTopInfo(connectionPool));          // TODO
             ctx.attribute("bottom_info", BottomMapper.getAllBottomInfo(connectionPool)); // TODO
-            User user = ctx.sessionAttribute("currentuser");
-            if(!user.equals(null)){
+            User user = ctx.sessionAttribute("active_user");
+            if(user != null){
                 ctx.attribute("login", user.getEmail());
             }
-            ctx.render("indexPLACEHOLDER.html");    // TODO
+            ctx.render("login.html");    // TODO
         }catch (DatabaseException e){
             ctx.attribute("message", e.getMessage());
             ctx.render("indexPLACEHOLDER.html");  // TODO
         }
     }
+
+
+    public static void loadInitialIndexSite(Context ctx, ConnectionPool connectionPool){
+        try{
+            ctx.sessionAttribute("active_user", new User());
+            ctx.sessionAttribute("basket_orderlines", new ArrayList<Orderline>());
+            loadIndexSite(ctx,connectionPool);
+        }catch(Exception e){
+
+        }
+    }
+
 }
