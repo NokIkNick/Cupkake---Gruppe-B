@@ -42,7 +42,9 @@
             <span th:if="${#ctx.session.basket_orderliness.size() == 0}">
                 <p th:text="${#ctx.session.basket_orderliness.size()}"></p>
             </span>
-            <button type="submit" th:if="${#ctx.session.basket_orderliness.size() > 0}">0</button>
+            <button type="submit" th:if="${#ctx.session.basket_orderliness != null and #ctx.session.basket_orderliness.size() > 0}">
+              Items in Basket: <span th:text="${#ctx.session.basket_orderliness.size()}"></span>
+            </button>
           </div>
         </form>
       </div>
@@ -70,7 +72,10 @@
           <td th:text="${orderline.totalPrice}"></td>
           <td th:text="${orderline.quantity}"></td>
           <td>
-            <input type="checkbox" th:id="'selectOrderLine_' + ${iterStat.index}" th:name="'selectedOrderLine[' + ${iterStat.index} + ']'" th:value="${orderline}" />
+            <!-- Replace checkbox with a delete button -->
+            <button type="submit" name="deleteOrderLine" th:value="${orderline}" th:id="'deleteOrderLine_' + ${iterStat.index}">
+              Delete
+            </button>
           </td>
         </tr>
       </th:block>

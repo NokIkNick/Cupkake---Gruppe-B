@@ -42,7 +42,9 @@
             <span th:if="${#ctx.session.basket_orderliness.size() == 0}">
                 <p th:text="${#ctx.session.basket_orderliness.size()}"></p>
             </span>
-                        <button type="submit" th:if="${#ctx.session.basket_orderliness.size() > 0}">0</button>
+                        <button type="submit" th:if="${#ctx.session.basket_orderliness != null and #ctx.session.basket_orderliness.size() > 0}">
+                            Items in Basket: <span th:text="${#ctx.session.basket_orderliness.size()}"></span>
+                        </button>
                     </div>
                 </form>
             </div>

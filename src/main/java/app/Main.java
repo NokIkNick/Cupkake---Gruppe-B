@@ -51,8 +51,6 @@ public class Main {
         app.post("/basket", ctx -> BasketController.loadBasket(ctx));
         app.post("/add_order", ctx -> BasketController.addOrder(ctx , connectionPool));
 
-
-
         //app.get("/", ctx ->  ctx.render("index.html"));
         // System.out.println(PasswordValidator.isValidPassword("Hest!2rt")); // password validator test
         
