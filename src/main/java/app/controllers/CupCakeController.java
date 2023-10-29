@@ -22,12 +22,12 @@ public class CupCakeController {
             ctx.attribute("bottom_info", BottomMapper.getAllBottomInfo(connectionPool)); // TODO
             User user = ctx.sessionAttribute("active_user");
             if(user != null){
-                ctx.attribute("login", user.getEmail());
+                ctx.attribute("email", user.getEmail());
             }
-            ctx.render("login.html");    // TODO
+            ctx.render("index.html");    // TODO
         }catch (DatabaseException e){
             ctx.attribute("message", e.getMessage());
-            ctx.render("indexPLACEHOLDER.html");  // TODO
+            ctx.render("index.html");  // TODO
         }
     }
 
@@ -35,7 +35,7 @@ public class CupCakeController {
     public static void loadInitialIndexSite(Context ctx, ConnectionPool connectionPool){
         try{
             ctx.sessionAttribute("active_user", new User());
-            ctx.sessionAttribute("basket_orderlines", new ArrayList<Orderline>());
+            ctx.sessionAttribute("basket_orderliness", new ArrayList<Orderline>());
             loadIndexSite(ctx,connectionPool);
         }catch(Exception e){
 

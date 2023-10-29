@@ -9,6 +9,7 @@ public class Order {
     private int workerId;
     private String status;
     private Date date;
+    private int totalPrice;  // TODO
 
     public Order(int orderId, int userId, int workerId, String status, Date date) {
         this.orderId = orderId;

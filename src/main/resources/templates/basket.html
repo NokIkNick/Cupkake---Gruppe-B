@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
-<title>Frontpage</title>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="../public/css/loginStyles.css" th:href="@{/css/basketStyles.css}" rel="stylesheet"/>
+<head>
+  <title>Frontpage</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link th:href="@{resources/public/css/loginStyles.css}" rel="stylesheet"/>
 </head>
 
 <body>
 
 <div ID="Header" class="HeaderSpace">
   <div ID="HeaderLine1">
-    <a href="/index.html" ID="LogoDiv">
+    <a href="index.html" ID="LogoDiv">
       <img ID="Logo" src="../public/images/OlskerLogo.png" alt="Olsker Cupcakes"/>
     </a>
     <div class="center">
@@ -28,23 +29,54 @@
       <!--<a href="/kunder" th:if="${ctx.session.activeUser.isAdmin}">Kunder</a>-->
     </div>
     <div ID="UserSpecifics">
-      <a href="/logout" th:unless="${ctx.session.active_user.equals(null)}" th:text="${ctx.session.active_user.email}"></a>
-      <a href="/login" th:if="${ctx.session.active_user==null}">
+      <a href="/logout" th:unless="${#ctx.session.active_user}==null" th:text="${#ctx.session.active_user.email}"></a>
+      <a href="/login" th:if="${#ctx.session.active_user}==null">
         <div class="NavButton">
           Login
         </div>
       </a>
       <div id="KurvIkon">
-        <a href="/kurv">
+        <form method="post" action="/basket">
           <img class="fullyRound whiteBackground" src="../public/images/kurv-ikon-360x360.png" alt="kurv"/>
-          <div class="fullyRound" ID="ItemsInBasked" th:text="${ctx.session.basket_orderlines.count}" th:unless="${ctx.session.basket_orderlines.count == 0}">0</div>
-        </a>
+          <div class="fullyRound" ID="ItemsInBasket">
+            <span th:if="${#ctx.session.basket_orderliness.size() == 0}">
+                <p th:text="${#ctx.session.basket_orderliness.size()}"></p>
+            </span>
+            <button type="submit" th:if="${#ctx.session.basket_orderliness.size() > 0}">0</button>
+          </div>
+        </form>
       </div>
+
+
     </div>
   </div>
 </div>
 
 <div>
+
+  <form id="orderLineForm" method="post" action="/process_orderlines">
+    <table>
+      <tr>
+        <th>Top Name</th>
+        <th>Bottom Name</th>
+        <th>Total Price</th>
+        <th>Quantity</th>
+        <th>Action</th>
+      </tr>
+      <th:block th:each="orderline, iterStat : ${basket_orderliness}">
+        <tr>
+          <td th:text="${orderline.topName}"></td>
+          <td th:text="${orderline.bottomName}"></td>
+          <td th:text="${orderline.totalPrice}"></td>
+          <td th:text="${orderline.quantity}"></td>
+          <td>
+            <input type="checkbox" th:id="'selectOrderLine_' + ${iterStat.index}" th:name="'selectedOrderLine[' + ${iterStat.index} + ']'" th:value="${orderline}" />
+          </td>
+        </tr>
+      </th:block>
+    </table>
+    <button type="submit">Process Selected Order Lines</button>
+  </form>
 
 </div>
 

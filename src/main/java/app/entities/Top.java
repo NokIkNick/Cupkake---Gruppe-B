@@ -1,6 +1,10 @@
 package app.entities;
 
-public class Top {
+import io.javalin.json.JavalinGson;
+
+import java.io.Serializable;
+
+public class Top extends JavalinGson implements Serializable  {
 
     private int topId;
     private String name;
@@ -23,4 +27,5 @@ public class Top {
     public int getPrice() {
         return price;
     }
+
 }

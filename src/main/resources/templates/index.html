@@ -1,17 +1,102 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
-<title>Frontpage</title>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="../public/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet"/>
+<head>
+    <title>Frontpage</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{resources/public/css/loginStyles.css}" rel="stylesheet"/>
 </head>
 
 <body>
 
-<h1>Welcome to the Javalin / Thymeleaf demo</h1>
+<div ID="Header" class="HeaderSpace">
+    <div ID="HeaderLine1">
+        <a href="index.html" ID="LogoDiv">
+            <img ID="Logo" src="../public/images/OlskerLogo.png" alt="Olsker Cupcakes"/>
+        </a>
+        <div class="center">
+            <img ID="HeaderImage" src="../public/images/cupcakes.png" alt="Olsker Cupcakes"/>
+        </div>
+    </div>
+    <div ID="HeaderLine2">
+        <div ID="Nav">
+            <a href="/orders">
+                <div class="NavButton">
+                    Ordre
+                </div>
+            </a>
+            <!--<a href="/kunder" th:if="${ctx.session.activeUser.isAdmin}">Kunder</a>-->
+        </div>
+        <div ID="UserSpecifics">
+            <a href="/logout" th:unless="${#ctx.session.active_user}==null" th:text="${#ctx.session.active_user.email}"></a>
+            <a href="/login" th:if="${#ctx.session.active_user}==null">
+                <div class="NavButton">
+                    Login
+                </div>
+            </a>
+            <div id="KurvIkon">
+                <form method="post" action="/basket">
+                    <img class="fullyRound whiteBackground" src="../public/images/kurv-ikon-360x360.png" alt="kurv"/>
+                    <div class="fullyRound" ID="ItemsInBasket">
+            <span th:if="${#ctx.session.basket_orderliness.size() == 0}">
+                <p th:text="${#ctx.session.basket_orderliness.size()}"></p>
+            </span>
+                        <button type="submit" th:if="${#ctx.session.basket_orderliness.size() > 0}">0</button>
+                    </div>
+                </form>
+            </div>
 
-<p>This is your first web application in this world</p>
 
+        </div>
+    </div>
+</div>
+<form id="cupcakeform" method="post" th:action="@{'/add_to_basket'}">
+    <!-- Dropdown tops -->
+    <label for="dropdown_top">Choose a Top:</label>
+    <select id="dropdown_top" name="selectedTop">
+        <th:block th:each="top : ${top_info}">
+            <option th:value="${top.name}">
+                <span th:text="${top.name}"></span>
+            </option>
+        </th:block>
+    </select>
+    <input type="hidden" name="selectedTopId" th:value="${top_info[0].topId}" />
+    <input type="hidden" name="selectedTopPrice" th:value="${top_info[0].price}" />
+
+    <!--th:value="${#strings.toJson(top)}"-->
+    <!--th:value="${#strings.toJson(bottom)}"-->
+    <!-- Dropdown bottoms -->
+    <label for="dropdown_bottom">Choose a Top:</label>
+    <select id="dropdown_bottom" name="selectedBottom">
+        <th:block th:each="bottom : ${bottom_info}">
+            <option th:value="${bottom.name}">
+                <span th:text="${bottom.name}"></span>
+            </option>
+        </th:block>
+    </select>
+    <input type="hidden" name="selectedBottomId" th:value="${bottom_info[0].bottomId}" />
+    <input type="hidden" name="selectedBottomPrice" th:value="${bottom_info[0].price}" />
+
+    <!-- Quantity Input -->
+    <label for="numberInput">Enter a Number:</label>
+    <input type="number" id="numberInput" name="quantity" />
+
+    <!-- Submit Button -->
+    <button type="submit">Submit</button>
+</form>
+
+
+<form method="post" action="/basket">
+    <label>go to basket here!</label>
+    <input type="submit" value="Login">
+</form>
+
+    <p th:text="${#ctx.message}"></p>
+    <form method="post" action="/login_from_index">
+    <label>Login here!</label>
+    <input type="submit" value="Login">
+</form>
 </body>
 </html>
+

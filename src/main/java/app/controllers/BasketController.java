@@ -8,7 +8,9 @@ import app.exceptions.DatabaseException;
 import app.persistence.ConnectionPool;
 import app.persistence.OrderMapper;
 import app.persistence.UserMapper;
+import com.google.gson.Gson;
 import io.javalin.http.Context;
+import kotlin.text.UStringsKt;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,32 +18,38 @@ import java.util.List;
 public class BasketController {
     public static void addToBasket(Context ctx, ConnectionPool connectionPool) {
         try {
-            List<Orderline> basketOrderLines;
-            if(ctx.sessionAttribute("basket_orderlines") == null){
-                basketOrderLines = new ArrayList<>();
-            }else {
-                basketOrderLines = ctx.sessionAttribute("basket_orderlines");
-            }
-            Top top = ctx.attribute("choosen_top");
-            Bottom bottom = ctx.attribute("choosen_bottom");
-            int quantity = Integer.parseInt("quantity");
+            List<Orderline> basketOrderLines = ctx.sessionAttribute("basket_orderliness");
+            String selectedTopName = ctx.formParam("selectedTop"); // Get the selected top's name
+            int selectedTopId = Integer.parseInt(ctx.formParam("selectedTopId")); // Get the selected top's id
+            int price = Integer.parseInt(ctx.formParam("selectedTopPrice")); // Get the selected top's price
+            String selectedBottomName = ctx.formParam("selectedBottom");
+            int selectedBottomId = Integer.parseInt(ctx.formParam("selectedBottomId")); // Get the custom data attribute
+            int selectedBottemPrice = Integer.parseInt(ctx.formParam("selectedBottomPrice")); // Get the custom data attribute
+            Top top = new Top(selectedTopId,selectedTopName,price);
+            Bottom bottom = new Bottom(selectedBottomId,selectedBottomName,selectedBottemPrice);
+            int quantity = Integer.parseInt(ctx.formParam("quantity"));
             assert top != null;
             assert bottom != null;
             int totalPrice = (top.getPrice() + bottom.getPrice())*quantity;
-            Orderline orderline = new Orderline(top.getTopId(),bottom.getBottomId(),totalPrice,quantity);
+            Orderline orderline = new Orderline(top.getTopId(),top.getName(),bottom.getBottomId(),bottom.getName() ,totalPrice,quantity);
             assert basketOrderLines != null;
             basketOrderLines.add(orderline);
-            ctx.sessionAttribute("basket_orderlines", basketOrderLines);
+            ctx.sessionAttribute("basket_orderliness", basketOrderLines);
+            basketOrderLines.stream().forEach(System.out::println);
+            CupCakeController.loadIndexSite(ctx,connectionPool);
         }catch (NumberFormatException | AssertionError e){
             System.out.println(e.getMessage());
+            e.printStackTrace();
         }
     }
     public static void loadBasket(Context ctx) {
+        List<Orderline> orderlines = ctx.sessionAttribute("basket_orderliness");  // test
+        orderlines.stream().forEach(System.out::println);  // test
         ctx.render("basket.html"); // TODO
     }
     public static void deleteOrderLine(Context ctx){
         try {
-            List<Orderline> basketOrderlines = ctx.sessionAttribute("basket_orderlines");
+            List<Orderline> basketOrderlines = ctx.sessionAttribute("basket_orderliness");
             int indexNumber = Integer.parseInt(ctx.formParam("index_number"));
             basketOrderlines.remove(indexNumber);
             ctx.sessionAttribute("basket_orderlines", basketOrderlines);
@@ -89,5 +97,18 @@ public class BasketController {
                 loadBasket(ctx);       // TODO
             }
         }
+    }
+    public static void test(Context ctx,ConnectionPool connectionPool){
+        String selectedTopName = ctx.formParam("selectedTop"); // Get the selected top's name
+        String selectedTopId = ctx.formParam("selectedTopId"); // Get the selected top's id
+        String price = ctx.formParam("selectedTopPrice"); // Get the selected top's price
+        String top = ctx.formParam("selectedTop");
+        System.out.println(top);
+        /*String selectedBottomName = ctx.formParam("selectedBottom");
+        int selectedBottomId = Integer.parseInt(ctx.formParam("bottom-id")); // Get the custom data attribute
+        int selectedBottemPrice = Integer.parseInt(ctx.formParam("bottom-price"));*/
+        System.out.println(selectedTopName);
+        System.out.println(selectedTopId);
+        System.out.println(price);
     }
 }

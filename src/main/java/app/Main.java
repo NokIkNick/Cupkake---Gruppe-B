@@ -33,7 +33,6 @@ public class Main {
             connectionPool = ConnectionPool.getInstance(USER, PASSWORD, URL, DB);
         } catch (Exception e){
 
-
         }
         // Routing
 
@@ -42,14 +41,14 @@ public class Main {
         //app.post("*", ctx -> ctx.render("index.html"));
 
         // login related:
-        app.get("/login", ctx -> ctx.render("login.html"));
+        app.post("/login_from_index", ctx -> ctx.render("login.html"));
         app.post("/login", ctx -> UserController.login(ctx,connectionPool));
-        app.get("/create_user", ctx -> ctx.render("create_user.html"));
+        app.post("/register", ctx -> ctx.render("registration.html"));
         app.post("/register_user", ctx -> UserController.registerUser(ctx,connectionPool));
 
         // Basket related:
         app.post("/add_to_basket", ctx -> BasketController.addToBasket(ctx, connectionPool));
-        app.post("/kurv", ctx -> BasketController.loadBasket(ctx,connectionPool));
+        app.post("/basket", ctx -> BasketController.loadBasket(ctx));
         app.post("/add_order", ctx -> BasketController.addOrder(ctx , connectionPool));
 
 

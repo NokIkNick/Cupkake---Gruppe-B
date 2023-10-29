@@ -12,23 +12,23 @@ public class UserMapper {
 
     /*Login method, takes login credentials from the UserController and tries to connect to the database to return the existing user*/
     public static User login(String email, String password, ConnectionPool connectionPool) throws DatabaseException {
-        String sql = "select * from users where name=? and password=?";
-        try(Connection connection = connectionPool.getConnection()){
-            try(PreparedStatement ps = connection.prepareStatement(sql)) {
+        String sql = "select * from users where email=? and password=?";
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement ps = connection.prepareStatement(sql)) {
                 ps.setString(1, email);
                 ps.setString(2, password);
                 ResultSet rs = ps.executeQuery();
-                if(rs.next()){
-                    int id = rs.getInt("id");
+                if (rs.next()) {
+                    int id = rs.getInt("user_id");
                     int balance = rs.getInt("balanace");
                     boolean isAdmin = rs.getBoolean("is_admin");
-                    return new User(id,email,password,balance,isAdmin);
-                }else {
-                    throw new DatabaseException("Error while logging in, try again.");
+                    return new User(id, email, password, balance, isAdmin);
+                } else {
+                    throw new DatabaseException("Your info did not match anything from our db");
                 }
             }
-        }catch(SQLException e){
-            throw new DatabaseException("Error while connecting to database "+e);
+        } catch (SQLException e) {
+                throw new DatabaseException("Error while connecting to database " + e);
         }
     }
 

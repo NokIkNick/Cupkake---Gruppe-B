@@ -2,10 +2,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-<title>Frontpage</title>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link th:href="@{resources/public/css/loginStyles.css}" rel="stylesheet"/>
+    <title>Frontpage</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{resources/public/css/loginStyles.css}" rel="stylesheet"/>
 </head>
 
 <body>
@@ -36,14 +36,18 @@
                 </div>
             </a>
             <div id="KurvIkon">
-                <a href="/kurv">
+                <form method="post" action="/basket">
                     <img class="fullyRound whiteBackground" src="../public/images/kurv-ikon-360x360.png" alt="kurv"/>
-                    <div class="fullyRound" ID="ItemsInBasked">
-                        <span th:if="${#ctx.session.basket_orderlines.size}">0</span>
-                        <span th:unless="${#ctx.session.basket_orderlines.size}"> <p th:text="${#ctx.session.basket_orderlines.size}"></p> </span>
+                    <div class="fullyRound" ID="ItemsInBasket">
+            <span th:if="${#ctx.session.basket_orderliness.size() == 0}">
+                <p th:text="${#ctx.session.basket_orderliness.size()}"></p>
+            </span>
+                        <button type="submit" th:if="${#ctx.session.basket_orderliness.size() > 0}">0</button>
                     </div>
-                </a>
+                </form>
             </div>
+
+
         </div>
     </div>
 </div>
@@ -51,17 +55,17 @@
 
 <div id="loginBox">
     <h1>Login</h1>
-    <form id="loginForm" method="post">
+    <form id="loginForm" method="post" action="/login">
         <label for="email">E-mail:</label><br>
         <input type="email" id="email" name="email"><br>
         <label for="password">Password:</label><br>
         <input type="password" id="password" name="password"><br>
-        <input type="button" formaction="login" value="Login"><br><br>
+        <input type="submit" value="Login"><br><br>
     </form>
-
-    <form method="get">
+    <p th:text="${#ctx.message}"></p>
+    <form method="post" action="/register">
         <label>Are you not a customer already? Register yourself here and start ordering today:</label>
-        <input type="button" formaction="register" value="Register">
+        <input type="submit" value="Register">
     </form>
 </div>
 

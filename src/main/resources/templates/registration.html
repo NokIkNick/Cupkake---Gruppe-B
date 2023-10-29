@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
-<title>Frontpage</title>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="../public/css/loginStyles.css" th:href="@{/css/loginStyles.css}" rel="stylesheet"/>
+<head>
+    <title>Frontpage</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{resources/public/css/loginStyles.css}" rel="stylesheet"/>
 </head>
 
 <body>
@@ -35,11 +36,18 @@
                 </div>
             </a>
             <div id="KurvIkon">
-                <a href="/kurv">
+                <form method="post" action="/basket">
                     <img class="fullyRound whiteBackground" src="../public/images/kurv-ikon-360x360.png" alt="kurv"/>
-                    <div class="fullyRound" ID="ItemsInBasked" th:text="${ctx.session.basket_orderlines.count}" th:unless="${ctx.session.basket_orderlines.count}== 0">0</div>
-                </a>
+                    <div class="fullyRound" ID="ItemsInBasket">
+            <span th:if="${#ctx.session.basket_orderliness.size() == 0}">
+                <p th:text="${#ctx.session.basket_orderliness.size()}"></p>
+            </span>
+                        <button type="submit" th:if="${#ctx.session.basket_orderliness.size() > 0}">0</button>
+                    </div>
+                </form>
             </div>
+
+
         </div>
     </div>
 </div>
@@ -47,19 +55,19 @@
 
 <div id="loginBox">
     <h1>Account Registration:</h1>
-    <form id="loginForm" method="post">
+    <form id="loginForm" method="post" action="/register_user">
         <label for="email">E-mail:</label><br>
         <input type="email" id="email" name="email"><br>
         <label for="password">Password:</label><br>
         <input type="password" id="password" name="password"><br>
         <label for="rpt_password">Repeat Password:</label><br>
         <input type="password" id="rpt_password" name="rpt_password"><br>
-        <input type="button" formaction="login" value="Create Account"><br><br>
+        <input type="submit" value="Create Account"><br><br>
     </form>
-
+    <p th:text="${#ctx.message}"></p>
     <form method="get">
         <label>Are you a customer already? Login here and start ordering today:</label>
-        <input type="button" formaction="login_screen" value="Login">
+        <input type="button" formaction="/login" value="Login">
     </form>
 </div>
 
