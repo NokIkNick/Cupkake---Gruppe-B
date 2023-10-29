@@ -5,7 +5,8 @@
   <title>Frontpage</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link th:href="@{resources/public/css/loginStyles.css}" rel="stylesheet"/>
+  <link href="../static/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet"/>
+  <link href="../static/css/basketStyles.css" th:href="@{/css/basketStyles.css}" rel="stylesheet"/>
 </head>
 
 <body>
@@ -13,10 +14,10 @@
 <div ID="Header" class="HeaderSpace">
   <div ID="HeaderLine1">
     <a href="index.html" ID="LogoDiv">
-      <img ID="Logo" src="../public/images/OlskerLogo.png" alt="Olsker Cupcakes"/>
+      <img ID="Logo" src="../static/images/OlskerLogo.png" th:src="@{/images/OlskerLogo.png}" alt="Olsker Cupcakes"/>
     </a>
     <div class="center">
-      <img ID="HeaderImage" src="../public/images/cupcakes.png" alt="Olsker Cupcakes"/>
+      <img ID="HeaderImage" src="../static/images/cupcakes.png" th:src="@{/images/cupcakes.png}" alt="Olsker Cupcakes"/>
     </div>
   </div>
   <div ID="HeaderLine2">
@@ -29,31 +30,23 @@
       <!--<a href="/kunder" th:if="${ctx.session.activeUser.isAdmin}">Kunder</a>-->
     </div>
     <div ID="UserSpecifics">
-      <a href="/logout" th:unless="${#ctx.session.active_user}==null" th:text="${#ctx.session.active_user.email}"></a>
-      <a href="/login" th:if="${#ctx.session.active_user}==null">
+      <a href="/logout" th:unless="${session.active_user}==null" th:text="${session.active_user.email}"></a>
+      <a href="/login" th:if="${session.active_user}==null">
         <div class="NavButton">
           Login
         </div>
       </a>
       <div id="KurvIkon">
-        <form method="post" action="/basket">
-          <img class="fullyRound whiteBackground" src="../public/images/kurv-ikon-360x360.png" alt="kurv"/>
-          <div class="fullyRound" ID="ItemsInBasket">
-            <span th:if="${#ctx.session.basket_orderliness.size() == 0}">
-                <p th:text="${#ctx.session.basket_orderliness.size()}"></p>
-            </span>
-            <button type="submit" th:if="${#ctx.session.basket_orderliness != null and #ctx.session.basket_orderliness.size() > 0}">
-              Items in Basket: <span th:text="${#ctx.session.basket_orderliness.size()}"></span>
-            </button>
-          </div>
-        </form>
+        <a href="/basket">
+          <img class="fullyRound whiteBackground" src="../static/images/kurv-ikon-360x360.png" th:src="@{/images/kurv-ikon-360x360.png}" alt="kurv"/>
+          <div class="fullyRound" ID="ItemsInBasket" th:if="${session.basket_orderlines!=null}" th:text="${session.basket_orderlines.size()}"></div>
+        </a>
       </div>
 
 
     </div>
   </div>
 </div>
-
 <div>
 
   <form id="orderLineForm" method="post" action="/add_order">
@@ -65,7 +58,7 @@
         <th>Quantity</th>
         <th>Action</th>
       </tr>
-      <th:block th:each="orderline, iterStat : ${basket_orderliness}">
+      <th:block th:unless="${session.basket_orderlines==null||session.basket_orderlines.isEmpty()}" th:each="orderline, iterStat : ${session.basket_orderlines}">
         <tr>
           <td th:text="${orderline.topName}"></td>
           <td th:text="${orderline.bottomName}"></td>
