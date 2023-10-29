@@ -28,4 +28,12 @@ public class Top extends JavalinGson implements Serializable  {
         return price;
     }
 
+    @Override
+    public String toString() {
+        return "Top{" +
+                "topId=" + topId +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                '}';
+    }
 }

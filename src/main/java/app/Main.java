@@ -37,7 +37,7 @@ public class Main {
         // Routing
 
         // render start:
-        app.get("*", ctx -> CupCakeController.loadInitialIndexSite(ctx,connectionPool));
+        app.get("/", ctx -> CupCakeController.loadInitialIndexSite(ctx,connectionPool));
         //app.post("*", ctx -> ctx.render("index.html"));
 
         // login related:

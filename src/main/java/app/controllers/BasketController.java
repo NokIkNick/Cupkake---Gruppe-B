@@ -5,9 +5,7 @@ import app.entities.Orderline;
 import app.entities.Top;
 import app.entities.User;
 import app.exceptions.DatabaseException;
-import app.persistence.ConnectionPool;
-import app.persistence.OrderMapper;
-import app.persistence.UserMapper;
+import app.persistence.*;
 import com.google.gson.Gson;
 import io.javalin.http.Context;
 import kotlin.text.UStringsKt;
@@ -19,14 +17,10 @@ public class BasketController {
     public static void addToBasket(Context ctx, ConnectionPool connectionPool) {
         try {
             List<Orderline> basketOrderLines = ctx.sessionAttribute("basket_orderliness");
-            String selectedTopName = ctx.formParam("selectedTop"); // Get the selected top's name
-            int selectedTopId = Integer.parseInt(ctx.formParam("selectedTopId")); // Get the selected top's id
-            int price = Integer.parseInt(ctx.formParam("selectedTopPrice")); // Get the selected top's price
-            String selectedBottomName = ctx.formParam("selectedBottom");
-            int selectedBottomId = Integer.parseInt(ctx.formParam("selectedBottomId")); // Get the custom data attribute
-            int selectedBottemPrice = Integer.parseInt(ctx.formParam("selectedBottomPrice")); // Get the custom data attribute
-            Top top = new Top(selectedTopId,selectedTopName,price);
-            Bottom bottom = new Bottom(selectedBottomId,selectedBottomName,selectedBottemPrice);
+            int topId = Integer.parseInt(ctx.formParam("selectedTop"));
+            int bottomId = Integer.parseInt(ctx.formParam("selectedBottom"));
+            Top top = TopMapper.getTopById(topId, connectionPool);
+            Bottom bottom = BottomMapper.getBottomById(bottomId, connectionPool);
             int quantity = Integer.parseInt(ctx.formParam("quantity"));
             assert top != null;
             assert bottom != null;
@@ -40,6 +34,9 @@ public class BasketController {
         }catch (NumberFormatException | AssertionError e){
             System.out.println(e.getMessage());
             e.printStackTrace();
+        } catch (DatabaseException e) {
+            ctx.attribute("message", e.getMessage());
+            CupCakeController.loadIndexSite(ctx,connectionPool);
         }
     }
     public static void loadBasket(Context ctx) {

@@ -1,6 +1,7 @@
 package app.persistence;
 
 import app.entities.Top;
+import app.entities.Top;
 import app.exceptions.DatabaseException;
 
 import java.sql.Connection;
@@ -32,4 +33,23 @@ public class TopMapper {
     }
 
 
+    public static Top getTopById(int topId, ConnectionPool connectionPool) throws DatabaseException{
+        Top top = null;
+        String sql = "select * from top where top_id =?";
+        try(Connection connection = connectionPool.getConnection()){
+            try(PreparedStatement ps = connection.prepareStatement(sql)){
+                ps.setInt(1,topId);
+                ResultSet rs = ps.executeQuery();
+                while(rs.next()){
+                    int id = rs.getInt(1);
+                    String name = rs.getString(2);
+                    int price = rs.getInt(3);
+                    top = new Top(id,name,price);
+                }
+            }
+        }catch (SQLException e){
+            throw new DatabaseException("you failed to connect DB" + e.getMessage());
+        }
+        return top;
+    }
 }

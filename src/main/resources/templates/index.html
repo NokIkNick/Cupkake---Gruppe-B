@@ -52,7 +52,34 @@
     </div>
 </div>
 <form id="cupcakeform" method="post" th:action="@{'/add_to_basket'}">
-    <!-- Dropdown tops -->
+<!-- Dropdown tops -->
+<label for="dropdown_top">Choose a Top:</label>
+<select id="dropdown_top" name="selectedTop">
+    <th:block th:each="top : ${top_info}">
+        <option th:value="${top.topId}">
+            <span th:text="${top.name}"></span>
+        </option>
+    </th:block>
+</select>
+<!-- Dropdown bottoms -->
+<label for="dropdown_bottom">Choose a Bottom:</label>
+<select id="dropdown_bottom" name="selectedBottom">
+    <th:block th:each="bottom : ${bottom_info}">
+        <option th:value="${bottom.bottomId}">
+            <span th:text="${bottom.name}"></span>
+        </option>
+    </th:block>
+</select>
+    <!-- Quantity Input -->
+    <label for="numberInput">Enter a Number:</label>
+    <input type="number" id="numberInput" name="quantity" />
+
+    <!-- Submit Button -->
+    <button type="submit">Submit</button>
+</form>
+<!--
+<form id="cupcakeform" method="post" th:action="@{'/add_to_basket'}">
+    <-- Dropdown tops
     <label for="dropdown_top">Choose a Top:</label>
     <select id="dropdown_top" name="selectedTop">
         <th:block th:each="top : ${top_info}">
@@ -61,13 +88,11 @@
             </option>
         </th:block>
     </select>
-    <input type="hidden" name="selectedTopId" th:value="${top_info[0].topId}" />
-    <input type="hidden" name="selectedTopPrice" th:value="${top_info[0].price}" />
+    <input type="hidden" th:each="top : ${top_info}" name="selectedTopId" th:value="${top.topId}" />
+    <input type="hidden" th:each="top : ${top_info}" name="selectedTopPrice" th:value="${top.price}" />
 
-    <!--th:value="${#strings.toJson(top)}"-->
-    <!--th:value="${#strings.toJson(bottom)}"-->
-    <!-- Dropdown bottoms -->
-    <label for="dropdown_bottom">Choose a Top:</label>
+    <-- Dropdown bottoms --
+    <label for="dropdown_bottom">Choose a Bottom:</label>
     <select id="dropdown_bottom" name="selectedBottom">
         <th:block th:each="bottom : ${bottom_info}">
             <option th:value="${bottom.name}">
@@ -75,17 +100,17 @@
             </option>
         </th:block>
     </select>
-    <input type="hidden" name="selectedBottomId" th:value="${bottom_info[0].bottomId}" />
-    <input type="hidden" name="selectedBottomPrice" th:value="${bottom_info[0].price}" />
+    <input type="hidden" th:each="bottom : ${bottom_info}" name="selectedBottomId" th:value="${bottom.bottomId}" />
+    <input type="hidden" th:each="bottom : ${bottom_info}" name="selectedBottomPrice" th:value="${bottom.price}" />
 
-    <!-- Quantity Input -->
+    <-- Quantity Input --
     <label for="numberInput">Enter a Number:</label>
     <input type="number" id="numberInput" name="quantity" />
 
-    <!-- Submit Button -->
+    <-- Submit Button --
     <button type="submit">Submit</button>
 </form>
-
+-->
 
 <form method="post" action="/basket">
     <label>go to basket here!</label>
@@ -97,6 +122,7 @@
     <label>Login here!</label>
     <input type="submit" value="Login">
 </form>
+
 </body>
 </html>
 
