@@ -31,7 +31,7 @@ public class UserController {
         if(password != null && repeatPassword != null) {
             if (!password.equals(repeatPassword)) {
                 ctx.attribute("message", "Passwords did not match");
-                ctx.render("create_user.html");  // TODO
+                ctx.render("registration.html");  // TODO
                 return;
             }
         }else {
@@ -47,11 +47,11 @@ public class UserController {
                 ctx.render("login.html");       // TODO
             } catch (DatabaseException e) {
                 ctx.attribute("message",e.getMessage());
-                ctx.render("createuser.html");      // TODO
+                ctx.render("registration.html");      // TODO
             }
         }else {
             ctx.attribute("message", "Password was not complicated enough,length needs to be atleast 8 and you need atleast one uppercase letter, one number and one special character");
-            ctx.render("createuser.html");
+            ctx.render("registration.html");
         }
     }
     public void updateBalance(Context ctx, ConnectionPool connectionPool){
