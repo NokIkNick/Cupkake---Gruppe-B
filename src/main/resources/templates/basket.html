@@ -72,7 +72,6 @@
           <td th:text="${orderline.totalPrice}"></td>
           <td th:text="${orderline.quantity}"></td>
           <td>
-            <!-- Replace checkbox with a delete button -->
             <button type="submit" name="deleteOrderLine" th:value="${orderline}" th:id="'deleteOrderLine_' + ${iterStat.index}">
               Delete
             </button>
