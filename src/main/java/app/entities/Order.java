@@ -9,13 +9,15 @@ public class Order {
     private int workerId;
     private String status;
     private Date date;
+    private String note;
 
-    public Order(int orderId, int userId, int workerId, String status, Date date) {
+    public Order(int orderId, int userId, int workerId, String status, Date date, String note) {
         this.orderId = orderId;
         this.userId = userId;
         this.workerId = workerId;
         this.status = status;
         this.date = date;
+        this.note = note;
     }
 
     public int getOrderId() {
@@ -36,6 +38,10 @@ public class Order {
 
     public Date getDate() {
         return date;
+    }
+
+    public String getNote() {
+        return note;
     }
 
     @Override

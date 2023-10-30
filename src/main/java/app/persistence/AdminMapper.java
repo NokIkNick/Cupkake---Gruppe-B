@@ -95,7 +95,8 @@ public class AdminMapper {
                     int workerId = rs.getInt("worker_id");
                     String status = rs.getString("status");
                     Date date = rs.getDate("date");
-                    orderList.add(new Order(orderId,userId,workerId,status,date));
+                    String note = rs.getString("note");
+                    orderList.add(new Order(orderId,userId,workerId,status,date, note));
                 }
             }
         }catch(SQLException e){

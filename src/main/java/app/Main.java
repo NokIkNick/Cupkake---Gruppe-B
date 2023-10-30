@@ -36,12 +36,12 @@ public class Main {
         // Routing
 
         // render start:
-        app.get("*", ctx -> CupCakeController.loadInitialIndexSite(ctx,connectionPool));
+        app.get("/", ctx -> CupCakeController.loadInitialIndexSite(ctx,connectionPool));
         //app.post("*", ctx -> ctx.render("index.html"));
 
         // login related:
-        app.get("/login", ctx -> ctx.render("login.html"));
-        app.post("/login", ctx -> UserController.login(ctx,connectionPool));
+        app.post("/login", ctx -> ctx.render("login.html"));
+        app.post("/loginUser", ctx -> UserController.login(ctx,connectionPool));
         app.get("/create_user", ctx -> ctx.render("create_user.html"));
         app.post("/register_user", ctx -> UserController.registerUser(ctx,connectionPool));
 
