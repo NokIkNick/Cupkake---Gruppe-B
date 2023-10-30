@@ -23,11 +23,11 @@ public class PasswordValidator {
             return false;
         }
         // Check for lowercase letters
-        Pattern lowercasePattern = Pattern.compile("[a-z]");
+        /*Pattern lowercasePattern = Pattern.compile("[a-z]");
         Matcher lowercaseMatcher = lowercasePattern.matcher(password);
-        if (!lowercaseMatcher.find()) {
+         if (!lowercaseMatcher.find()) {
             return false;
-        }
+        }*/
         // Check for digits
         Pattern digitPattern = Pattern.compile("[0-9]");
         Matcher digitMatcher = digitPattern.matcher(password);
