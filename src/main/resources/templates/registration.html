@@ -5,7 +5,8 @@
     <title>Frontpage</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link th:href="@{resources/public/css/loginStyles.css}" rel="stylesheet"/>
+    <link href="../static/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet"/>
+    <link href="../static/css/loginStyles.css" th:href="@{/css/loginStyles.css}" rel="stylesheet"/>
 </head>
 
 <body>
@@ -44,11 +45,11 @@
         </div>
     </div>
 </div>
-
-
-    <p th:text="${#ctx.message}"></p>
+<div id="Content">
 
 </div>
-
+<div id="Footer">
+    <p th:text="${#ctx.message}"></p>
+</div>
 </body>
 </html>
