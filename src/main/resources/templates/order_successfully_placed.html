@@ -1,12 +1,11 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="da">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
 <head>
   <title>Frontpage</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="../static/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet"/>
-  <link href="../static/css/loginStyles.css" th:href="@{/css/loginStyles.css}" rel="stylesheet"/>
+  <link th:href="@{resources/public/css/loginStyles.css}" rel="stylesheet"/>
 </head>
 
 <body>
@@ -30,10 +29,8 @@
       <!--<a href="/kunder" th:if="${ctx.session.activeUser.isAdmin}">Kunder</a>-->
     </div>
     <div ID="UserSpecifics">
-      <a href="/logout" th:unless="${session.active_user==null}">
-        <div class="NavButton" th:text="${session.active_user.email}"></div>
-      </a>
-      <a href="/login" th:if="${session.active_user==null}">
+      <a href="/logout" th:unless="${session.active_user}==null" th:text="${session.active_user.email}"></a>
+      <a href="/login" th:if="${session.active_user}==null">
         <div class="NavButton">
           Login
         </div>
@@ -44,9 +41,10 @@
           <div class="fullyRound" ID="ItemsInBasket" th:if="${session.basket_orderlines!=null}" th:text="${session.basket_orderlines.size()}"></div>
         </a>
       </div>
-
-      <p th:text="${#ctx.message}"></p>
-
     </div>
   </div>
 </div>
+</div>
+<p th:text="${#ctx.message}"></p>
+</body>
+</html>>
