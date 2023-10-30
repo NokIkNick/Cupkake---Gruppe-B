@@ -59,12 +59,12 @@
     <form method="post" th:action="@{/getOrderForUser}">
         <select name="selected_user" id="selected_user">
             <option value="">Select User</option>
-            <option th:each="user : ${userlist}" th:value="${user.userID}" th:text="${user.email}"/>
+            <option th:each="user : ${session.userlist}" th:value="${user.userID}" th:text="${user.email}"/>
 
 
         </select>
 
-
+        <input type="hidden" name="userEmail" th:value="${user.email}" />
         <input type="submit" value="select"></input>
     </form>
 
@@ -85,7 +85,7 @@
 
     <p>indsæt penge</p>
     <form method="post" >
-        <input type="hidden" name="selected_user" >
+        <input type="hidden" name="userEmail" >
         <input type="number" id="money">
         <input type="submit" value="money">
     </form>
@@ -98,12 +98,6 @@
     <button>delete order</button>
 
 </div>
-<script>
-
-    function sendUser(){
-        var userId = document.getElementById("")
-    }
-</script>
 
 </body>
 

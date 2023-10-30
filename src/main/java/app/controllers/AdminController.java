@@ -63,7 +63,8 @@ public class AdminController {
         try {
             userList = AdminMapper.getAllUsers(connectionPool);
             //System.out.println("Userlist: " + userList);
-            ctx.attribute("userlist", userList);
+            //ctx.attribute("userlist", userList);
+            ctx.sessionAttribute("userlist",userList);
             ctx.render("admin.html");        // TODO
         } catch (DatabaseException e) {
             ctx.attribute("message", e.getMessage());
