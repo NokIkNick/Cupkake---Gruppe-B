@@ -13,9 +13,8 @@ import java.util.List;
 
 
 public class CupCakeController {
-
         // TODO  make sure the names of the variables matches the thymeleaf context variables.
-        // TODO add all the extra variables that is needed to render the index plage properly.
+        // TODO add all the extra variables that is needed to render the index page properly.
     public static void loadIndexSite(Context ctx, ConnectionPool connectionPool){
         try {
             ctx.attribute("top_info", TopMapper.getAllTopInfo(connectionPool));          // TODO
@@ -34,8 +33,8 @@ public class CupCakeController {
 
     public static void loadInitialIndexSite(Context ctx, ConnectionPool connectionPool){
         try{
-            ctx.sessionAttribute("active_user", new User());
-            ctx.sessionAttribute("basket_orderliness", new ArrayList<Orderline>());
+            //ctx.sessionAttribute("active_user", new User()); // we need to be able to log in, not have an empty user, so why?
+            ctx.sessionAttribute("basket_orderlines", new ArrayList<Orderline>());
             loadIndexSite(ctx,connectionPool);
         }catch(Exception e){
 

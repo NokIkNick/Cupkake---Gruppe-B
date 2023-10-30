@@ -9,6 +9,14 @@ public class Orderline {
     private int totalPrice;
     private int quantity;
 
+    public Orderline(Top top, Bottom bottom, int totalPrice, int quantity) {
+        this.topId = top.getTopId();
+        this.topName = top.getName();
+        this.bottomId = bottom.getBottomId();
+        this.bottomName = bottom.getName();
+        this.totalPrice = totalPrice;
+        this.quantity = quantity;
+    }
     public Orderline(int topId, int bottomId, int totalPrice, int quantity) {
         this.topId = topId;
         this.bottomId = bottomId;

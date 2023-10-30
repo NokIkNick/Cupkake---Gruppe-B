@@ -5,10 +5,8 @@ import app.controllers.BasketController;
 import app.controllers.CupCakeController;
 import app.controllers.UserController;
 import app.persistence.ConnectionPool;
-import app.persistence.PasswordValidator;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinThymeleaf;
-import org.thymeleaf.context.Context;
 
 public class Main {
 
@@ -25,7 +23,7 @@ public class Main {
         // Initializing Javalin and Jetty webserver
 
         Javalin app = Javalin.create(config -> {
-            config.staticFiles.add("/public");
+            config.staticFiles.add("/static");
             JavalinThymeleaf.init(ThymeleafConfig.templateEngine());
         }).start(7070);
 
@@ -48,6 +46,7 @@ public class Main {
 
         // Basket related:
         app.post("/add_to_basket", ctx -> BasketController.addToBasket(ctx, connectionPool));
+        app.get("/basket", ctx -> BasketController.loadBasket(ctx));
         app.post("/basket", ctx -> BasketController.loadBasket(ctx));
         app.post("/add_order", ctx -> BasketController.addOrder(ctx , connectionPool));
 

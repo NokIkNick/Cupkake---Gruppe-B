@@ -1,52 +1,56 @@
 package app.controllers;
 
-import app.entities.Bottom;
-import app.entities.Orderline;
-import app.entities.Top;
-import app.entities.User;
+import app.entities.*;
 import app.exceptions.DatabaseException;
 import app.persistence.*;
 import com.google.gson.Gson;
+import com.sun.source.tree.AssertTree;
 import io.javalin.http.Context;
 import kotlin.text.UStringsKt;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 public class BasketController {
     public static void addToBasket(Context ctx, ConnectionPool connectionPool) {
         try {
-            List<Orderline> basketOrderLines = ctx.sessionAttribute("basket_orderliness");
+            List<Orderline> basketOrderLines = ctx.sessionAttribute("basket_orderlines");
+            if(basketOrderLines==null){
+                basketOrderLines = new ArrayList<>();
+            }
             int topId = Integer.parseInt(ctx.formParam("selectedTop"));
             int bottomId = Integer.parseInt(ctx.formParam("selectedBottom"));
             Top top = TopMapper.getTopById(topId, connectionPool);
             Bottom bottom = BottomMapper.getBottomById(bottomId, connectionPool);
-            int quantity = Integer.parseInt(ctx.formParam("quantity"));
-            assert top != null;
-            assert bottom != null;
-            int totalPrice = (top.getPrice() + bottom.getPrice())*quantity;
-            Orderline orderline = new Orderline(top.getTopId(),top.getName(),bottom.getBottomId(),bottom.getName() ,totalPrice,quantity);
-            assert basketOrderLines != null;
+            int quantity = 1;
+            try {
+                quantity = Integer.parseInt(ctx.formParam("quantity"));
+            } catch (NumberFormatException ignored){}
+            int totalPrice = (bottom.getPrice() + top.getPrice()) * quantity;
+            Orderline orderline = new Orderline(top, bottom, totalPrice, quantity);
             basketOrderLines.add(orderline);
-            ctx.sessionAttribute("basket_orderliness", basketOrderLines);
-            basketOrderLines.stream().forEach(System.out::println);
+            ctx.sessionAttribute("basket_orderlines", basketOrderLines);
             CupCakeController.loadIndexSite(ctx,connectionPool);
-        }catch (NumberFormatException | AssertionError e){
-            System.out.println(e.getMessage());
-            e.printStackTrace();
         } catch (DatabaseException e) {
-            ctx.attribute("message", e.getMessage());
-            CupCakeController.loadIndexSite(ctx,connectionPool);
+            e.printStackTrace();
+        } catch (AssertionError e){
+            e.printStackTrace();
         }
     }
     public static void loadBasket(Context ctx) {
-        List<Orderline> orderlines = ctx.sessionAttribute("basket_orderliness");  // test
+        List<Orderline> orderlines = ctx.sessionAttribute("basket_orderlines");  // test
+        if(orderlines == null) {
+            orderlines = new ArrayList<Orderline>();
+            ctx.sessionAttribute("basket_orderlines", orderlines);
+        }
         orderlines.stream().forEach(System.out::println);  // test
         ctx.render("basket.html"); // TODO
     }
     public static void deleteOrderLine(Context ctx){
         try {
-            List<Orderline> basketOrderlines = ctx.sessionAttribute("basket_orderliness");
+            List<Orderline> basketOrderlines = ctx.sessionAttribute("basket_orderlines");
             int indexNumber = Integer.parseInt(ctx.formParam("index_number"));
             basketOrderlines.remove(indexNumber);
             ctx.sessionAttribute("basket_orderlines", basketOrderlines);

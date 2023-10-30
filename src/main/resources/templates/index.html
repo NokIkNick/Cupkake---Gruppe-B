@@ -1,22 +1,23 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="da">
 
 <head>
     <title>Frontpage</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link th:href="@{resources/public/css/loginStyles.css}" rel="stylesheet"/>
+    <link href="../static/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet"/>
+    <link href="../static/css/loginStyles.css" th:href="@{/css/loginStyles.css}" rel="stylesheet"/>
 </head>
 
 <body>
 
 <div ID="Header" class="HeaderSpace">
     <div ID="HeaderLine1">
-        <a href="index.html" ID="LogoDiv">
-            <img ID="Logo" src="../public/images/OlskerLogo.png" alt="Olsker Cupcakes"/>
+        <a href="/" ID="LogoDiv">
+            <img ID="Logo" src="../static/images/OlskerLogo.png" th:src="@{/images/OlskerLogo.png}" alt="Olsker Cupcakes"/>
         </a>
         <div class="center">
-            <img ID="HeaderImage" src="../public/images/cupcakes.png" alt="Olsker Cupcakes"/>
+            <img ID="HeaderImage" src="../static/images/cupcakes.png" th:src="@{/images/cupcakes.png}" alt="Olsker Cupcakes"/>
         </div>
     </div>
     <div ID="HeaderLine2">
@@ -29,102 +30,53 @@
             <!--<a href="/kunder" th:if="${ctx.session.activeUser.isAdmin}">Kunder</a>-->
         </div>
         <div ID="UserSpecifics">
-            <a href="/logout" th:unless="${#ctx.session.active_user}==null" th:text="${#ctx.session.active_user.email}"></a>
-            <a href="/login" th:if="${#ctx.session.active_user}==null">
+            <a href="/logout" th:unless="${session.active_user==null}">
+                <div class="NavButton" th:text="${session.active_user.email}"></div>
+            </a>
+            <a href="/login" th:if="${session.active_user==null}">
                 <div class="NavButton">
                     Login
                 </div>
             </a>
             <div id="KurvIkon">
-                <form method="post" action="/basket">
-                    <img class="fullyRound whiteBackground" src="../public/images/kurv-ikon-360x360.png" alt="kurv"/>
-                    <div class="fullyRound" ID="ItemsInBasket">
-            <span th:if="${#ctx.session.basket_orderliness.size() == 0}">
-                <p th:text="${#ctx.session.basket_orderliness.size()}"></p>
-            </span>
-                        <button type="submit" th:if="${#ctx.session.basket_orderliness != null and #ctx.session.basket_orderliness.size() > 0}">
-                            Items in Basket: <span th:text="${#ctx.session.basket_orderliness.size()}"></span>
-                        </button>
-                    </div>
-                </form>
+                <a href="/basket">
+                    <img class="fullyRound whiteBackground" src="../static/images/kurv-ikon-360x360.png" th:src="@{/images/kurv-ikon-360x360.png}" alt="kurv"/>
+                    <div class="fullyRound" ID="ItemsInBasket" th:if="${session.basket_orderlines!=null}" th:text="${session.basket_orderlines.size()}"></div>
+                </a>
             </div>
 
 
         </div>
     </div>
 </div>
-<form id="cupcakeform" method="post" th:action="@{'/add_to_basket'}">
-<!-- Dropdown tops -->
-<label for="dropdown_top">Choose a Top:</label>
-<select id="dropdown_top" name="selectedTop">
-    <th:block th:each="top : ${top_info}">
-        <option th:value="${top.topId}">
-            <span th:text="${top.name}"></span>
-        </option>
-    </th:block>
-</select>
-<!-- Dropdown bottoms -->
-<label for="dropdown_bottom">Choose a Bottom:</label>
-<select id="dropdown_bottom" name="selectedBottom">
-    <th:block th:each="bottom : ${bottom_info}">
-        <option th:value="${bottom.bottomId}">
-            <span th:text="${bottom.name}"></span>
-        </option>
-    </th:block>
-</select>
-    <!-- Quantity Input -->
-    <label for="numberInput">Enter a Number:</label>
-    <input type="number" id="numberInput" name="quantity" />
+<div id="Content">
+    <form id="cupcakeform" method="post" th:action="@{'/add_to_basket'}">
+        <!-- Dropdown tops -->
+        <label for="dropdown_top">Choose a Top:</label>
+        <select id="dropdown_top" name="selectedTop">
+            <th:block th:each="top : ${top_info}">
+                <option th:value="${top.topId}">
+                    <span th:text="${top.getTag()}"></span>
+                </option>
+            </th:block>
+        </select>
+        <!-- Dropdown bottoms -->
+        <label for="dropdown_bottom">Choose a Bottom:</label>
+        <select id="dropdown_bottom" name="selectedBottom">
+            <th:block th:each="bottom : ${bottom_info}">
+                <option th:value="${bottom.bottomId}">
+                    <span th:text="${bottom.getTag()}"></span>
+                </option>
+            </th:block>
+        </select>
+        <!-- Quantity Input -->
+        <label for="numberInput">Enter a Number:</label>
+        <input type="number" id="numberInput" name="quantity" />
 
-    <!-- Submit Button -->
-    <button type="submit">Submit</button>
-</form>
-<!--
-<form id="cupcakeform" method="post" th:action="@{'/add_to_basket'}">
-    <-- Dropdown tops
-    <label for="dropdown_top">Choose a Top:</label>
-    <select id="dropdown_top" name="selectedTop">
-        <th:block th:each="top : ${top_info}">
-            <option th:value="${top.name}">
-                <span th:text="${top.name}"></span>
-            </option>
-        </th:block>
-    </select>
-    <input type="hidden" th:each="top : ${top_info}" name="selectedTopId" th:value="${top.topId}" />
-    <input type="hidden" th:each="top : ${top_info}" name="selectedTopPrice" th:value="${top.price}" />
-
-    <-- Dropdown bottoms --
-    <label for="dropdown_bottom">Choose a Bottom:</label>
-    <select id="dropdown_bottom" name="selectedBottom">
-        <th:block th:each="bottom : ${bottom_info}">
-            <option th:value="${bottom.name}">
-                <span th:text="${bottom.name}"></span>
-            </option>
-        </th:block>
-    </select>
-    <input type="hidden" th:each="bottom : ${bottom_info}" name="selectedBottomId" th:value="${bottom.bottomId}" />
-    <input type="hidden" th:each="bottom : ${bottom_info}" name="selectedBottomPrice" th:value="${bottom.price}" />
-
-    <-- Quantity Input --
-    <label for="numberInput">Enter a Number:</label>
-    <input type="number" id="numberInput" name="quantity" />
-
-    <-- Submit Button --
-    <button type="submit">Submit</button>
-</form>
--->
-
-<form method="post" action="/basket">
-    <label>go to basket here!</label>
-    <input type="submit" value="Basket">
-</form>
-
-    <p th:text="${#ctx.message}"></p>
-    <form method="post" action="/login_from_index">
-    <label>Login here!</label>
-    <input type="submit" value="Login">
-</form>
-
+        <!-- Submit Button -->
+        <button type="submit">Submit</button>
+    </form>
+</div>
 </body>
 </html>
 

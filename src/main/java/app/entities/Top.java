@@ -28,6 +28,10 @@ public class Top extends JavalinGson implements Serializable  {
         return price;
     }
 
+    public String getTag(){
+        return name + " - " + price + "kr.";
+    }
+
     @Override
     public String toString() {
         return "Top{" +

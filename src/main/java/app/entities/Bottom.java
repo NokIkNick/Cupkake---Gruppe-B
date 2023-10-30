@@ -28,4 +28,8 @@ public class Bottom extends JavalinGson implements Serializable {
         return price;
     }
 
+    public String getTag(){
+        return name + " - " + price + "kr.";
+    }
+
 }

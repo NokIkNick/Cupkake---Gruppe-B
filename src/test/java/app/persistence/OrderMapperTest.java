@@ -14,8 +14,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class OrderMapperTest {
 
 
@@ -32,7 +30,7 @@ class OrderMapperTest {
     @BeforeEach
     void setUp() {
         Javalin app = Javalin.create(config -> {
-            config.staticFiles.add("/public");
+            config.staticFiles.add("/static");
             JavalinThymeleaf.init(ThymeleafConfig.templateEngine());
         }).start(7070);
 
