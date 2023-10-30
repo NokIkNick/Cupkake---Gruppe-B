@@ -82,6 +82,8 @@ public class AdminMapper {
         return userList;
     }
 
+
+
     public static List<Order> getAllOrdersFromCostumer(int user_Id,ConnectionPool connectionPool) throws DatabaseException{
         List<Order> orderList = new ArrayList<>();
         String sql = "select * from orders where user_id = ?";
