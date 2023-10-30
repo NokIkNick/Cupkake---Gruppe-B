@@ -5,11 +5,11 @@
     <title>Frontpage</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link th:href="@{resources/public/css/loginStyles.css}" rel="stylesheet"/>
+    <link href="../static/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet"/>
+    <link th:href="@{/css/loginStyles.css}" rel="stylesheet"/>
 </head>
 
 <body>
-
 <div ID="Header" class="HeaderSpace">
     <div ID="HeaderLine1">
         <a href="/" ID="LogoDiv">
@@ -29,39 +29,38 @@
             <!--<a href="/kunder" th:if="${ctx.session.activeUser.isAdmin}">Kunder</a>-->
         </div>
         <div ID="UserSpecifics">
-            <a href="/logout" th:unless="${session.active_user}==null" th:text="${session.active_user.email}"></a>
-            <a href="/login" th:if="${session.active_user}==null">
+            <a href="/logout" th:unless="${session.active_user==null}" th:text="${session.active_user.email}"></a>
+            <a href="/login" th:if="${session.active_user==null}">
                 <div class="NavButton">
                     Login
                 </div>
             </a>
             <div id="KurvIkon">
                 <a href="/basket">
-                    <img class="fullyRound whiteBackground" src="../static/images/kurv-ikon-360x360.png" th:src="@{/images/kurv-ikon-360x360.png}" alt="kurv"/>
-                    <div class="fullyRound" ID="ItemsInBasket" th:if="${session.basket_orderlines!=null}" th:text="${session.basket_orderlines.size()}"></div>
+                    <img class="fullyRound whiteBackground" src="../public/images/kurv-ikon-360x360.png" th:src="@{/images/kurv-ikon-360x360.png}" alt="kurv"/>
+                    <div class="fullyRound" ID="ItemsInBasket" th:text="${session.basket_orderlines.size()}" th:unless="${session.basket_orderlines == null}">0</div>
                 </a>
             </div>
-
-
         </div>
     </div>
 </div>
 
-
-<div id="loginBox">
-    <h1>Login</h1>
-    <form id="loginForm" method="post" action="/login">
-        <label for="email">E-mail:</label><br>
-        <input type="email" id="email" name="email"><br>
-        <label for="password">Password:</label><br>
-        <input type="password" id="password" name="password"><br>
-        <input type="submit" value="Login"><br><br>
-    </form>
-    <p th:text="${#ctx.message}"></p>
-    <form method="post" action="/register">
-        <label>Are you not a customer already? Register yourself here and start ordering today:</label>
-        <input type="submit" value="Register">
-    </form>
+<div id="Content">
+    <div id="loginBox">
+        <h1>Login</h1>
+        <form id="loginForm" method="post" action="/login">
+            <label for="email">E-mail:</label><br>
+            <input type="email" id="email" name="email"><br>
+            <label for="password">Password:</label><br>
+            <input type="password" id="password" name="password"><br>
+            <input type="submit" value="Login"><br><br>
+        </form>
+        <p th:text="${#ctx.message}"></p>
+        <form method="post" action="/register">
+            <label>Are you not a customer already? Register yourself here and start ordering today:</label>
+            <input type="submit" value="Register">
+        </form>
+    </div>
 </div>
 
 </body>
