@@ -9,42 +9,44 @@
 </head>
 
 <body>
-
-<div ID="Header" class="HeaderSpace">
-  <div ID="HeaderLine1">
-    <a href="/" ID="LogoDiv">
-      <img ID="Logo" src="../static/images/OlskerLogo.png" th:src="@{/images/OlskerLogo.png}" alt="Olsker Cupcakes"/>
-    </a>
-    <div class="center">
-      <img ID="HeaderImage" src="../static/images/cupcakes.png" th:src="@{/images/cupcakes.png}" alt="Olsker Cupcakes"/>
-    </div>
-  </div>
-  <div ID="HeaderLine2">
-    <div ID="Nav">
-      <a href="/orders">
-        <div class="NavButton">
-          Ordre
-        </div>
+  <div ID="Header" class="HeaderSpace">
+    <div ID="HeaderLine1">
+      <a href="/" ID="LogoDiv">
+        <img ID="Logo" src="../static/images/OlskerLogo.png" th:src="@{/images/OlskerLogo.png}" alt="Olsker Cupcakes"/>
       </a>
-      <!--<a href="/kunder" th:if="${ctx.session.activeUser.isAdmin}">Kunder</a>-->
+      <div class="center">
+        <img ID="HeaderImage" src="../static/images/cupcakes.png" th:src="@{/images/cupcakes.png}" alt="Olsker Cupcakes"/>
+      </div>
     </div>
-    <div ID="UserSpecifics">
-      <a href="/logout" th:unless="${session.active_user}==null" th:text="${session.active_user.email}"></a>
-      <a href="/login" th:if="${session.active_user}==null">
-        <div class="NavButton">
-          Login
-        </div>
-      </a>
-      <div id="KurvIkon">
-        <a href="/basket">
-          <img class="fullyRound whiteBackground" src="../static/images/kurv-ikon-360x360.png" th:src="@{/images/kurv-ikon-360x360.png}" alt="kurv"/>
-          <div class="fullyRound" ID="ItemsInBasket" th:if="${session.basket_orderlines!=null}" th:text="${session.basket_orderlines.size()}"></div>
+    <div ID="HeaderLine2">
+      <div ID="Nav">
+        <a href="/orders">
+          <div class="NavButton">
+            Ordre
+          </div>
         </a>
+        <!--<a href="/kunder" th:if="${ctx.session.activeUser.isAdmin}">Kunder</a>-->
+      </div>
+      <div ID="UserSpecifics">
+        <a href="/logout" th:unless="${session.active_user==null}">
+          <div class="NavButton" th:text="${session.active_user.email}"></div>
+        </a>
+        <a href="/login" th:if="${session.active_user==null}">
+          <div class="NavButton">
+            Login
+          </div>
+        </a>
+        <div id="KurvIkon">
+          <a href="/basket">
+            <img class="fullyRound whiteBackground" src="../static/images/kurv-ikon-360x360.png" th:src="@{/images/kurv-ikon-360x360.png}" alt="kurv"/>
+            <div class="fullyRound" ID="ItemsInBasket" th:if="${session.basket_orderlines!=null}" th:text="${session.basket_orderlines.size()}"></div>
+          </a>
+        </div>
+
+
       </div>
     </div>
   </div>
-</div>
-</div>
-<p th:text="${#ctx.message}"></p>
+  <p th:text="${#ctx.message}"></p>
 </body>
 </html>>
