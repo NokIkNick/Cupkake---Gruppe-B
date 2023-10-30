@@ -3,6 +3,7 @@ package app;
 import app.config.ThymeleafConfig;
 import app.controllers.BasketController;
 import app.controllers.CupCakeController;
+import app.controllers.OrderViewController;
 import app.controllers.UserController;
 import app.persistence.ConnectionPool;
 import io.javalin.Javalin;
@@ -51,6 +52,9 @@ public class Main {
         app.post("/basket", ctx -> BasketController.loadBasket(ctx));
         app.post("/delete_orderline", ctx -> BasketController.deleteOrderLine(ctx));
         app.post("/add_order", ctx -> BasketController.addOrder(ctx , connectionPool));
+
+        // View Orders
+        app.get("/orders", ctx -> OrderViewController.viewMyOrders(ctx, connectionPool));
 
         //app.get("/", ctx ->  ctx.render("index.html"));
         // System.out.println(PasswordValidator.isValidPassword("Hest!2rt")); // password validator test

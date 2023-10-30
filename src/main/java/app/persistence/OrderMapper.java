@@ -1,11 +1,10 @@
 package app.persistence;
 
-import app.entities.Orderline;
-import app.entities.User;
+import app.entities.*;
 import app.exceptions.DatabaseException;
 
 import java.sql.*;
-import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -66,4 +65,62 @@ public class OrderMapper {
         }
     }
 
+    public static List<Order> getOrderViews(int userID, ConnectionPool connectionPool) throws DatabaseException{
+        String sql = "select order_id, user_id, worker_id, status, date, note, total_price from orders where user_id = ?";
+        try(Connection connection = connectionPool.getConnection()){
+            try(PreparedStatement ps = connection.prepareStatement(sql)){
+                ps.setInt(1, userID);
+                try(ResultSet rs = ps.executeQuery()){
+                    List<Order> orderViews = extractRSOrder(rs);
+                    // very important without this we wouldn't have any idea what is actually ordered.
+                    addOrdersToOrderViewList(orderViews, connectionPool);
+                    return orderViews;
+                }
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException("Something went wrong with the order, try again later.");
+        }
+
+    }
+
+    private static List<Order> extractRSOrder(ResultSet rs) throws SQLException {
+        List<Order> result = new ArrayList<>();
+        while(rs.next()) {
+            int order_id = rs.getInt("order_id");
+            int user_id = rs.getInt("user_id");
+            int worker_id = rs.getInt("worker_id");
+            String status = rs.getString("status");
+            java.sql.Date date = rs.getDate("date");
+            String note = rs.getString("note");
+            int totalPrice = rs.getInt("total_price");
+            Order orderView = new Order(order_id, user_id, worker_id, status, date, note, totalPrice);
+            result.add(orderView);
+        }
+        return result;
+    }
+
+    private static void addOrdersToOrderViewList(List<Order> orders, ConnectionPool connectionPool) throws DatabaseException {
+        for (Order orderView: orders) {
+            String sql = "select top_id, bottom_id, quantity, total_price from orderline where order_id = ?";
+            try(Connection connection = connectionPool.getConnection()){
+                try(PreparedStatement ps = connection.prepareStatement(sql)){
+                    ps.setInt(1, orderView.getOrderId());
+                    try(ResultSet rs = ps.executeQuery()){
+                        while(rs.next()){
+                            int top_id = rs.getInt("top_id");
+                            Top top = TopMapper.getTopById(top_id, connectionPool);
+                            int bottom_id = rs.getInt("bottom_id");;
+                            Bottom bottom = BottomMapper.getBottomById(bottom_id, connectionPool);
+                            int total_price = rs.getInt("total_price");;
+                            int quantity = rs.getInt("quantity");
+                            Orderline orderline = new Orderline(top, bottom, total_price, quantity);
+                            orderView.addOrderLine(orderline);
+                        }
+                    }
+                }
+            } catch (SQLException e) {
+                throw new DatabaseException("Something went wrong getting your order products, try again later.");
+            }
+        }
+    }
 }

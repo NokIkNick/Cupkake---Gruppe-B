@@ -50,33 +50,19 @@
         </div>
     </div>
     <div id="Content">
-        <form id="cupcakeform" method="post" th:action="@{'/add_to_basket'}">
-            <!-- Dropdown tops -->
-            <label for="dropdown_top">Choose a Top:</label>
-            <select id="dropdown_top" name="selectedTop">
-                <th:block th:each="top : ${top_info}">
-                    <option th:value="${top.topId}">
-                        <span th:text="${top.getTag()}"></span>
-                    </option>
-                </th:block>
-            </select>
-            <!-- Dropdown bottoms -->
-            <label for="dropdown_bottom">Choose a Bottom:</label>
-            <select id="dropdown_bottom" name="selectedBottom">
-                <th:block th:each="bottom : ${bottom_info}">
-                    <option th:value="${bottom.bottomId}">
-                        <span th:text="${bottom.getTag()}"></span>
-                    </option>
-                </th:block>
-            </select>
-            <!-- Quantity Input -->
-            <label for="numberInput">Enter a Number:</label>
-            <input type="number" id="numberInput" name="quantity" />
-
-            <!-- Submit Button -->
-            <button type="submit">Submit</button>
-        </form>
-        <p th:text="${#ctx.message}"></p>
+        <div class="order" th:each="order : ${orders}">
+            <div class="orderline" th:each="line : ${order.getOrderlines()}">
+                <div class="orderlinestat Quantity"><span th:text="${line.getQuantity()}"></span></div>
+                <div class="orderlinestat Top"><span th:text="${line.getTopName()}"></span></div>
+                <div class="orderlinestat Bottom"><span th:text="${line.getBottomName()}"></span></div>
+                <div class="orderlinestat Price"><span th:text="${line.getTotalPrice()}"></span></div>
+                <div class="orderlinestat TotalPrice"><span th:text="${order.getTotalPrice()}"></span></div>
+                <div class="orderlinestat status"><span th:text="${order.getStatus()}"></span></div>
+            </div>
+        </div>
+    </div>
+    <div id="Notification">
+        <p th:text="${message}"></p>
     </div>
 </body>
 </html>
