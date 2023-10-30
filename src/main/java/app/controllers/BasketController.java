@@ -88,7 +88,7 @@ public class BasketController {
                     loadBasket(ctx); // TODO maybe redirect to buying more currency
                     return;
                 }else {
-                    OrderMapper.addOrder(orderlines, connectionPool, note, user);
+                    OrderMapper.addOrder(orderlines, connectionPool, note, user,totalprice);
                     UserMapper.updateBalance(user.getEmail(),newBalanceUser,connectionPool);
                     ctx.attribute("message", "Your order has been successfully placed and you have been charged: "+totalprice+" you new balance is: "+newBalanceUser);
                     ctx.render("order_successfully_placed.html"); // TODO

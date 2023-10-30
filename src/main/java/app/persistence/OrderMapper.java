@@ -11,9 +11,9 @@ import java.util.List;
 
 public class OrderMapper {
 
-    public static void addOrder(List<Orderline> orderlines, ConnectionPool connectionPool, String note, User currentUser) throws DatabaseException {
+    public static void addOrder(List<Orderline> orderlines, ConnectionPool connectionPool, String note, User currentUser, int totalPrice) throws DatabaseException {
         int orderId = 0;
-        String sql = "insert into orders (user_id,worker_id,status,date,note) values (?,?,?,?,?)";
+        String sql = "insert into orders (user_id,worker_id,status,date,note,total_price) values (?,?,?,?,?,?)";
         try(Connection connection = connectionPool.getConnection()){
             try(PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
                 ps.setInt(1,currentUser.getUserID());
@@ -23,6 +23,7 @@ public class OrderMapper {
                 java.sql.Date sqlDate = new java.sql.Date(date.getTime());
                 ps.setDate(4,sqlDate);
                 ps.setString(5,note);
+                ps.setInt(6,totalPrice);
 
                 int rowsAffected = ps.executeUpdate();
                 if(rowsAffected < 1){
