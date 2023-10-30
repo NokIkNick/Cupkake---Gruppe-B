@@ -11,12 +11,13 @@ public class Order {
     private Date date;
     private int totalPrice;  // TODO
 
-    public Order(int orderId, int userId, int workerId, String status, Date date) {
+    public Order(int orderId, int userId, int workerId, String status, Date date, int totalPrice) {
         this.orderId = orderId;
         this.userId = userId;
         this.workerId = workerId;
         this.status = status;
         this.date = date;
+        this.totalPrice = totalPrice;
     }
 
     public int getOrderId() {
@@ -37,6 +38,10 @@ public class Order {
 
     public Date getDate() {
         return date;
+    }
+
+    public int getTotalPrice() {
+        return totalPrice;
     }
 
     @Override

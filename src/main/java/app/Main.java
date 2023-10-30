@@ -41,6 +41,7 @@ public class Main {
         // login related:
         app.post("/login_from_index", ctx -> ctx.render("login.html"));
         app.post("/login", ctx -> UserController.login(ctx,connectionPool));
+        app.get("/login", ctx -> ctx.render("login.html"));
         app.post("/register", ctx -> ctx.render("registration.html"));
         app.post("/register_user", ctx -> UserController.registerUser(ctx,connectionPool));
 
@@ -48,6 +49,7 @@ public class Main {
         app.post("/add_to_basket", ctx -> BasketController.addToBasket(ctx, connectionPool));
         app.get("/basket", ctx -> BasketController.loadBasket(ctx));
         app.post("/basket", ctx -> BasketController.loadBasket(ctx));
+        app.post("/delete_orderline", ctx -> BasketController.deleteOrderLine(ctx));
         app.post("/add_order", ctx -> BasketController.addOrder(ctx , connectionPool));
 
         //app.get("/", ctx ->  ctx.render("index.html"));

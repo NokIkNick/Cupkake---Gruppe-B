@@ -68,7 +68,7 @@ public class UserMapper {
         }
     }
     public static int getBalance(String email, ConnectionPool connectionPool) throws DatabaseException{
-        String sql = "select balanace from users where name=?";
+        String sql = "select balanace from users where email=?";
         try(Connection connection = connectionPool.getConnection()){
             try(PreparedStatement ps = connection.prepareStatement(sql)) {
                 ps.setString(1, email);

@@ -51,7 +51,7 @@ public class BasketController {
     public static void deleteOrderLine(Context ctx){
         try {
             List<Orderline> basketOrderlines = ctx.sessionAttribute("basket_orderlines");
-            int indexNumber = Integer.parseInt(ctx.formParam("index_number"));
+            int indexNumber = Integer.parseInt(ctx.formParam("deleteOrderLine"));
             basketOrderlines.remove(indexNumber);
             ctx.sessionAttribute("basket_orderlines", basketOrderlines);
             loadBasket(ctx);
@@ -63,7 +63,7 @@ public class BasketController {
 
     public static void addOrder(Context ctx, ConnectionPool connectionPool) {
         List<Orderline> orderlines = ctx.sessionAttribute("basket_orderlines");
-        String note = ctx.formParam("note");
+        String note = "Pending";  //ctx.formParam("note");
         User user;
         if(ctx.sessionAttribute("basket_orderlines") == null){
             ctx.attribute("message", "you dont have any order lines yet.");
