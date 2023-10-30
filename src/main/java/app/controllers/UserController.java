@@ -8,6 +8,7 @@ import io.javalin.http.Context;
 import app.exceptions.DatabaseException;
 
 
+
 public class UserController {
     // TODO make sure the functions render the right pages and has the correct attribute / formParam names.
     public static void login(Context ctx, ConnectionPool connectionPool){
@@ -54,18 +55,15 @@ public class UserController {
             ctx.render("registration.html");
         }
     }
-    public void updateBalance(Context ctx, ConnectionPool connectionPool){
+    public static void updateBalance(Context ctx, String email, int newBal, ConnectionPool connectionPool){
         try {
-            User user = ctx.sessionAttribute("active_user");
-            String email = user.getEmail();
-            int balanceToAdd = Integer.parseInt(ctx.formParam("update_balance"));
-            UserMapper.updateBalance(email,balanceToAdd, connectionPool);
+            UserMapper.updateBalance(email,newBal, connectionPool);
         }catch (NumberFormatException e){
             ctx.attribute("PLACEHOLDER.message", "That's not a valid number!");
-            ctx.render("PLACEHOLDER.HTML");    // TODO
+            ctx.render("basket.html");    // TODO
         } catch (DatabaseException | NullPointerException e) {
             ctx.attribute("PLACEHOLDER.message", e.getMessage());
-            ctx.render("PLACEHOLDER.HTML");     // TODO
+            ctx.render("basket.html");     // TODO
         }
     }
 

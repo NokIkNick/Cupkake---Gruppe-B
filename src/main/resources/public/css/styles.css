@@ -130,3 +130,56 @@ a {
     background: white;
 }
 
+
+#orderlineBox{
+    display: flex;
+    justify-content: center;
+    flex-direction:column;
+    text-align: center;
+    border: white 5px solid;
+    margin-top: 8vh;
+    padding: 2rem;
+    margin-right:14vw;
+    margin-left:14vw;
+    margin-bottom: 12vh;
+    background-color: #DFCCFB;
+    border-radius: 2rem ;
+}
+
+#orderlineBox h1{
+    margin-bottom: 2rem;
+}
+
+#orderlineBox input[type="email"]{
+    width:20vw;
+    height:3vh;
+    font-size: 1.6rem;
+    margin-bottom: 1rem ;
+}
+
+#orderlineBox input[type="number"]{
+    width:16vw;
+    height:3vh;
+    font-size: 1.6rem;
+    margin-bottom: 1rem ;
+}
+
+#orderlineBox button[type="submit"]{
+    width:6vw;
+    height:3vh;
+}
+
+#dropdown_top {
+    width:20vw;
+    height:3vh;
+    font-size: 1.6rem;
+    margin-bottom: 1rem ;
+}
+
+#dropdown_bottom{
+    width:20vw;
+    height:3vh;
+    font-size: 1.6rem;
+    margin-bottom: 1rem ;
+}
+

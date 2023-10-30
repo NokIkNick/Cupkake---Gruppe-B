@@ -60,9 +60,9 @@
             <input type="submit" value="Create Account"><br><br>
         </form>
         <p th:text="${#ctx.message}"></p>
-        <form method="get">
+        <form method="post">
             <label>Are you a customer already? Login here and start ordering today:</label>
-            <input type="button" formaction="/login" value="Login">
+            <input type="submit" formaction="/loginRender" value="Login">
         </form>
     </div>
   </div>

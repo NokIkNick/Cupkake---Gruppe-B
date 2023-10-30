@@ -65,7 +65,7 @@ public class BasketController {
         List<Orderline> orderlines = ctx.sessionAttribute("basket_orderlines");
         String note = "Pending";  //ctx.formParam("note");
         User user;
-        if(ctx.sessionAttribute("basket_orderlines") == null){
+        if(ctx.sessionAttribute("basket_orderlines") == null || orderlines.isEmpty()){
             ctx.attribute("message", "you dont have any order lines yet.");
             loadBasket(ctx); // TODO
             return;
@@ -89,7 +89,9 @@ public class BasketController {
                     return;
                 }else {
                     OrderMapper.addOrder(orderlines, connectionPool, note, user,totalprice);
-                    UserMapper.updateBalance(user.getEmail(),newBalanceUser,connectionPool);
+                    UserController.updateBalance(ctx, user.getEmail(),newBalanceUser,connectionPool);
+                    List<Orderline> emptyOrderlines = new ArrayList<>();
+                    ctx.sessionAttribute("basket_orderlines",emptyOrderlines);
                     ctx.attribute("message", "Your order has been successfully placed and you have been charged: "+totalprice+" you new balance is: "+newBalanceUser);
                     ctx.render("order_successfully_placed.html"); // TODO
                 }

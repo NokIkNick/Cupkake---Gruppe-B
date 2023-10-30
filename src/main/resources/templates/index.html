@@ -5,16 +5,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="../public/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet"/>
+    <link href="../public/css/loginStyles.css" th:href="@{/css/loginStyles.css}" rel="stylesheet"/>
 </head>
 
 <body>
     <div ID="Header" class="HeaderSpace">
         <div ID="HeaderLine1">
             <a href="/" ID="LogoDiv">
-                <img ID="Logo" src="../static/images/OlskerLogo.png" th:src="@{/images/OlskerLogo.png}" alt="Olsker Cupcakes"/>
+                <img ID="Logo" src="../public/images/OlskerLogo.png" th:src="@{/images/OlskerLogo.png}" alt="Olsker Cupcakes"/>
             </a>
             <div class="center">
-                <img ID="HeaderImage" src="../static/images/cupcakes.png" th:src="@{/images/cupcakes.png}" alt="Olsker Cupcakes"/>
+                <img ID="HeaderImage" src="../public/images/cupcakes.png" th:src="@{/images/cupcakes.png}" alt="Olsker Cupcakes"/>
             </div>
         </div>
         <div ID="HeaderLine2">
@@ -37,7 +38,7 @@
                 </a>
                 <div id="KurvIkon">
                     <a href="/basket">
-                        <img class="fullyRound whiteBackground" src="../static/images/kurv-ikon-360x360.png" th:src="@{/images/kurv-ikon-360x360.png}" alt="kurv"/>
+                        <img class="fullyRound whiteBackground" src="../public/images/kurv-ikon-360x360.png" th:src="@{/images/kurv-ikon-360x360.png}" alt="kurv"/>
                         <div class="fullyRound" ID="ItemsInBasket" th:if="${session.basket_orderlines!=null}" th:text="${session.basket_orderlines.size()}"></div>
                     </a>
                 </div>
@@ -45,6 +46,7 @@
         </div>
     </div>
     <div id="Content">
+        <div id="orderlineBox">
         <form id="cupcakeform" method="post" th:action="@{'/add_to_basket'}">
             <!-- Dropdown tops -->
             <label for="dropdown_top">Choose a Top:</label>
@@ -72,6 +74,7 @@
             <button type="submit">Submit</button>
         </form>
         <p th:text="${#ctx.message}"></p>
+        </div>
     </div>
 </body>
 </html>
