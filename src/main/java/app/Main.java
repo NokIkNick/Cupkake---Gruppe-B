@@ -31,7 +31,6 @@ public class Main {
             connectionPool = ConnectionPool.getInstance(USER, PASSWORD, URL, DB);
         } catch (Exception e){
 
-
         }
         // Routing
 
@@ -40,17 +39,18 @@ public class Main {
         //app.post("*", ctx -> ctx.render("index.html"));
 
         // login related:
-        app.post("/login", ctx -> ctx.render("login.html"));
-        app.post("/loginUser", ctx -> UserController.login(ctx,connectionPool));
-        app.get("/create_user", ctx -> ctx.render("create_user.html"));
+        app.post("/login_from_index", ctx -> ctx.render("login.html"));
+        app.post("/login", ctx -> UserController.login(ctx,connectionPool));
+        app.get("/login", ctx -> ctx.render("login.html"));
+        app.post("/register", ctx -> ctx.render("registration.html"));
         app.post("/register_user", ctx -> UserController.registerUser(ctx,connectionPool));
 
         // Basket related:
         app.post("/add_to_basket", ctx -> BasketController.addToBasket(ctx, connectionPool));
-        app.post("/kurv", ctx -> BasketController.loadBasket(ctx,connectionPool));
+        app.get("/basket", ctx -> BasketController.loadBasket(ctx));
+        app.post("/basket", ctx -> BasketController.loadBasket(ctx));
+        app.post("/delete_orderline", ctx -> BasketController.deleteOrderLine(ctx));
         app.post("/add_order", ctx -> BasketController.addOrder(ctx , connectionPool));
-
-
 
         //app.get("/", ctx ->  ctx.render("index.html"));
         // System.out.println(PasswordValidator.isValidPassword("Hest!2rt")); // password validator test

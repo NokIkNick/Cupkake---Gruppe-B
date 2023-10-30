@@ -9,15 +9,15 @@ public class Order {
     private int workerId;
     private String status;
     private Date date;
-    private String note;
+    private int totalPrice;  // TODO
 
-    public Order(int orderId, int userId, int workerId, String status, Date date, String note) {
+    public Order(int orderId, int userId, int workerId, String status, Date date, int totalPrice) {
         this.orderId = orderId;
         this.userId = userId;
         this.workerId = workerId;
         this.status = status;
         this.date = date;
-        this.note = note;
+        this.totalPrice = totalPrice;
     }
 
     public int getOrderId() {
@@ -40,8 +40,8 @@ public class Order {
         return date;
     }
 
-    public String getNote() {
-        return note;
+    public int getTotalPrice() {
+        return totalPrice;
     }
 
     @Override

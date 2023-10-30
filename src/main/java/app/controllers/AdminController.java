@@ -27,7 +27,7 @@ public class AdminController {
 
     public static void updateUserBalance(Context ctx, ConnectionPool connectionPool){
         try {
-            User user = ctx.sessionAttribute("choosenuser");
+            User user = ctx.sessionAttribute("choosen_user");
             int balanceUpdateAmount = Integer.parseInt(ctx.formParam("balanceupdateamount"));
             int newbalance = user.getBalance()+balanceUpdateAmount;
             AdminMapper.updateBalance(user.getEmail(),newbalance,connectionPool);

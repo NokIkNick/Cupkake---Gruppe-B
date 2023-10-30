@@ -1,6 +1,6 @@
 /* Stylesheet for the application */
 
-body {
+Body {
     margin: 0;
     background: #FFF3DA;
 }
@@ -39,7 +39,7 @@ body {
     margin-right: calc(-20vh - 0.5vw);
 }
 
-#ItemsInBasket {
+#ItemsInBasked {
     background: #F00;
     position: relative;
     top: calc(-100% - 5px);
@@ -64,10 +64,6 @@ body {
     justify-content: center;
     align-items: center;
     height:100%;
-}
-
-#HeaderLine2 form {
-    height: 100%;
 }
 
 #KurvIkon {
@@ -129,4 +125,3 @@ a {
 .whiteBackground {
     background: white;
 }
-

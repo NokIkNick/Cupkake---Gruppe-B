@@ -91,7 +91,7 @@ public class ConnectionPool {
      * @return a Hikari DataSource
      */
     private static HikariDataSource createHikariConnectionPool(String user, String password, String url, String db) {
-        Logger.getLogger("web").log(Level.INFO,
+        Logger.getLogger("web").log(Level.WARNING,
                 String.format("Connection Pool created for: (%s, %s, %s, %s)", user, password, url, db));
         HikariConfig config = new HikariConfig();
         config.setDriverClassName("org.postgresql.Driver");
