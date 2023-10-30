@@ -39,6 +39,7 @@ public class OrderMapper {
 
             }
         }catch(SQLException e){
+            e.printStackTrace();
             throw new DatabaseException("Error while connecting to database");
         }
     }

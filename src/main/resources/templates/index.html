@@ -24,6 +24,11 @@
                         Ordre
                     </div>
                 </a>
+                <a href="/ordersAdmin" th:unless="session.active_user.isAdmin()">
+                    <div class="NavButton">
+                        Alle Ordre
+                    </div>
+                </a>
                 <!--<a href="/kunder" th:if="${ctx.session.activeUser.isAdmin}">Kunder</a>-->
             </div>
             <div ID="UserSpecifics">
