@@ -30,7 +30,7 @@ class OrderMapperTest {
     @BeforeEach
     void setUp() {
         Javalin app = Javalin.create(config -> {
-            config.staticFiles.add("/static");
+            config.staticFiles.add("/public");
             JavalinThymeleaf.init(ThymeleafConfig.templateEngine());
         }).start(7070);
 
