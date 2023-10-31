@@ -38,7 +38,7 @@
       <div id="KurvIkon">
         <a href="/basket">
           <img class="fullyRound whiteBackground" src="../public/images/kurv-ikon-360x360.png" th:src="@{/images/kurv-ikon-360x360.png}" alt="Basket"/>
-          <div class="fullyRound" ID="ItemsInBasket" th:if="${session.basket_orderlines!=null}" th:text="${session.basket_orderlines.size()}">*</div>
+          <div class="fullyRound" ID="ItemsInBasket" th:if="${session.last_orderlines!=null}" th:text="${session.last_orderlines.size()}">*</div>
         </a>
       </div>
     </div>
@@ -55,7 +55,7 @@
       <th>Quantity</th>
       <th>Price</th>
     </tr>
-    <th:block th:unless="${session.basket_orderlines==null||session.basket_orderlines.isEmpty()}" th:each="orderline, iterStat : ${session.basket_orderlines}">
+    <th:block th:unless="${session.last_orderlines==null||session.last_orderlines.isEmpty()}" th:each="orderline, iterStat : ${session.last_orderlines}">
       <tr>
         <td th:text="${orderline.topName}"></td>
         <td th:text="${orderline.bottomName}"></td>

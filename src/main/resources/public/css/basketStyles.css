@@ -162,7 +162,9 @@ a {
 
 #submitOrderBtnForm {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+
 }
 
 #submitOrderBtnForm button[type=submit]{
@@ -177,4 +179,12 @@ a {
 
 h3{
     text-align: center;
+}
+
+#submitOrderBtnForm input[type=text]{
+    width: 15vw;
+    height: 10vh;
+    margin-bottom: 1.5rem;
+    text-align: start;
+
 }
