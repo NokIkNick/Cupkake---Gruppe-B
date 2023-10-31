@@ -25,6 +25,11 @@ public class AdminController {
             ctx.render("admin.html");
         }
     }
+
+    public static void deleteAnUserByUsingUserIdAndOrderId(Context ctx, ConnectionPool connectionPool){
+
+    }
+
     public static void updateUserBalanceUsingEmail(Context ctx, ConnectionPool connectionPool) throws DatabaseException{
        try {
         String userEmail = ctx.formParam("userEmail");
@@ -110,7 +115,7 @@ public class AdminController {
         }
     }
     public static void selectOrder(Context ctx,ConnectionPool connectionPool){
-        int selectedOrderId = Integer.parseInt("selectedOrder");
+        int selectedOrderId = Integer.parseInt(ctx.formParam("selectedOrder"));
         ctx.sessionAttribute("selectedOrder",selectedOrderId);
         ctx.render("admin.html");
     }

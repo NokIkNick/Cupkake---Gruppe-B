@@ -54,11 +54,13 @@ public class UserMapper {
         }
     }
 
-    public static void deleteUserSpecificOrder(int userId, int orderId,ConnectionPool connectionPool)throws DatabaseException {
-        String sql ="delete from orders where user_id = ? and order_id = ? from orders";
+    public static void deleteUserSpecificOrder(String email, int orderId,ConnectionPool connectionPool)throws DatabaseException {
+        String sql = "delete from orders " +
+                "where email in (select email from users where email = ?) " +
+                "and order_id = ?";
         try(Connection connection = connectionPool.getConnection()) {
             try(PreparedStatement ps = connection.prepareStatement(sql)) {
-                ps.setInt(1,userId);
+                ps.setString(1,email);
                 ps.setInt(2,orderId);
                 int rowsAffected = ps.executeUpdate();
 
