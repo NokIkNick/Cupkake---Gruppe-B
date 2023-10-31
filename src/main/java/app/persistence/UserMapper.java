@@ -54,13 +54,13 @@ public class UserMapper {
         }
     }
 
-    public static void deleteUserSpecificOrder(String email, int orderId,ConnectionPool connectionPool)throws DatabaseException {
-        String sql = "delete from orders " +
-                "where email in (select email from users where email = ?) " +
-                "and order_id = ?";
+    public static void deleteUserSpecificOrder(int orderId,ConnectionPool connectionPool)throws DatabaseException {
+        String sql = "delete from orderline where order_id = ?;" +
+                "delete from orders where order_id = ?;";
         try(Connection connection = connectionPool.getConnection()) {
             try(PreparedStatement ps = connection.prepareStatement(sql)) {
-                ps.setString(1,email);
+
+                ps.setInt(1,orderId);
                 ps.setInt(2,orderId);
                 int rowsAffected = ps.executeUpdate();
 
@@ -70,7 +70,7 @@ public class UserMapper {
 
             }
         }catch (SQLException e){
-            throw new DatabaseException("sql error you can suck my balls!");
+            throw new DatabaseException(" "+ e);
         }
     }
 

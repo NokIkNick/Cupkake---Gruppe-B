@@ -28,12 +28,14 @@ public class AdminController {
     }
 
     public static void deleteAnUserByUsingUserIdAndOrderId(Context ctx, ConnectionPool connectionPool) throws DatabaseException{
-        String userEmail = ctx.formParam("userEmail");
-        int orderid = Integer.parseInt(ctx.formParam("orderId"));
+        String userEmail = ctx.sessionAttribute("userEmail");
+        int orderid = Integer.parseInt(ctx.formParam("selectedOrder"));
         try {
-            UserMapper.deleteUserSpecificOrder(userEmail,orderid,connectionPool);
+            UserMapper.deleteUserSpecificOrder(orderid,connectionPool);
+            ctx.render("admin.html");
         }catch (DatabaseException e){
             System.out.println(e);
+            ctx.render("admin.html");
         }
 
     }
@@ -111,6 +113,7 @@ public class AdminController {
         try {
             //int userID = Integer.parseInt(ctx.formParam("selected_user"));
             String userEmail = ctx.formParam("selected_user");
+            ctx.sessionAttribute("userEmail",userEmail);
             User user = UserMapper.getUserByEmail(userEmail,connectionPool);
             System.out.println(user);
             ctx.sessionAttribute("admin_chosen_user",user);
@@ -124,6 +127,7 @@ public class AdminController {
     }
     public static void select_order(Context ctx,ConnectionPool connectionPool){
         int selectedOrderId = Integer.parseInt(ctx.formParam("selected_order"));
+        System.out.println(selectedOrderId);
         ctx.sessionAttribute("selected_order",selectedOrderId);
         ctx.render("admin.html");
     }

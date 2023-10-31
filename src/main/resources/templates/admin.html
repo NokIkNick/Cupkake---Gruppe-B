@@ -83,7 +83,7 @@
         <button id="chooseOrder">Vælg en ordre</button>
     </form>
     <form method="post" th:action="@{/deleteAnUserByUsingUserIdAndOrderId}">
-        <input type="hidden" name="selectedOrder" th:value="${selected_order}">
+        <input type="hidden" name="selectedOrder" th:value="${session.selected_order}">
         <button id="deleteOrderButton" type="submit">delete order</button>
     </form>
 
