@@ -1,107 +1,96 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="da">
 
-<title>Frontpage</title>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="../public/css/loginStyles.css" th:href="@{/css/loginStyles.css}" rel="stylesheet"/>
-</head>
+    <head>
+        <title>Frontpage</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="../public/css/loginStyles.css" th:href="@{/css/loginStyles.css}" rel="stylesheet"/>
+    </head>
 
-<body>
+    <body>
 
-<!--<div ID="Header" class="HeaderSpace">
-    <div ID="HeaderLine1">
-        <a href="/index.html" ID="LogoDiv">
-            <img ID="Logo" src="../public/images/OlskerLogo.png" alt="Olsker Cupcakes"/>
-        </a>
-        <div class="center">
-            <img ID="HeaderImage" src="../public/images/cupcakes.png" alt="Olsker Cupcakes"/>
+    <!--<div ID="Header" class="HeaderSpace">
+        <div ID="HeaderLine1">
+            <a href="/index.html" ID="LogoDiv">
+                <img ID="Logo" src="../public/images/OlskerLogo.png" alt="Olsker Cupcakes"/>
+            </a>
+            <div class="center">
+                <img ID="HeaderImage" src="../public/images/cupcakes.png" alt="Olsker Cupcakes"/>
+            </div>
         </div>
-    </div>
-    <div ID="HeaderLine2">
-        <div ID="Nav">
-            <a href="/orders">
-                <div class="NavButton">
-                    Ordre
-                </div>
-            </a>-->
-<!--<a href="/kunder" th:if="${ctx.session.activeUser.isAdmin}">Kunder</a>-->
-<!--</div>
-<div id = "Nav2">
-    <a href="/admin">
-        <div class="NavButton">
-            Admin
-        </div>
-    </a>
-</div>
-
-<div ID="UserSpecifics">
-    <a href="/logout" th:unless="${ctx.session.active_user==null}" th:text="${ctx.session.active_user.email}"></a>
-    <a href="/login" th:if="${ctx.session.active_user==null}">
-        <div class="NavButton">
-            Login
-        </div>
-    </a>
-    <div id="KurvIkon">
-        <a href="/kurv">
-            <img class="fullyRound whiteBackground" src="../public/images/kurv-ikon-360x360.png" alt="kurv"/>
-            <div class="fullyRound" ID="ItemsInBasked" th:text="${ctx.session.basket_orderlines.count}" th:unless="${ctx.session.basket_orderlines.count == 0}">0</div>
+        <div ID="HeaderLine2">
+            <div ID="Nav">
+                <a href="/orders">
+                    <div class="NavButton">
+                        Ordre
+                    </div>
+                </a>-->
+    <!--<a href="/kunder" th:if="${ctx.session.activeUser.isAdmin}">Kunder</a>-->
+    <!--</div>
+    <div id = "Nav2">
+        <a href="/admin">
+            <div class="NavButton">
+                Admin
+            </div>
         </a>
     </div>
-</div>
-</div>
-</div>-->
+
+    <div ID="UserSpecifics">
+        <a href="/logout" th:unless="${ctx.session.active_user==null}" th:text="${ctx.session.active_user.email}"></a>
+        <a href="/login" th:if="${ctx.session.active_user==null}">
+            <div class="NavButton">
+                Login
+            </div>
+        </a>
+        <div id="KurvIkon">
+            <a href="/kurv">
+                <img class="fullyRound whiteBackground" src="../public/images/kurv-ikon-360x360.png" alt="kurv"/>
+                <div class="fullyRound" ID="ItemsInBasked" th:text="${ctx.session.basket_orderlines.count}" th:unless="${ctx.session.basket_orderlines.count == 0}">0</div>
+            </a>
+        </div>
+    </div>
+    </div>
+    </div>-->
 
 
-<div id="adminBox">
-    <p>kunder</p>
+        <div id="Content">
+            <form method="post" th:action="@{/adminInfoForUsers}">
+                <label>Kunde:
+                    <select name="selected_user" id="selected_user" onchange="this.form.submit()">
+                    <option value="">Select User</option>
+                    <option th:each="user : ${session.userlist}" th:value="${user.email}" th:text="${user.email}"
+                            th:attrappend="selected = ${(session.admin_chosen_user != null && user.email == session.admin_chosen_user.getEmail()) ? 'selected' : null}"/>
+                    </select>
+                </label>
+            </form>
 
-    <form method="post" th:action="@{/getOrderForUser}">
-        <select name="selected_user" id="selected_user">
-            <option value="">Select User</option>
-            <option th:each="user : ${session.userlist}" th:value="${user.email}" th:text="${user.email}"/>
+            <div th:unless="${session.admin_chosen_user==null}">
+                <p>kundeOrdrer</p>
+                <form method="post" th:action="@{/select_order}">
+                    <label>
+                        <select id="orderSelect" name="selected_order" onchange="this.form.submit()">
+                            <option th:each="order : ${session.orderlist}" th:value="${order.orderId}" th:text="${order.orderId}"
+                                    th:attrappend="selected = ${(session.selected_order != null && order.orderId == session.selected_order) ? 'selected' : null}"
+                            />
+                        </select>
+                    </label>
+                    <button id="deleteOrderButton" type="submit" formaction="/deleteAnUserByUsingUserIdAndOrderId">delete order</button>
+                </form>
 
+                <!--<form method="post" th:action="@{/deleteAnUserByUsingUserIdAndOrderId}">
+                    <input type="hidden" name="selectedOrder" th:value="${session.selected_order}">
+                    <button id="deleteOrderButton" type="submit">delete order</button>
+                </form>-->
+                <p>indsæt penge</p>
+                <form method="post" name="updateUserBalanceThing" th:action="@{/updateUseBalance}">
+                    <input type="hidden" name="userEmail" th:value="${session.admin_chosen_user.email}">
+                    <label for="money"></label><input type="number" id="money" name="updateBalance">
+                    <input type="submit" value="money">
+                </form>
+            </div>
+        </div>
 
-        </select>
-
-        <!--<input type="hidden" name="userEmail" th:value="${session.user.email}" />-->
-        <input type="submit" value="select"></input>
-    </form>
-
-
-
-
-
-    <p>kundeOrdrer</p>
-
-    <form method="post" th:action="@{/select_order}">
-        <label>
-            <select id="orderSelect" name="selected_order">
-                <option th:each="order : ${session.orderlist}" th:value="${order.orderId}" th:text="${order.orderId}"></option>
-            </select>
-        </label>
-        <button id="chooseOrder">Vælg en ordre</button>
-    </form>
-    <form method="post" th:action="@{/deleteAnUserByUsingUserIdAndOrderId}">
-        <input type="hidden" name="selectedOrder" th:value="${session.selected_order}">
-        <button id="deleteOrderButton" type="submit">delete order</button>
-    </form>
-
-
-    <p>indsæt penge</p>
-    <form method="post" name="updateUserBalanceThing" th:action="@{/updateUseBalance}">
-        <input type="hidden" name="userEmail" th:value="${session.admin_chosen_user.email}">
-        <input type="number" id="money" name="updateBalance">
-        <input type="submit" value="money">
-    </form>
-
-
-
-
-
-
-</div>
-
-</body>
+    </body>
 
 </html>

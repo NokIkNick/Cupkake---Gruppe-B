@@ -60,8 +60,8 @@ public class UserMapper {
         try(Connection connection = connectionPool.getConnection()) {
             try(PreparedStatement ps = connection.prepareStatement(sql)) {
 
-                ps.setInt(1,orderId);
-                ps.setInt(2,orderId);
+                ps.setInt(1, orderId);
+                ps.setInt(2, orderId);
                 int rowsAffected = ps.executeUpdate();
 
                 if(rowsAffected<1){
@@ -70,15 +70,15 @@ public class UserMapper {
 
             }
         }catch (SQLException e){
-            throw new DatabaseException(" "+ e);
+            throw new DatabaseException(" " + e);
         }
     }
 
-    public static int getBalanceViaEmail(String email,ConnectionPool connectionPool) throws DatabaseException{
+    public static int getBalanceViaEmail(String email, ConnectionPool connectionPool) throws DatabaseException{
         String sql = "select balanace from users where email = ?";
         try(Connection connection = connectionPool.getConnection()){
             try(PreparedStatement ps = connection.prepareStatement(sql)){
-                ps.setString(1,email);
+                ps.setString(1, email);
                 ResultSet rs = ps.executeQuery();
                 if (rs.next()) {
                     int userBalanace = rs.getInt(1);
@@ -95,39 +95,38 @@ public class UserMapper {
         String sql = "update users set balanace = ? where email = ?";
         try(Connection connection = connectionPool.getConnection()){
             try(PreparedStatement ps = connection.prepareStatement(sql)){
-                ps.setInt(1,balance);
-                ps.setString(2,email);
+                ps.setInt(1, balance);
+                ps.setString(2, email);
                 int rowsAffected = ps.executeUpdate();
                 if(rowsAffected < 1){
                     throw new DatabaseException("Error while updating balance");
                 }
             }
         }catch(SQLException e){
-            throw new DatabaseException("Error while connecting to database "+e);
+            throw new DatabaseException("Error while connecting to database " + e);
         }
     }
 
 
-    public static User getUserByEmail(String email,ConnectionPool connectionPool) throws DatabaseException {
-        User user = null;
+    public static User getUserByEmail(String email, ConnectionPool connectionPool) throws DatabaseException {
         String sql = "select * from users where email = ?";
         try(Connection connection = connectionPool.getConnection()){
             try(PreparedStatement ps = connection.prepareStatement(sql)){
                 ps.setString(1,email);
                 ResultSet rs = ps.executeQuery();
 
-                while(rs.next()){
+                if(rs.next()){
                     int userId = rs.getInt("user_id");
-                    String userEmail = rs.getString("email");
+                    //String userEmail = rs.getString("email");
                     String password = rs.getString("password");
                     int balance = rs.getInt("balanace");
                     boolean isAdmin = rs.getBoolean("is_admin");
-                   return new User(userId,email,password,balance,isAdmin);
+                    return new User(userId, email, password, balance, isAdmin);
                 }
             }
         }catch(SQLException e){
-            throw new DatabaseException("Error while connecting to database "+e);
+            throw new DatabaseException("Error while connecting to database " + e);
         }
-        return user;
+        return null;
     }
 }
