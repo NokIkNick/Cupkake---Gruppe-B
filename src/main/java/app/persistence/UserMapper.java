@@ -53,6 +53,25 @@ public class UserMapper {
             throw new DatabaseException("Error while connecting to database "+e);
         }
     }
+
+    public static void deleteUserSpecificOrder(int userId, int orderId,ConnectionPool connectionPool)throws DatabaseException {
+        String sql ="delete from orders where user_id = ? and order_id = ? from orders";
+        try(Connection connection = connectionPool.getConnection()) {
+            try(PreparedStatement ps = connection.prepareStatement(sql)) {
+                ps.setInt(1,userId);
+                ps.setInt(2,orderId);
+                int rowsAffected = ps.executeUpdate();
+
+                if(rowsAffected<1){
+                    throw new  DatabaseException("Hello there.");
+                }
+
+            }
+        }catch (SQLException e){
+            throw new DatabaseException("sql error you can suck my balls!");
+        }
+    }
+
     public static int getBalanceViaEmail(String email,ConnectionPool connectionPool) throws DatabaseException{
         String sql = "select balanace from users where email = ?";
         try(Connection connection = connectionPool.getConnection()){
