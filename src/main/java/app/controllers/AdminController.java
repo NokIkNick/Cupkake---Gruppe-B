@@ -8,6 +8,7 @@ import app.persistence.ConnectionPool;
 import app.persistence.UserMapper;
 import io.javalin.http.Context;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +27,14 @@ public class AdminController {
         }
     }
 
-    public static void deleteAnUserByUsingUserIdAndOrderId(Context ctx, ConnectionPool connectionPool){
+    public static void deleteAnUserByUsingUserIdAndOrderId(Context ctx, ConnectionPool connectionPool) throws DatabaseException{
+        String userEmail = ctx.formParam("userEmail");
+        int orderid = Integer.parseInt(ctx.formParam("orderId"));
+        try {
+            UserMapper.deleteUserSpecificOrder(userEmail,orderid,connectionPool);
+        }catch (DatabaseException e){
+            System.out.println(e);
+        }
 
     }
 
@@ -114,9 +122,9 @@ public class AdminController {
             ctx.render("index.html");
         }
     }
-    public static void selectOrder(Context ctx,ConnectionPool connectionPool){
-        int selectedOrderId = Integer.parseInt(ctx.formParam("selectedOrder"));
-        ctx.sessionAttribute("selectedOrder",selectedOrderId);
+    public static void select_order(Context ctx,ConnectionPool connectionPool){
+        int selectedOrderId = Integer.parseInt(ctx.formParam("selected_order"));
+        ctx.sessionAttribute("selected_order",selectedOrderId);
         ctx.render("admin.html");
     }
 

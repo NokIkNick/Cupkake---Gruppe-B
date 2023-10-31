@@ -73,18 +73,19 @@
 
 
     <p>kundeOrdrer</p>
-    <label>
-        <select id="orderSelect" name="selectedOrder">
-            <option th:each="order : ${session.orderlist}" th:value="${order.orderId}" th:text="${order.orderId}"></option>
-        </select>
-    </label>
-    <form method="post" th:action="@{/selectOrder}">
+
+    <form method="post" th:action="@{/select_order}">
+        <label>
+            <select id="orderSelect" name="selected_order">
+                <option th:each="order : ${session.orderlist}" th:value="${order.orderId}" th:text="${order.orderId}"></option>
+            </select>
+        </label>
         <button id="chooseOrder">Vælg en ordre</button>
     </form>
-    <!--<form method="post" th:action="/deleteAnorder">
-        <input type="hidden" name="selectedOrder" th:value="${selectedOrder}">
+    <form method="post" th:action="@{/deleteAnUserByUsingUserIdAndOrderId}">
+        <input type="hidden" name="selectedOrder" th:value="${selected_order}">
         <button id="deleteOrderButton" type="submit">delete order</button>
-    </form>-->
+    </form>
 
 
     <p>indsæt penge</p>
