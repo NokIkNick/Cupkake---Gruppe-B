@@ -99,7 +99,8 @@ public class UserMapper {
                     String status = rs.getString("status");
                     Date date = rs.getDate("date");
                     String note = rs.getString("note");
-                    orderList.add(new Order (orderId,activeUser.getUserID(), workerId,status,date,note));
+                    int total_price = rs.getInt("total_price");
+                    orderList.add(new Order (orderId, activeUser.getUserID(), workerId, status, date, note, total_price));
                 }
             }
         }catch (SQLException e){
