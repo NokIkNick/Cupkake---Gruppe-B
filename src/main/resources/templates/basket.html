@@ -50,12 +50,13 @@
 <div>
 
   <form id="orderLineForm" method="post" action="/delete_orderline">
+    <h3 th:text="'YOUR BASKET:'">YOUR BASKET:</h3>
     <table>
       <tr>
         <th>Top Name</th>
         <th>Bottom Name</th>
         <th>Quantity</th>
-        <th>Total Price</th>
+        <th>Price</th>
         <th>Action</th>
       </tr>
       <th:block th:unless="${session.basket_orderlines==null||session.basket_orderlines.isEmpty()}" th:each="orderline, iterStat : ${session.basket_orderlines}">
@@ -68,14 +69,14 @@
             <button type="submit" name="deleteOrderLine" th:value="${iterStat.index}" th:id="'deleteOrderLine_' + ${iterStat.index}">
               Delete
             </button>
-            <!-- th:value="${orderline}" -->
           </td>
         </tr>
       </th:block>
     </table>
+    <p th:if="${session.total_price > 0}" id="sumText" th:text="'Total Price: ' + ${session.total_price}"></p>
   </form>
   <p th:text="${#ctx.message}"></p>
-  <form method="post" action="/add_order">
+  <form id="submitOrderBtnForm" method="post" action="/add_order">
     <button type="submit">Submit Order</button>
   </form>
 </div>

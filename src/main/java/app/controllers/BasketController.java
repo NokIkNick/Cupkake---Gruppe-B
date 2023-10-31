@@ -43,9 +43,11 @@ public class BasketController {
         List<Orderline> orderlines = ctx.sessionAttribute("basket_orderlines");  // test
         if(orderlines == null) {
             orderlines = new ArrayList<Orderline>();
+            ctx.sessionAttribute("total_price", 0);
             ctx.sessionAttribute("basket_orderlines", orderlines);
         }
         orderlines.stream().forEach(System.out::println);  // test
+        ctx.sessionAttribute("total_price", updateSum(orderlines));
         ctx.render("basket.html"); // TODO
     }
     public static void deleteOrderLine(Context ctx){
@@ -101,6 +103,16 @@ public class BasketController {
             }
         }
     }
+
+    public static double updateSum(List<Orderline> orderlines){
+        int sum = 0;
+        for (Orderline o : orderlines) {
+            sum += o.getTotalPrice();
+        }
+        return sum;
+    }
+
+
     public static void test(Context ctx,ConnectionPool connectionPool){
         String selectedTopName = ctx.formParam("selectedTop"); // Get the selected top's name
         String selectedTopId = ctx.formParam("selectedTopId"); // Get the selected top's id

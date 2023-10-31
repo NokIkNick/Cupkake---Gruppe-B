@@ -47,6 +47,7 @@
     </div>
     <div id="Content">
         <div id="orderlineBox">
+            <h1>Custom Cupcake Maker</h1>
         <form id="cupcakeform" method="post" th:action="@{'/add_to_basket'}">
             <!-- Dropdown tops -->
             <label for="dropdown_top">Choose a Top:</label>
@@ -58,6 +59,7 @@
                 </th:block>
             </select>
             <!-- Dropdown bottoms -->
+            <br>
             <label for="dropdown_bottom">Choose a Bottom:</label>
             <select id="dropdown_bottom" name="selectedBottom">
                 <th:block th:each="bottom : ${bottom_info}">
@@ -67,7 +69,7 @@
                 </th:block>
             </select>
             <!-- Quantity Input -->
-            <label for="numberInput">Enter a Number:</label>
+            <label for="numberInput">Enter a Quantity:</label>
             <input type="number" id="numberInput" name="quantity" />
 
             <!-- Submit Button -->

@@ -1,16 +1,14 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="da">
 <head>
   <title>Frontpage</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="../public/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet"/>
-  <link href="../public/css/loginStyles.css" th:href="@{/css/loginStyles.css}" rel="stylesheet"/>
+  <link href="../public/css/basketStyles.css" th:href="@{/css/basketStyles.css}" rel="stylesheet"/>
 </head>
 
 <body>
-
 <div ID="Header" class="HeaderSpace">
   <div ID="HeaderLine1">
     <a href="/" ID="LogoDiv">
@@ -27,9 +25,7 @@
           Ordre
         </div>
       </a>
-      <div class="center">
-        <img ID="HeaderImage" src="../static/images/cupcakes.png" th:src="@{/images/cupcakes.png}" alt="Olsker Cupcakes"/>
-      </div>
+      <!--<a href="/kunder" th:if="${ctx.session.activeUser.isAdmin}">Kunder</a>-->
     </div>
     <div ID="UserSpecifics">
       <a href="/logout" th:unless="${session.active_user==null}">
@@ -45,28 +41,33 @@
           <img class="fullyRound whiteBackground" src="../public/images/kurv-ikon-360x360.png" th:src="@{/images/kurv-ikon-360x360.png}" alt="kurv"/>
           <div class="fullyRound" ID="ItemsInBasket" th:if="${session.basket_orderlines!=null}" th:text="${session.basket_orderlines.size()}"></div>
         </a>
-        <!--<a href="/kunder" th:if="${ctx.session.activeUser.isAdmin}">Kunder</a>-->
-      </div>
-      <div ID="UserSpecifics">
-        <a href="/logout" th:unless="${session.active_user==null}">
-          <div class="NavButton" th:text="${session.active_user.email}"></div>
-        </a>
-        <a href="/login" th:if="${session.active_user==null}">
-          <div class="NavButton">
-            Login
-          </div>
-        </a>
-        <div id="KurvIkon">
-          <a href="/basket">
-            <img class="fullyRound whiteBackground" src="../static/images/kurv-ikon-360x360.png" th:src="@{/images/kurv-ikon-360x360.png}" alt="kurv"/>
-            <div class="fullyRound" ID="ItemsInBasket" th:if="${session.basket_orderlines!=null}" th:text="${session.basket_orderlines.size()}"></div>
-          </a>
-        </div>
-
-
       </div>
     </div>
   </div>
-  <p th:text="${#ctx.message}"></p>
+</div>
+
+<h3 th:text="'Our professional bakers have recieved your order, and will begin working on your order'">Our professional bakers have recieved your order, and will begin working on your order:</h3>
+<form id="orderLineForm" method="post" action="/delete_orderline">
+  <h3 th:text="'RECEIPT:'">RECEIPT:</h3>
+  <table>
+    <tr>
+      <th>Top Name</th>
+      <th>Bottom Name</th>
+      <th>Quantity</th>
+      <th>Price</th>
+    </tr>
+    <th:block th:unless="${session.basket_orderlines==null||session.basket_orderlines.isEmpty()}" th:each="orderline, iterStat : ${session.basket_orderlines}">
+      <tr>
+        <td th:text="${orderline.topName}"></td>
+        <td th:text="${orderline.bottomName}"></td>
+        <td th:text="${orderline.quantity}"></td>
+        <td th:text="${orderline.totalPrice}"></td>
+      </tr>
+    </th:block>
+  </table>
+  <p th:if="${session.total_price > 0}" id="sumText" th:text="'Total Price: ' + ${session.total_price}"></p>
+</form>
+</div>
 </body>
-</html>>
+</html>
+

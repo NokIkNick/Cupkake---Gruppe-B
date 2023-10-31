@@ -53,12 +53,12 @@
             <input type="email" id="email" name="email"><br>
             <label for="password">Password:</label><br>
             <input type="password" id="password" name="password"><br>
-            <input type="submit" value="Login"><br><br>
+            <input id="loginBtn" type="submit" value="Login"><br><br>
         </form>
-        <p th:text="${#ctx.message}"></p>
+        <p id="ErrorMsg" th:text="${#ctx.message}"></p>
         <form method="post" action="/register">
             <label>Are you not a customer already? Register yourself here and start ordering today:</label>
-            <input type="submit" value="Register">
+            <input id="registerBtn" type="submit" value="Register">
         </form>
     </div>
 </div>
