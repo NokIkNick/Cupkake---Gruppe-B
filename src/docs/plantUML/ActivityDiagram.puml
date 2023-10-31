@@ -1,0 +1,63 @@
+@startuml
+'https://plantuml.com/activity-diagram-beta
+|Kunde|
+start
+:enter website;
+fork
+repeat
+:customize cupcakes;
+repeat while (done customizing cupckas?) is (no)
+->yes;
+fork again
+:login website;
+if(already user?) then
+:login;
+repeat
+:check credentials;
+repeat while (check if credentials are valid?) is (no)
+else
+:not user?;
+repeat
+:create user;
+repeat while (check if credentials are valid?) is (no)
+->yes;
+:login;
+repeat
+:check credentials;
+repeat while (check if credentials are valid?) is (no)
+endif;
+repeat
+:customize cupcakes;
+repeat while (done customizing cupckas?) is (no)
+->yes;
+end merge
+|website|
+repeat
+:customize order;
+repeat while (done?) is (no)
+if(logged in?) then
+-> yes;
+else
+-> no;
+:login website;
+if(already user?) then
+:login;
+repeat
+:check credentials;
+repeat while (check if credentials are valid?) is (no)
+else
+:not user?;
+repeat
+:create user;
+repeat while (check if credentials are valid?) is (no)
+->yes;
+:login;
+repeat
+:check credentials;
+repeat while (check if credentials are valid?) is (no)
+endif;
+endif
+:bestil;
+stop
+
+@enduml
