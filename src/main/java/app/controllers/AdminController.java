@@ -135,7 +135,6 @@ public class AdminController {
             String userEmail = ctx.formParam("selected_user");
             ctx.sessionAttribute("userEmail",userEmail);
             User user = UserMapper.getUserByEmail(userEmail,connectionPool);
-            System.out.println(user);
             ctx.sessionAttribute("admin_chosen_user",user);
             if(user!=null){
                 orderList = AdminMapper.getAllOrdersFromCostumer(user.getUserID(), connectionPool);
