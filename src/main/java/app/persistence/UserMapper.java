@@ -1,12 +1,12 @@
 package app.persistence;
 
+import app.entities.Order;
 import app.entities.User;
 import app.exceptions.DatabaseException;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserMapper {
 
@@ -82,6 +82,30 @@ public class UserMapper {
         }catch(SQLException e){
             throw new DatabaseException("Error while connecting to database "+e);
         }
+    }
+
+    public static List<Order> getOrders(User activeUser, ConnectionPool connectionPool) throws DatabaseException{
+        List<Order> orderList = new ArrayList<>();
+        String sql = "select * from orders where user_id = ?";
+        try(Connection connection = connectionPool.getConnection()){
+            try(PreparedStatement ps = connection.prepareStatement(sql)){
+                ps.setInt(1,activeUser.getUserID());
+
+                ResultSet rs = ps.executeQuery();
+
+                while(rs.next()){
+                    int orderId = rs.getInt("order_id");
+                    int workerId = rs.getInt("worker_id");
+                    String status = rs.getString("status");
+                    Date date = rs.getDate("date");
+                    String note = rs.getString("note");
+                    orderList.add(new Order (orderId,activeUser.getUserID(), workerId,status,date,note));
+                }
+            }
+        }catch (SQLException e){
+            throw new DatabaseException("Error while fetching orders");
+        }
+        return orderList;
     }
 
 }
