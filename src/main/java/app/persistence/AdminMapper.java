@@ -59,7 +59,6 @@ public class AdminMapper {
             throw new DatabaseException("Error while connecting to database "+e);
         }
     }
-
     public static List<User> getAllUsers(ConnectionPool connectionPool) throws DatabaseException{
         List<User> userList = new ArrayList<>();
         String sql = "select * from users";

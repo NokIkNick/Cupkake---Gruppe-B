@@ -72,6 +72,7 @@ public class Main {
         //admin related:
         app.get("/adminInfoForUsers",ctx->AdminController.allUsers(ctx,connectionPool));
         app.post("/getOrderForUser",ctx->AdminController.getAllOrdersFromCostumers(ctx,connectionPool));
+        app.post("/updateUseBalance",ctx->AdminController.updateUserBalanceUsingEmail(ctx,connectionPool));
         // Routing
         app.get("/test", ctx -> ctx.render("test.html"));
         app.get("/", ctx -> ctx.render("index.html"));

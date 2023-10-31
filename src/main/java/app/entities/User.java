@@ -24,7 +24,9 @@ public class User {
         this.balance = balance;
         this.admin = admin;
     }
+    public User(){
 
+    }
     public int getUserID() {
         return userID;
     }

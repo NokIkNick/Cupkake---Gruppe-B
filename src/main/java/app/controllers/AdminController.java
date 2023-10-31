@@ -5,6 +5,7 @@ import app.entities.User;
 import app.exceptions.DatabaseException;
 import app.persistence.AdminMapper;
 import app.persistence.ConnectionPool;
+import app.persistence.UserMapper;
 import io.javalin.http.Context;
 
 import java.util.ArrayList;
@@ -24,7 +25,24 @@ public class AdminController {
             ctx.render("admin.html");
         }
     }
+    public static void updateUserBalanceUsingEmail(Context ctx, ConnectionPool connectionPool) throws DatabaseException{
+       try {
+        String userEmail = ctx.formParam("userEmail");
+        int balanceUpdateAmount = Integer.parseInt(ctx.formParam("updateBalance"));
+        int newbalance = UserMapper.getBalanceViaEmail(userEmail,connectionPool) +balanceUpdateAmount;
+        AdminMapper.updateBalance(userEmail,newbalance,connectionPool);
+        ctx.attribute("message", userEmail+"'s balance has successfully been updated with: "+balanceUpdateAmount+" and is now: "+newbalance);
+        ctx.render("admin.html");
+    }catch (DatabaseException| NullPointerException e){
+        ctx.attribute("message", e.getMessage());
+           System.out.println(e);
+           ctx.render("admin.html");
+    }catch (NumberFormatException e){
+        ctx.attribute("message","Error, make sure you enter a number");
+        ctx.render("admin.html"); // TODO
+    }
 
+    }
     public static void updateUserBalance(Context ctx, ConnectionPool connectionPool){
         try {
             User user = ctx.sessionAttribute("chosenuser");
@@ -61,6 +79,7 @@ public class AdminController {
     public static void allUsers(Context ctx, ConnectionPool connectionPool) {
         List<User> userList;
         try {
+            ctx.sessionAttribute("admin_chosen_user", new User());
             userList = AdminMapper.getAllUsers(connectionPool);
             //System.out.println("Userlist: " + userList);
             //ctx.attribute("userlist", userList);
@@ -77,15 +96,20 @@ public class AdminController {
     public static void getAllOrdersFromCostumers(Context ctx, ConnectionPool connectionPool){
         List<Order> orderList;
         try {
-            int userID = Integer.parseInt(ctx.formParam("selected_user"));
-            orderList = AdminMapper.getAllOrdersFromCostumer(userID,connectionPool);
-            ctx.attribute("orderlist",orderList);
+            //int userID = Integer.parseInt(ctx.formParam("selected_user"));
+            String userEmail = ctx.formParam("selected_user");
+            User user = UserMapper.getUserByEmail(userEmail,connectionPool);
+            System.out.println(user);
+            ctx.sessionAttribute("admin_chosen_user",user);
+            orderList = AdminMapper.getAllOrdersFromCostumer(user.getUserID(),connectionPool);
+            ctx.sessionAttribute("orderlist",orderList);
             ctx.render("admin.html");
         }catch(DatabaseException e){
             ctx.attribute("message",e.getMessage());
             ctx.render("index.html");
         }
     }
+
 
      public static void allOrders(Context ctx, ConnectionPool connectionPool){
         List<Order> orderList = new ArrayList<>();

@@ -59,43 +59,47 @@
     <form method="post" th:action="@{/getOrderForUser}">
         <select name="selected_user" id="selected_user">
             <option value="">Select User</option>
-            <option th:each="user : ${session.userlist}" th:value="${user.userID}" th:text="${user.email}"/>
+            <option th:each="user : ${session.userlist}" th:value="${user.email}" th:text="${user.email}"/>
 
 
         </select>
 
-        <input type="hidden" name="userEmail" th:value="${user.email}" />
+        <!--<input type="hidden" name="userEmail" th:value="${session.user.email}" />-->
         <input type="submit" value="select"></input>
     </form>
 
 
 
 
-    <button id='deleteUser'>delete user</button>
+
     <p>kundeOrdrer</p>
     <label>
         <select id="orderSelect" name="selectedOrder">
-            <option th:each="order : ${orderlist}" th:value="${order.userId}" th:text="${order.status}"></option>
+            <option th:each="order : ${session.orderlist}" th:value="${order.orderId}" th:text="${order.orderId}"></option>
         </select>
     </label>
     <form method="post">
         <button id="chooseOrder" >vælg denne order</button>
+
+
+    </form>
+    <form method="post" th:action="/@deleteAnorder">
+        <input type="hidden" name="selectedOrder" th:value="${selectedOrder}">
+        <button id="deleteOrderButton" type="submit">delete order</button>
     </form>
 
 
     <p>indsæt penge</p>
-    <form method="post" >
-        <input type="hidden" name="userEmail" >
-        <input type="number" id="money">
+    <form method="post" name="updateUserBalanceThing" th:action="@{/updateUseBalance}">
+        <input type="hidden" name="userEmail" th:value="${session.admin_chosen_user.email}">
+        <input type="number" id="money" name="updateBalance">
         <input type="submit" value="money">
     </form>
 
 
-    <label id="orderDetail">
 
-    </label>
 
-    <button>delete order</button>
+
 
 </div>
 
