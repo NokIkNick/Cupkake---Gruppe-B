@@ -78,10 +78,8 @@
             <option th:each="order : ${session.orderlist}" th:value="${order.orderId}" th:text="${order.orderId}"></option>
         </select>
     </label>
-    <form method="post">
-        <button id="chooseOrder" >vælg denne order</button>
-
-
+    <form method="post" th:action="@{/selectOrder}">
+        <button id="chooseOrder">Vælg en ordre</button>
     </form>
     <form method="post" th:action="/@deleteAnorder">
         <input type="hidden" name="selectedOrder" th:value="${selectedOrder}">

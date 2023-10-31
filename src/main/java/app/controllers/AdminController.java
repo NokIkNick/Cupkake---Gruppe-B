@@ -109,7 +109,11 @@ public class AdminController {
             ctx.render("index.html");
         }
     }
-
+    public static void selectOrder(Context ctx,ConnectionPool connectionPool){
+        int selectedOrderId = Integer.parseInt("selectedOrder");
+        ctx.sessionAttribute("selectedOrder",selectedOrderId);
+        ctx.render("admin.html");
+    }
 
      public static void allOrders(Context ctx, ConnectionPool connectionPool){
         List<Order> orderList = new ArrayList<>();
