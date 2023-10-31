@@ -25,7 +25,6 @@
           Ordre
         </div>
       </a>
-      <!--<a href="/kunder" th:if="${ctx.session.activeUser.isAdmin}">Kunder</a>-->
     </div>
     <div ID="UserSpecifics">
       <a href="/logout" th:unless="${session.active_user==null}">
@@ -38,8 +37,8 @@
       </a>
       <div id="KurvIkon">
         <a href="/basket">
-          <img class="fullyRound whiteBackground" src="../public/images/kurv-ikon-360x360.png" th:src="@{/images/kurv-ikon-360x360.png}" alt="kurv"/>
-          <div class="fullyRound" ID="ItemsInBasket" th:if="${session.basket_orderlines!=null}" th:text="${session.basket_orderlines.size()}"></div>
+          <img class="fullyRound whiteBackground" src="../public/images/kurv-ikon-360x360.png" th:src="@{/images/kurv-ikon-360x360.png}" alt="Basket"/>
+          <div class="fullyRound" ID="ItemsInBasket" th:if="${session.basket_orderlines!=null}" th:text="${session.basket_orderlines.size()}">*</div>
         </a>
       </div>
     </div>

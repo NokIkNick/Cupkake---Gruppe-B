@@ -1,6 +1,8 @@
 package app.entities;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Order {
 
@@ -11,13 +13,15 @@ public class Order {
     private Date date;
     private String note;
     private int totalPrice;  // TODO
+    private List<Orderline> orderlines = new ArrayList<>();
 
-    public Order(int orderId, int userId, int workerId, String status, Date date,String note, int totalPrice) {
+    public Order(int orderId, int userId, int workerId, String status, Date date, String note, int totalPrice) {
         this.orderId = orderId;
         this.userId = userId;
         this.workerId = workerId;
         this.status = status;
         this.date = date;
+        this.note = note;
         this.totalPrice = totalPrice;
         this.note = note;
     }
@@ -44,6 +48,13 @@ public class Order {
 
     public int getTotalPrice() {
         return totalPrice;
+    }
+    public void addOrderLine(Orderline orderline){
+        orderlines.add(orderline);
+    }
+
+    public List<Orderline> getOrderlines(){
+        return orderlines;
     }
 
     public String getNote() {

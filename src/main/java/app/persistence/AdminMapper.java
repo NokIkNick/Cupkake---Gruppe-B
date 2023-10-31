@@ -97,7 +97,7 @@ public class AdminMapper {
                     Date date = rs.getDate("date");
                     String note = rs.getString("note");
                     int totalPrice = rs.getInt("total_price");
-                    orderList.add(new Order(orderId,userId,workerId,status,date,note,totalPrice));
+                    orderList.add(new Order(orderId, userId, workerId, status, date, note, totalPrice));
                 }
             }
         }catch(SQLException e){

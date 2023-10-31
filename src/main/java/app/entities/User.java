@@ -2,19 +2,24 @@ package app.entities;
 
 public class User {
 
-    private int userID;
-    private String email;
-    private String password;
-    private int balance;
-    private boolean admin;
+    private final int userID;
+    private final String email;
+    private final String password;
+    private final int balance;
+    private final boolean admin;
 
     /**
      *
      * @param userID
+     *  ID
      * @param email
+     *  login
      * @param password
+     *  private password
      * @param balance
+     *  balance
      * @param admin
+     *  are you an Admin?
      */
 
     public User(int userID, String email, String password, int balance, boolean admin) {
@@ -23,10 +28,6 @@ public class User {
         this.password = password;
         this.balance = balance;
         this.admin = admin;
-    }
-
-    public User(){
-
     }
 
 
