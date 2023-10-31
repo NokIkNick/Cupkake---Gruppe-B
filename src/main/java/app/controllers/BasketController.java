@@ -28,6 +28,9 @@ public class BasketController {
             try {
                 quantity = Integer.parseInt(ctx.formParam("quantity"));
             } catch (NumberFormatException ignored){}
+            if(quantity < 0){
+                throw new NumberFormatException("Quantity needs to be a positive number");
+            }
             int totalPrice = (bottom.getPrice() + top.getPrice()) * quantity;
             Orderline orderline = new Orderline(top, bottom, totalPrice, quantity);
             basketOrderLines.add(orderline);
@@ -37,6 +40,9 @@ public class BasketController {
             e.printStackTrace();
         } catch (AssertionError e){
             e.printStackTrace();
+        }catch (NumberFormatException e){
+            ctx.attribute("message",e.getMessage());
+            CupCakeController.loadIndexSite(ctx,connectionPool);
         }
     }
     public static void loadBasket(Context ctx) {

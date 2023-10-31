@@ -41,4 +41,14 @@ public class CupCakeController {
         }
     }
 
+    public static void logout(Context ctx, ConnectionPool connectionPool){
+        try{
+            ctx.sessionAttribute("active_user", null);
+            ctx.sessionAttribute("basket_orderlines", new ArrayList<Orderline>());
+            loadIndexSite(ctx,connectionPool);
+        }catch(Exception e){
+
+        }
+    }
+
 }

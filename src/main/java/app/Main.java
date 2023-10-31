@@ -45,6 +45,7 @@ public class Main {
         app.post("/register", ctx -> ctx.render("registration.html"));
         app.post("/register_user", ctx -> UserController.registerUser(ctx,connectionPool));
         app.post("/loginRender", ctx -> ctx.render("login.html"));
+        app.get("/logout", ctx -> CupCakeController.logout(ctx,connectionPool));
 
         // Basket related:
         app.post("/add_to_basket", ctx -> BasketController.addToBasket(ctx, connectionPool));
