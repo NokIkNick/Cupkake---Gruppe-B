@@ -1,0 +1,32 @@
+@startuml
+'https://plantuml.com/activity-diagram-beta
+|Admin|
+start
+:Enter Site;
+partition #lightBlue Login {
+:login website;
+:login;
+repeat
+:enter credentials;
+|Website|
+repeat while (check if credentials are valid?) is (no)
+->yes;
+}
+|Admin|
+:Enter Admin Site;
+partition #Orange update user info {
+repeat
+:Chose a User;
+fork
+:se dens ordre;
+fork again
+:slette dens ordre;
+fork again
+:indsætte penge til bruger;
+end fork
+repeat while (want to eddit an other user?) is (no)
+-> no;
+}
+stop
+
+@enduml

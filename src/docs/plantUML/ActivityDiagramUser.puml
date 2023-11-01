@@ -8,27 +8,24 @@ fork
 fork again
 partition #lightBlue Login {
 :login website;
-if(already user?) then
-:login;
+:already user?;
+fork;
+-> yes;
+|Kunde|
+-> no;
+fork again
+:create user;
 repeat
 :enter credentials;
 |website|
 repeat while (check if credentials are valid?) is (no)
 |Kunde|
-else
-:not user?;
-repeat
-:create user;
-|website|
-repeat while (check if credentials are valid?) is (no)
--> yes;
-|Kunde|
+end fork;
 :login;
 repeat
-:enter new credentials;
+:enter credentials;
 |website|
 repeat while (check if credentials are valid?) is (no)
-endif;
 }
 |Kunde|
 fork again
@@ -68,7 +65,7 @@ repeat while (check if credentials are valid?) is (no)
 end fork;
 :login;
 repeat
-:enter new credentials;
+:enter credentials;
 |website|
 repeat while (check if credentials are valid?) is (no)
 }
