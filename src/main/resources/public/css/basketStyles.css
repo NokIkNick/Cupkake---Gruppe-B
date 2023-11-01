@@ -82,11 +82,6 @@ Body {
 }
 
 /* Content Styling */
-#Content {
-    height: 120vh;
-    margin: 8px;
-    color: #000;
-}
 
 #Content p {
     white-space: pre-line;
@@ -126,9 +121,10 @@ a {
     background: white;
 }
 
-#orderLineDiv form {
+#orderLineDiv > form {
     display: flex;
     justify-content: center;
+    flex-direction: column;
 }
 
 #orderLineDiv {
@@ -175,6 +171,7 @@ a {
 }
 
 #sumText{
+    border-top: black 0.1em solid;
     text-align: right;
 }
 
@@ -195,4 +192,12 @@ h3{
     justify-content: center;
     flex-direction: column;
     text-align: center;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+.tableHeader {
+    border-bottom: black 0.1em solid;
 }

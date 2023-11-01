@@ -69,20 +69,22 @@
 
     <div th:unless="${session.admin_chosen_user==null}">
       <p>kundeOrdrer</p>
-      <form method="post" th:action="@{/select_order}">
-        <label>
-          <select id="orderSelect" name="selected_order" onchange="this.form.submit()">
-            <option th:each="order : ${session.orderlist}" th:value="${order.orderId}" th:text="${order.orderId}"
-                    th:attrappend="selected = ${(session.selected_order != null && order.orderId == session.selected_order) ? 'selected' : null}"
-            />
-          </select>
-        </label>
-        <button id="deleteOrderButton" type="submit" formaction="/deleteAnUserByUsingUserIdAndOrderId">delete order
-        </button>
-      </form>
+      <div>
+        <form method="post" th:action="@{/select_order}">
+          <label>
+            <select id="orderSelect" name="selected_order" onchange="this.form.submit()">
+              <option th:each="order : ${session.orderlist}" th:value="${order.orderId}" th:text="${order.orderId}"
+                      th:attrappend="selected = ${(session.selected_order != null && order.orderId == session.selected_order) ? 'selected' : null}"
+              />
+            </select>
+          </label>
+          <button id="deleteOrderButton" type="submit" formaction="/deleteAnUserByUsingUserIdAndOrderId">delete order
+          </button>
+        </form>
+      </div>
       <div ID="Order" th:if="${session.selected_order_full != null}">
         <table>
-          <tr>
+          <tr class="tableHeader">
             <th>Top</th>
             <th>Bottom</th>
             <th>Quantity</th>
@@ -107,11 +109,13 @@
         </div>
       </div>
       <hr/>
-      <form method="post" name="updateUserBalanceThing" th:action="@{/updateUseBalance}">
-        <input type="hidden" name="userEmail" th:value="${session.admin_chosen_user.email}">
-        <label for="money">indsæt penge</label><input type="number" id="money" name="updateBalance">
-        <input type="submit" value="money">
-      </form>
+      <div>
+        <form method="post" name="updateUserBalanceThing" th:action="@{/updateUseBalance}">
+          <input type="hidden" name="userEmail" th:value="${session.admin_chosen_user.email}">
+          <label for="money">indsæt penge </label><input type="number" id="money" name="updateBalance">
+          <input type="submit" value="money">
+        </form>
+      </div>
     </div>
   </div>
 </div>

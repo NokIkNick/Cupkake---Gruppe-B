@@ -54,7 +54,7 @@
     <form method="post" action="/delete_orderline">
       <h3>YOUR BASKET:</h3>
       <table>
-        <tr>
+        <tr class="tableHeader">
           <th>Top Name</th>
           <th>Bottom Name</th>
           <th>Quantity</th>
@@ -77,7 +77,7 @@
       </table>
       <p th:if="${session.total_price > 0}" id="sumText" th:text="'Total Price: ' + ${session.total_price}"></p>
     </form>
-    <p th:text="${#ctx.message}"></p>
+    <p th:if="${message != null}" th:text="${message}"></p>
     <form id="submitOrderBtnForm" method="post" action="/add_order">
       <input type="text" name="note" placeholder="Custom note for bakers">
       <button type="submit">Submit Order</button>
