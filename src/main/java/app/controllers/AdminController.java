@@ -113,7 +113,7 @@ public class AdminController {
     }
 
     public static void checkUsers(Context ctx, ConnectionPool connectionPool) throws DatabaseException{
-        if(ctx.sessionAttribute("selected_order")==null){
+        if(ctx.sessionAttribute("selected_user")==null){
             getUsers(ctx, connectionPool);
         }
     }

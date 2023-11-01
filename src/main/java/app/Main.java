@@ -73,7 +73,10 @@ public class Main {
         app.get("/adminInfoForUsers",ctx->AdminController.allUsers(ctx,connectionPool));
         app.post("/adminInfoForUsers",ctx->AdminController.allUsers(ctx,connectionPool));
         app.post("/updateUseBalance",ctx->AdminController.updateUserBalanceUsingEmail(ctx,connectionPool));
-        app.post("/select_order",ctx->AdminController.select_order(ctx,connectionPool));
+        app.post("/select_order",ctx-> {
+            AdminController.select_order(ctx,connectionPool);
+            ctx.redirect("/adminInfoForUsers");
+        });
         app.post("/deleteAnUserByUsingUserIdAndOrderId",ctx->AdminController.deleteAnUserByUsingUserIdAndOrderId(ctx,connectionPool));
         // Routing
         app.get("/test", ctx -> ctx.render("test.html"));
