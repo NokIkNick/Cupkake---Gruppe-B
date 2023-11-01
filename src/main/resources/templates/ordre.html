@@ -71,6 +71,7 @@
             <hr/>
             <div class="orderline">
                 <div class="orderlinestat Status">Status: <span th:text="${order.getStatus()}"></span></div>
+                <div class="orderlinestat Date">Date: <span th:text="${order.getDate()}"></span></div>
                 <div class="orderlinestat TotalPrice">Total Price: <span th:text="${order.getTotalPrice()}"></span></div>
             </div>
             <div class="orderlinestat Note">Customer Note: <span th:text="${order.getNote()}"></span></div>
