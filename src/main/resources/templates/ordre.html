@@ -53,17 +53,27 @@
     <div id="Content">
         <div class="order" th:each="order : ${orders}">
             <div class="orderlinestat id: ">Order id: <span th:text="${order.getOrderId()}"></span></div>
-            <div class="orderline" th:each="line : ${order.getOrderlines()}">
-                <hr>
-                <div class="orderlinestat Top">Top: <span th:text="${line.getTopName()}"></span></div>
-                <div class="orderlinestat Bottom">Bottom: <span th:text="${line.getBottomName()}"></span></div>
-                <div class="orderlinestat Quantity">Quantity: <span th:text="${line.getQuantity()}"></span></div>
-                <div class="orderlinestat Price">Individual Price: <span th:text="${line.getTotalPrice()}"></span></div>
+            <hr/>
+            <table>
+                <tr>
+                    <th>Top</th>
+                    <th>Bottom</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                </tr>
+                <tr th:each="line : ${order.getOrderlines()}">
+                    <td class="orderlinestat Top" th:text="${line.getTopName()}">Top</td>
+                    <td class="orderlinestat Bottom" th:text="${line.getBottomName()}">Bottom</td>
+                    <td class="orderlinestat Quantity" th:text="${line.getQuantity()}">Quantity</td>
+                    <td class="orderlinestat Price" th:text="${line.getTotalPrice()}">Price</td>
+                </tr>
+            </table>
+            <hr/>
+            <div class="orderline">
+                <div class="orderlinestat Status">Status: <span th:text="${order.getStatus()}"></span></div>
                 <div class="orderlinestat TotalPrice">Total Price: <span th:text="${order.getTotalPrice()}"></span></div>
-                <div class="orderlinestat status">Status: <span th:text="${order.getStatus()}"></span></div>
-                <div class="orderlinestat note">Customer Note: <span th:text="${order.getNote()}"></span></div>
-                <hr>
             </div>
+            <div class="orderlinestat Note">Customer Note: <span th:text="${order.getNote()}"></span></div>
         </div>
     </div>
     <div id="Notification">

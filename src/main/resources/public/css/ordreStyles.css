@@ -4,11 +4,10 @@
     flex-direction:column;
     text-align: center;
     border: white 5px solid;
-    margin-top: 8vh;
     padding: 2rem;
-    margin-right:14vw;
-    margin-left:14vw;
-    margin-bottom: 2vh;
+    margin: 2vh auto; /* top/bot left/right */
+    max-width: 32em;
+    min-width: 40vw;
     background-color: #DFCCFB;
     border-radius: 2rem ;
     font-size: 1.4rem;
@@ -31,8 +30,14 @@
 
 hr {
     border: 0.1rem solid black;
+    width: 100%;
 }
 
 .orderlinestat {
-    display:flex;
+    margin: 4px;
+}
+
+.orderline {
+    display: flex;
+    justify-content: space-between;
 }
