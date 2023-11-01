@@ -4,17 +4,12 @@ import app.config.ThymeleafConfig;
 import app.controllers.AdminController;
 import app.controllers.BasketController;
 import app.controllers.CupCakeController;
+import app.controllers.OrderViewController;
 import app.controllers.UserController;
-import app.entities.Order;
-import app.entities.User;
 import app.persistence.ConnectionPool;
-import app.persistence.PasswordValidator;
 import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinThymeleaf;
-import org.thymeleaf.context.Context;
 
-import java.util.List;
-import java.util.Map;
 
 public class Main {
 
@@ -37,37 +32,35 @@ public class Main {
 
         try{
             connectionPool = ConnectionPool.getInstance(USER, PASSWORD, URL, DB);
-
         } catch (Exception e){
 
-            // render start:
-
-            //app.get("/admin", ctx -> ctx.render("/admin.html"));
-            //app.get("*", ctx -> CupCakeController.loadIndexSite(ctx,connectionPool));
-
-
-            // login related:
-
-
-
-
-            //app.get("/admin", ctx -> ctx.render("admin.html"));
-
-
-
-
-
         }
-        app.get("/login", ctx -> ctx.render("login.html"));
+        // Routing
+
+        // render start:
+        app.get("/", ctx -> CupCakeController.loadInitialIndexSite(ctx,connectionPool));
+        //app.post("*", ctx -> ctx.render("index.html"));
+
+        // login related:
+        app.post("/login_from_index", ctx -> ctx.render("login.html"));
         app.post("/login", ctx -> UserController.login(ctx,connectionPool));
-        app.get("/create_user", ctx -> ctx.render("create_user.html"));
+        app.get("/login", ctx -> ctx.render("login.html"));
+        app.post("/register", ctx -> ctx.render("registration.html"));
         app.post("/register_user", ctx -> UserController.registerUser(ctx,connectionPool));
+        app.post("/loginRender", ctx -> ctx.render("login.html"));
+        app.get("/logout", ctx -> CupCakeController.logout(ctx,connectionPool));
 
         // Basket related:
         app.post("/add_to_basket", ctx -> BasketController.addToBasket(ctx, connectionPool));
-        app.post("/kurv", ctx -> BasketController.loadBasket(ctx,connectionPool));
+        app.get("/basket", ctx -> BasketController.loadBasket(ctx));
+        app.post("/basket", ctx -> BasketController.loadBasket(ctx));
+        app.post("/delete_orderline", ctx -> BasketController.deleteOrderLine(ctx));
         app.post("/add_order", ctx -> BasketController.addOrder(ctx , connectionPool));
 
+        // View Orders
+        app.get("/orders", ctx -> OrderViewController.viewMyOrders(ctx, connectionPool));
+
+        //app.get("/", ctx ->  ctx.render("index.html"));
 
         //admin related:
         app.get("/adminInfoForUsers",ctx->AdminController.allUsers(ctx,connectionPool));
@@ -81,7 +74,5 @@ public class Main {
         // Routing
         app.get("/test", ctx -> ctx.render("test.html"));
         app.get("/", ctx -> ctx.render("index.html"));
-        // System.out.println(PasswordValidator.isValidPassword("Hest!2rt")); // password validator test
-
     }
 }

@@ -1,5 +1,6 @@
 package app.persistence;
 
+import app.entities.Order;
 import app.entities.User;
 import app.exceptions.DatabaseException;
 
@@ -9,28 +10,31 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserMapper {
 
     /*Login method, takes login credentials from the UserController and tries to connect to the database to return the existing user*/
     public static User login(String email, String password, ConnectionPool connectionPool) throws DatabaseException {
-        String sql = "select * from users where name=? and password=?";
-        try(Connection connection = connectionPool.getConnection()){
-            try(PreparedStatement ps = connection.prepareStatement(sql)) {
+        String sql = "select * from users where email=? and password=?";
+        try (Connection connection = connectionPool.getConnection()) {
+            try (PreparedStatement ps = connection.prepareStatement(sql)) {
                 ps.setString(1, email);
                 ps.setString(2, password);
                 ResultSet rs = ps.executeQuery();
-                if(rs.next()){
-                    int id = rs.getInt("id");
+                if (rs.next()) {
+                    int id = rs.getInt("user_id");
                     int balance = rs.getInt("balanace");
                     boolean isAdmin = rs.getBoolean("is_admin");
-                    return new User(id,email,password,balance,isAdmin);
-                }else {
-                    throw new DatabaseException("Error while logging in, try again.");
+                    return new User(id, email, password, balance, isAdmin);
+                } else {
+                    throw new DatabaseException("Your info did not match anything from our db");
                 }
             }
-        }catch(SQLException e){
-            throw new DatabaseException("Error while connecting to database "+e);
+        } catch (SQLException e) {
+                throw new DatabaseException("Error while connecting to database " + e);
         }
     }
 
@@ -106,7 +110,47 @@ public class UserMapper {
             throw new DatabaseException("Error while connecting to database " + e);
         }
     }
+    public static int getBalance(String email, ConnectionPool connectionPool) throws DatabaseException{
+        String sql = "select balanace from users where email=?";
+        try(Connection connection = connectionPool.getConnection()){
+            try(PreparedStatement ps = connection.prepareStatement(sql)) {
+                ps.setString(1, email);
+                ResultSet rs = ps.executeQuery();
+                if(rs.next()){
+                    return rs.getInt("balanace");
+                }else {
+                    throw new DatabaseException("Error while getting you balance, get an admin for help.");
+                }
+            }
+        }catch(SQLException e){
+            throw new DatabaseException("Error while connecting to database "+e);
+        }
+    }
 
+    public static List<Order> getOrders(User activeUser, ConnectionPool connectionPool) throws DatabaseException{
+        List<Order> orderList = new ArrayList<>();
+        String sql = "select * from orders where user_id = ?";
+        try(Connection connection = connectionPool.getConnection()){
+            try(PreparedStatement ps = connection.prepareStatement(sql)){
+                ps.setInt(1,activeUser.getUserID());
+
+                ResultSet rs = ps.executeQuery();
+
+                while(rs.next()){
+                    int orderId = rs.getInt("order_id");
+                    int workerId = rs.getInt("worker_id");
+                    String status = rs.getString("status");
+                    Date date = rs.getDate("date");
+                    String note = rs.getString("note");
+                    int total_price = rs.getInt("total_price");
+                    orderList.add(new Order (orderId, activeUser.getUserID(), workerId, status, date, note, total_price));
+                }
+            }
+        }catch (SQLException e){
+            throw new DatabaseException("Error while fetching orders");
+        }
+        return orderList;
+    }
 
     public static User getUserByEmail(String email, ConnectionPool connectionPool) throws DatabaseException {
         String sql = "select * from users where email = ?";

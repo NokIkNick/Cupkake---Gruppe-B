@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="../public/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet"/>
-    <link href="../public/css/loginStyles.css" th:href="@{/css/loginStyles.css}" rel="stylesheet"/>
+    <link href="../public/css/ordreStyles.css" th:href="@{/css/ordreStyles.css}" rel="stylesheet"/>
 </head>
 
 <body>
@@ -51,37 +51,33 @@
         </div>
     </div>
     <div id="Content">
-        <div id="orderlineBox">
-            <h1>Custom Cupcake Maker</h1>
-        <form id="cupcakeform" method="post" th:action="@{'/add_to_basket'}">
-            <!-- Dropdown tops -->
-            <label for="dropdown_top">Choose a Top:</label>
-            <select id="dropdown_top" name="selectedTop">
-                <th:block th:each="top : ${top_info}">
-                    <option th:value="${top.topId}">
-                        <span th:text="${top.getTag()}"></span>
-                    </option>
-                </th:block>
-            </select>
-            <!-- Dropdown bottoms -->
-            <br>
-            <label for="dropdown_bottom">Choose a Bottom:</label>
-            <select id="dropdown_bottom" name="selectedBottom">
-                <th:block th:each="bottom : ${bottom_info}">
-                    <option th:value="${bottom.bottomId}">
-                        <span th:text="${bottom.getTag()}"></span>
-                    </option>
-                </th:block>
-            </select>
-            <!-- Quantity Input -->
-            <label for="numberInput">Enter a Quantity:</label>
-            <input type="number" id="numberInput" name="quantity" />
-
-            <!-- Submit Button -->
-            <button type="submit">Submit</button>
-        </form>
-        <p id="errorMessage" th:text="${#ctx.message}"></p>
+        <div class="order" th:each="order : ${orders}">
+            <div class="orderlinestat id: ">Order id: <span th:text="${order.getOrderId()}"></span></div>
+            <hr/>
+            <table>
+                <tr>
+                    <th>Top</th>
+                    <th>Bottom</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                </tr>
+                <tr th:each="line : ${order.getOrderlines()}">
+                    <td class="orderlinestat Top" th:text="${line.getTopName()}">Top</td>
+                    <td class="orderlinestat Bottom" th:text="${line.getBottomName()}">Bottom</td>
+                    <td class="orderlinestat Quantity" th:text="${line.getQuantity()}">Quantity</td>
+                    <td class="orderlinestat Price" th:text="${line.getTotalPrice()}">Price</td>
+                </tr>
+            </table>
+            <hr/>
+            <div class="orderline">
+                <div class="orderlinestat Status">Status: <span th:text="${order.getStatus()}"></span></div>
+                <div class="orderlinestat TotalPrice">Total Price: <span th:text="${order.getTotalPrice()}"></span></div>
+            </div>
+            <div class="orderlinestat Note">Customer Note: <span th:text="${order.getNote()}"></span></div>
         </div>
+    </div>
+    <div id="Notification">
+        <p th:text="${message}"></p>
     </div>
 </body>
 </html>
