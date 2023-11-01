@@ -56,6 +56,7 @@
 </div>
 
 <div id="Content">
+  <p th:if="${message != null}" th:text="${message}"></p>
   <div id="orderLineDiv">
     <form method="post" th:action="@{/adminInfoForUsers}">
       <label>Kunde:
@@ -73,6 +74,7 @@
         <form method="post" th:action="@{/select_order}">
           <label>
             <select id="orderSelect" name="selected_order" onchange="this.form.submit()">
+              <option value="">order_id</option>
               <option th:each="order : ${session.orderlist}" th:value="${order.orderId}" th:text="${order.orderId}"
                       th:attrappend="selected = ${(session.selected_order != null && order.orderId == session.selected_order) ? 'selected' : null}"
               />
