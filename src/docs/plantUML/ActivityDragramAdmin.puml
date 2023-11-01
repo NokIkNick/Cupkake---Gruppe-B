@@ -18,13 +18,13 @@ partition #Orange update user info {
 repeat
 :Chose a User;
 fork
-:se dens ordre;
+:view user order;
 fork again
-:slette dens ordre;
+:delete user order;
 fork again
-:indsætte penge til bruger;
+:add money to user balance;
 end fork
-repeat while (want to eddit an other user?) is (no)
+repeat while (want to edit another user?) is (no)
 -> no;
 }
 stop
