@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="../public/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet"/>
-    <link href="../public/css/loginStyles.css" th:href="@{/css/loginStyles.css}" rel="stylesheet"/>
+    <link href="../public/css/registrationStyles.css" th:href="@{/css/registrationStyles.css}" rel="stylesheet"/>
 </head>
 
 <body>
@@ -42,8 +42,6 @@
                     <div class="fullyRound" ID="ItemsInBasket" th:if="${session.basket_orderlines!=null}" th:text="${session.basket_orderlines.size()}"></div>
                 </a>
             </div>
-
-
         </div>
     </div>
   </div>
@@ -57,12 +55,12 @@
             <input type="password" id="password" name="password"><br>
             <label for="rpt_password">Repeat Password:</label><br>
             <input type="password" id="rpt_password" name="rpt_password"><br>
-            <input type="submit" value="Create Account"><br><br>
+            <input id="createAccountBtn" type="submit" value="Create Account"><br><br>
         </form>
         <p th:text="${#ctx.message}"></p>
-        <form method="get">
+        <form method="post">
             <label>Are you a customer already? Login here and start ordering today:</label>
-            <input type="button" formaction="/login" value="Login">
+            <input id="loginBtn" type="submit" formaction="/loginRender" value="Login">
         </form>
     </div>
   </div>

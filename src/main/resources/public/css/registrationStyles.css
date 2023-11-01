@@ -37,22 +37,13 @@
     font-size: 2.4rem;
 }
 
-#registerBtn{
+#loginBtn{
     width: 4vw;
     height: 3vh;
 }
 
-#loginBtn{
-    width: 7vw;
+#createAccountBtn{
+    width: 14vw;
     height: 5vh;
-    font-size: 2rem;
-}
-
-#orderMessage{
-    padding-top: 4rem;
-    color:lightgreen;
-    -webkit-text-stroke: 0.04rem grey;
-    font-size: 4.0rem;
-    text-align: center;
-
+    font-size: 1.8rem;
 }

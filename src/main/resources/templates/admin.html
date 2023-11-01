@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="da">
+
+<head>
+  <title>Frontpage</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="../public/css/loginStyles.css" th:href="@{/css/loginStyles.css}" rel="stylesheet"/>
+  <link href="../public/css/loginStyles.css" th:href="@{/css/styles.css}" rel="stylesheet"/>
+  <link href="../public/css/loginStyles.css" th:href="@{/css/ordreStyles.css}" rel="stylesheet"/>
+  <link href="../public/css/loginStyles.css" th:href="@{/css/basketStyles.css}" rel="stylesheet"/>
+</head>
+
+<body>
+<div ID="Header" class="HeaderSpace">
+  <div ID="HeaderLine1">
+    <a href="/" ID="LogoDiv">
+      <img ID="Logo" src="../public/images/OlskerLogo.png" th:src="@{/images/OlskerLogo.png}" alt="Olsker Cupcakes"/>
+    </a>
+    <div class="center">
+      <img ID="HeaderImage" src="../public/images/cupcakes.png" th:src="@{/images/cupcakes.png}" alt="Olsker Cupcakes"/>
+    </div>
+  </div>
+  <div ID="HeaderLine2">
+    <div ID="Nav">
+      <a href="/orders">
+        <div class="NavButton">
+          Ordre
+        </div>
+      </a>
+      <a href="/adminInfoForUsers" th:if="${session.active_user!=null && session.active_user.isAdmin()}">
+        <div class="NavButton">
+          Alle Ordre
+        </div>
+      </a>
+    </div>
+    <div ID="UserSpecifics">
+      <a href="/logout" th:unless="${session.active_user==null}">
+        <div class="NavButton" th:text="${session.active_user.email}"></div>
+      </a>
+      <a href="/login" th:if="${session.active_user==null}">
+        <div class="NavButton">
+          Login
+        </div>
+      </a>
+      <div id="KurvIkon">
+        <a href="/basket">
+          <img class="fullyRound whiteBackground" src="../public/images/kurv-ikon-360x360.png"
+               th:src="@{/images/kurv-ikon-360x360.png}" alt="kurv"/>
+          <div class="fullyRound" ID="ItemsInBasket" th:if="${session.basket_orderlines!=null}"
+               th:text="${session.basket_orderlines.size()}"></div>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="Content">
+  <div id="orderLineDiv">
+    <form method="post" th:action="@{/adminInfoForUsers}">
+      <label>Kunde:
+        <select name="selected_user" id="selected_user" onchange="this.form.submit()">
+          <option value="">Select User</option>
+          <option th:each="user : ${session.userlist}" th:value="${user.email}" th:text="${user.email}"
+                  th:attrappend="selected = ${(session.admin_chosen_user != null && user.email == session.admin_chosen_user.getEmail()) ? 'selected' : null}"/>
+        </select>
+      </label>
+    </form>
+
+    <div th:unless="${session.admin_chosen_user==null}">
+      <p>kundeOrdrer</p>
+      <div>
+        <form method="post" th:action="@{/select_order}">
+          <label>
+            <select id="orderSelect" name="selected_order" onchange="this.form.submit()">
+              <option th:each="order : ${session.orderlist}" th:value="${order.orderId}" th:text="${order.orderId}"
+                      th:attrappend="selected = ${(session.selected_order != null && order.orderId == session.selected_order) ? 'selected' : null}"
+              />
+            </select>
+          </label>
+          <button id="deleteOrderButton" type="submit" formaction="/deleteAnUserByUsingUserIdAndOrderId">delete order
+          </button>
+        </form>
+      </div>
+      <div ID="Order" th:if="${session.selected_order_full != null}">
+        <table>
+          <tr class="tableHeader">
+            <th>Top</th>
+            <th>Bottom</th>
+            <th>Quantity</th>
+            <th>Price</th>
+          </tr>
+          <tr th:each="line : ${session.selected_order_full.getOrderlines()}">
+            <td class="orderlinestat Top" th:text="${line.getTopName()}">Top</td>
+            <td class="orderlinestat Bottom" th:text="${line.getBottomName()}">Bottom</td>
+            <td class="orderlinestat Quantity" th:text="${line.getQuantity()}">Quantity</td>
+            <td class="orderlinestat Price" th:text="${line.getTotalPrice()}">Price</td>
+          </tr>
+        </table>
+        <hr/>
+        <div class="orderline">
+          <div class="orderlinestat Status">Status: <span th:text="${session.selected_order_full.getStatus()}"></span>
+          </div>
+          <div class="orderlinestat Date">Date: <span th:text="${session.selected_order_full.getDate()}"></span></div>
+          <div class="orderlinestat TotalPrice">Total Price: <span
+              th:text="${session.selected_order_full.getTotalPrice()}"></span></div>
+        </div>
+        <div class="orderlinestat Note">Customer Note: <span th:text="${session.selected_order_full.getNote()}"></span>
+        </div>
+      </div>
+      <hr/>
+      <div>
+        <form method="post" name="updateUserBalanceThing" th:action="@{/updateUseBalance}">
+          <input type="hidden" name="userEmail" th:value="${session.admin_chosen_user.email}">
+          <label for="money">indsæt penge </label><input type="number" id="money" name="updateBalance">
+          <input type="submit" value="money">
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+
+</html>

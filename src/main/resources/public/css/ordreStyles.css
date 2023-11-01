@@ -1,0 +1,43 @@
+.order{
+    display: flex;
+    justify-content: center;
+    flex-direction:column;
+    text-align: center;
+    border: white 5px solid;
+    padding: 2rem;
+    margin: 2vh auto; /* top/bot left/right */
+    max-width: 32em;
+    min-width: 40vw;
+    background-color: #DFCCFB;
+    border-radius: 2rem ;
+    font-size: 1.4rem;
+    border-collapse: collapse;
+}
+
+
+.order tr {
+    border: solid;
+    border-width: 0.1rem 0;
+}
+
+
+.order tr:first-child {
+    border-top: none;
+}
+.order tr:last-child {
+    border-bottom: none;
+}
+
+hr {
+    border: 0.1rem solid black;
+    width: 100%;
+}
+
+.orderlinestat {
+    margin: 4px;
+}
+
+.orderline {
+    display: flex;
+    justify-content: space-between;
+}

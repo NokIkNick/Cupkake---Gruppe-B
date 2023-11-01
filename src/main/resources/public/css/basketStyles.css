@@ -82,11 +82,6 @@ Body {
 }
 
 /* Content Styling */
-#Content {
-    height: 120vh;
-    margin: 8px;
-    color: #000;
-}
 
 #Content p {
     white-space: pre-line;
@@ -124,4 +119,85 @@ a {
 
 .whiteBackground {
     background: white;
+}
+
+#orderLineDiv > form {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+#orderLineDiv {
+    text-align: center;
+    border: white 5px solid;
+    padding: 2rem;
+    margin: 2vh auto; /* top/bot left/right */
+    max-width: 32em;
+    min-width: 40vw;
+    background-color: #DFCCFB;
+    border-radius: 2rem ;
+    font-size: 1.4rem;
+    border-collapse: collapse;
+}
+
+#orderLineForm table {
+    border-collapse: collapse;
+}
+
+#orderLineForm table tr {
+    border: solid;
+    border-width: 0.1rem 0;
+}
+
+
+#orderLineForm tr:first-child {
+    border-top: none;
+}
+#orderLineForm tr:last-child {
+    border-bottom: none;
+}
+
+#submitOrderBtnForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+#submitOrderBtnForm button[type=submit]{
+    width: 10vw;
+    height: 8vh;
+    font-size: 1.4rem;
+}
+
+#sumText{
+    border-top: black 0.1em solid;
+    text-align: right;
+}
+
+h3{
+    text-align: center;
+}
+
+#submitOrderBtnForm input[type=text]{
+    width: 15vw;
+    height: 10vh;
+    margin-bottom: 1.5rem;
+    text-align: start;
+
+}
+
+#Order {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+.tableHeader {
+    border-bottom: black 0.1em solid;
 }

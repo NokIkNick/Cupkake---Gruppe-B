@@ -28,6 +28,9 @@ public class BasketController {
             try {
                 quantity = Integer.parseInt(ctx.formParam("quantity"));
             } catch (NumberFormatException ignored){}
+            if(quantity < 0){
+                throw new NumberFormatException("Quantity needs to be a positive number");
+            }
             int totalPrice = (bottom.getPrice() + top.getPrice()) * quantity;
             Orderline orderline = new Orderline(top, bottom, totalPrice, quantity);
             basketOrderLines.add(orderline);
@@ -37,15 +40,20 @@ public class BasketController {
             e.printStackTrace();
         } catch (AssertionError e){
             e.printStackTrace();
+        }catch (NumberFormatException e){
+            ctx.attribute("message",e.getMessage());
+            CupCakeController.loadIndexSite(ctx,connectionPool);
         }
     }
     public static void loadBasket(Context ctx) {
         List<Orderline> orderlines = ctx.sessionAttribute("basket_orderlines");  // test
         if(orderlines == null) {
             orderlines = new ArrayList<Orderline>();
+            ctx.sessionAttribute("total_price", 0);
             ctx.sessionAttribute("basket_orderlines", orderlines);
         }
         orderlines.stream().forEach(System.out::println);  // test
+        ctx.sessionAttribute("total_price", updateSum(orderlines));
         ctx.render("basket.html"); // TODO
     }
     public static void deleteOrderLine(Context ctx){
@@ -63,9 +71,12 @@ public class BasketController {
 
     public static void addOrder(Context ctx, ConnectionPool connectionPool) {
         List<Orderline> orderlines = ctx.sessionAttribute("basket_orderlines");
-        String note = "Pending";  //ctx.formParam("note");
+        String note = ctx.formParam("note");
+        if(note.isEmpty() || note == null){
+            note = "No comment";
+        }
         User user;
-        if(ctx.sessionAttribute("basket_orderlines") == null){
+        if(ctx.sessionAttribute("basket_orderlines") == null || orderlines.isEmpty()){
             ctx.attribute("message", "you dont have any order lines yet.");
             loadBasket(ctx); // TODO
             return;
@@ -89,9 +100,12 @@ public class BasketController {
                     return;
                 }else {
                     OrderMapper.addOrder(orderlines, connectionPool, note, user,totalprice);
-                    UserMapper.updateBalance(user.getEmail(),newBalanceUser,connectionPool);
+                    UserController.updateBalance(ctx, user.getEmail(),newBalanceUser,connectionPool);
+                    List<Orderline> emptyOrderlines = new ArrayList<>();
+                    ctx.sessionAttribute("last_orderlines",orderlines);
+                    ctx.sessionAttribute("basket_orderlines",emptyOrderlines);
                     ctx.attribute("message", "Your order has been successfully placed and you have been charged: "+totalprice+" you new balance is: "+newBalanceUser);
-                    ctx.render("order_successfully_placed.html"); // TODO
+                    ctx.render("order_successfully_placed.html"); // TODO ctx.redirect("/");
                 }
             }catch (DatabaseException | AssertionError e){
                 ctx.attribute("message", e.getMessage());
@@ -99,6 +113,16 @@ public class BasketController {
             }
         }
     }
+
+    public static double updateSum(List<Orderline> orderlines){
+        int sum = 0;
+        for (Orderline o : orderlines) {
+            sum += o.getTotalPrice();
+        }
+        return sum;
+    }
+
+
     public static void test(Context ctx,ConnectionPool connectionPool){
         String selectedTopName = ctx.formParam("selectedTop"); // Get the selected top's name
         String selectedTopId = ctx.formParam("selectedTopId"); // Get the selected top's id

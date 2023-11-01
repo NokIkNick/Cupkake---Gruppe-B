@@ -10,75 +10,79 @@
 </head>
 
 <body>
-
-<div ID="Header" class="HeaderSpace">
-  <div ID="HeaderLine1">
-    <a href="/" ID="LogoDiv">
-      <img ID="Logo" src="../public/images/OlskerLogo.png" th:src="@{/images/OlskerLogo.png}" alt="Olsker Cupcakes"/>
-    </a>
-    <div class="center">
-      <img ID="HeaderImage" src="../public/images/cupcakes.png" th:src="@{/images/cupcakes.png}" alt="Olsker Cupcakes"/>
-    </div>
-  </div>
-  <div ID="HeaderLine2">
-    <div ID="Nav">
-      <a href="/orders">
-        <div class="NavButton">
-          Ordre
-        </div>
+  <div ID="Header" class="HeaderSpace">
+    <div ID="HeaderLine1">
+      <a href="/" ID="LogoDiv">
+        <img ID="Logo" src="../public/images/OlskerLogo.png" th:src="@{/images/OlskerLogo.png}" alt="Olsker Cupcakes"/>
       </a>
-      <!--<a href="/kunder" th:if="${ctx.session.activeUser.isAdmin}">Kunder</a>-->
+      <div class="center">
+        <img ID="HeaderImage" src="../public/images/cupcakes.png" th:src="@{/images/cupcakes.png}" alt="Olsker Cupcakes"/>
+      </div>
     </div>
-    <div ID="UserSpecifics">
-      <a href="/logout" th:unless="${session.active_user}==null" th:text="${session.active_user.email}"></a>
-      <a href="/login" th:if="${session.active_user}==null">
-        <div class="NavButton">
-          Login
-        </div>
-      </a>
-      <div id="KurvIkon">
-        <a href="/basket">
-          <img class="fullyRound whiteBackground" src="../public/images/kurv-ikon-360x360.png" th:src="@{/images/kurv-ikon-360x360.png}" alt="kurv"/>
-          <div class="fullyRound" ID="ItemsInBasket" th:if="${session.basket_orderlines!=null}" th:text="${session.basket_orderlines.size()}"></div>
+    <div ID="HeaderLine2">
+      <div ID="Nav">
+        <a href="/orders">
+          <div class="NavButton">
+            Ordre
+          </div>
+        </a>
+        <a href="/adminInfoForUsers" th:if="${session.active_user!=null && session.active_user.isAdmin()}">
+          <div class="NavButton">
+            Alle Ordre
+          </div>
         </a>
       </div>
-
-
+      <div ID="UserSpecifics">
+        <a href="/logout" th:unless="${session.active_user==null}">
+          <div class="NavButton" th:text="${session.active_user.email}"></div>
+        </a>
+        <a href="/login" th:if="${session.active_user==null}">
+          <div class="NavButton">
+            Login
+          </div>
+        </a>
+        <div id="KurvIkon">
+          <a href="/basket">
+            <img class="fullyRound whiteBackground" src="../public/images/kurv-ikon-360x360.png" th:src="@{/images/kurv-ikon-360x360.png}" alt="kurv"/>
+            <div class="fullyRound" ID="ItemsInBasket" th:if="${session.basket_orderlines!=null}" th:text="${session.basket_orderlines.size()}"></div>
+          </a>
+        </div>
+      </div>
     </div>
   </div>
-</div>
-<div>
-
-  <form id="orderLineForm" method="post" action="/delete_orderline">
-    <table>
-      <tr>
-        <th>Top Name</th>
-        <th>Bottom Name</th>
-        <th>Quantity</th>
-        <th>Total Price</th>
-        <th>Action</th>
-      </tr>
-      <th:block th:unless="${session.basket_orderlines==null||session.basket_orderlines.isEmpty()}" th:each="orderline, iterStat : ${session.basket_orderlines}">
-        <tr>
-          <td th:text="${orderline.topName}"></td>
-          <td th:text="${orderline.bottomName}"></td>
-          <td th:text="${orderline.quantity}"></td>
-          <td th:text="${orderline.totalPrice}"></td>
-          <td>
-            <button type="submit" name="deleteOrderLine" th:value="${iterStat.index}" th:id="'deleteOrderLine_' + ${iterStat.index}">
-              Delete
-            </button>
-            <!-- th:value="${orderline}" -->
-          </td>
+  <div id="orderLineDiv">
+    <form method="post" action="/delete_orderline">
+      <h3>YOUR BASKET:</h3>
+      <table>
+        <tr class="tableHeader">
+          <th>Top Name</th>
+          <th>Bottom Name</th>
+          <th>Quantity</th>
+          <th>Price</th>
+          <th>Action</th>
         </tr>
-      </th:block>
-    </table>
-  </form>
-  <p th:text="${#ctx.message}"></p>
-  <form method="post" action="/add_order">
-    <button type="submit">Submit Order</button>
-  </form>
-</div>
+        <th:block th:unless="${session.basket_orderlines==null||session.basket_orderlines.isEmpty()}" th:each="orderline, iterStat : ${session.basket_orderlines}">
+          <tr>
+            <td th:text="${orderline.topName}"></td>
+            <td th:text="${orderline.bottomName}"></td>
+            <td th:text="${orderline.quantity}"></td>
+            <td th:text="${orderline.totalPrice}"></td>
+            <td>
+              <button type="submit" name="deleteOrderLine" th:value="${iterStat.index}" th:id="'deleteOrderLine_' + ${iterStat.index}">
+                Delete
+              </button>
+            </td>
+          </tr>
+        </th:block>
+      </table>
+      <p th:if="${session.total_price > 0}" id="sumText" th:text="'Total Price: ' + ${session.total_price}"></p>
+    </form>
+    <p th:if="${message != null}" th:text="${message}"></p>
+    <form id="submitOrderBtnForm" method="post" action="/add_order">
+      <input type="text" name="note" placeholder="Custom note for bakers">
+      <button type="submit">Submit Order</button>
+    </form>
+  </div>
 
 </body>
 
