@@ -1,0 +1,95 @@
+@startuml
+'https://plantuml.com/activity-diagram-beta
+|Kunde|
+start
+:enter website;
+fork
+:no login;
+fork again
+partition #lightBlue Login {
+:login website;
+:already user?;
+fork;
+-> yes;
+|Kunde|
+-> no;
+fork again
+:create user;
+repeat
+:enter credentials;
+|website|
+repeat while (check if credentials are valid?) is (no)
+|Kunde|
+end fork;
+:login;
+repeat
+:enter credentials;
+|website|
+repeat while (check if credentials are valid?) is (no)
+}
+|Kunde|
+fork again
+partition #lightGreen Order Overview {
+:order site;
+kill;
+}
+end merge
+partition #lightPink create cupcakes order {
+repeat
+:customize cupcakes;
+repeat while (done customizing cupckas?) is (no)
+->yes;
+|website|
+repeat
+|Kunde|
+:customize order;
+repeat while (done?) is (no)
+}
+-> yes;
+if(logged in?) then
+-> no;
+partition #lightBlue Login {
+:login website;
+:already user?;
+fork;
+-> yes;
+|Kunde|
+-> no;
+fork again
+:create user;
+repeat
+:enter credentials;
+|website|
+repeat while (check if credentials are valid?) is (no)
+|Kunde|
+end fork;
+:login;
+repeat
+:enter credentials;
+|website|
+repeat while (check if credentials are valid?) is (no)
+}
+else
+-> yes;
+endif
+|Kunde|
+:submit order;
+|website|
+:placing order;
+partition #Orange getting cupcakes {
+fork
+|Kunde|
+:receipt]
+:go to shop;
+fork again;
+|shop|
+:get order and create cupcakes;
+:cupcakes]
+:order ready for pick up;
+|Kunde|
+|shop|
+end fork;
+:get cupcakes and eat them;
+}
+stop
+@enduml
