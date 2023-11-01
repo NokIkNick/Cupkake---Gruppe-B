@@ -79,18 +79,20 @@ endif
 :submit order;
 |website|
 :placing order;
+partition #Orange getting cupcakes {
 fork
 |Kunde|
 :receipt]
 :go to shop;
 fork again;
 |shop|
-:create order;
+:get order and create cupcakes;
 :cupcakes]
 :order ready for pick up;
 |Kunde|
 |shop|
 end fork;
 :get cupcakes and eat them;
+}
 stop
 @enduml
