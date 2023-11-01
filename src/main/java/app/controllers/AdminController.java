@@ -11,6 +11,7 @@ import io.javalin.http.Context;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class AdminController {
     // TODO make sure the functions render the right pages and has the correct attribute / formParam names.
@@ -31,8 +32,8 @@ public class AdminController {
         checkUsers(ctx, connectionPool);
         String userEmail = ctx.sessionAttribute("userEmail");
         try {
-            if(ctx.formParam("selected_order") == null){
-                throw new AssertionError();
+            if(ctx.formParam("selected_order") == null || ctx.formParam("selected_order").isEmpty()){
+                throw new AssertionError("no selected order");
             }
             int orderid = Integer.parseInt(ctx.formParam("selected_order"));
             UserMapper.deleteUserSpecificOrder(orderid,connectionPool);
@@ -44,10 +45,12 @@ public class AdminController {
                     break;
                 }
             }
-            ctx.render("admin.html"); // TODO
+            ctx.sessionAttribute("selected_order_full", null);
+            ctx.sessionAttribute("selected_order", null);
+            ctx.redirect("/adminInfoForUsers");
         } catch (DatabaseException|AssertionError e){
             ctx.redirect("/adminInfoForUsers");
-            ctx.attribute("message",e.getMessage());
+            ctx.attribute("message",e.getMessage()); // TODO make this work
         }
 
     }
@@ -153,20 +156,27 @@ public class AdminController {
         try {
             checkUsers(ctx, connectionPool);
             if(ctx.formParam("selected_order")!=null) {
-                int selectedOrderId = Integer.parseInt(ctx.formParam("selected_order"));
-                System.out.println(selectedOrderId);
-                List<Order> orderList = ctx.sessionAttribute("orderlist");
-                orderList.forEach(o -> {
-                    if(o.getOrderId()==selectedOrderId){
-                        try {
-                            OrderMapper.addOrdersToOrderView(o, connectionPool);
-                        } catch (DatabaseException e) {
-                            ctx.attribute("message", "Couldn't get orderlines for order");
+                String SelectedOrder = ctx.formParam("selected_order");
+                if(SelectedOrder!=null && !SelectedOrder.isEmpty()) {
+                    int selectedOrderId = Integer.parseInt(SelectedOrder);
+                    List<Order> orderList = ctx.sessionAttribute("orderlist");
+                    orderList.forEach(o -> {
+                        if(o.getOrderId()==selectedOrderId){
+                            if(o.getOrderlines().isEmpty()) {
+                                try {
+                                    OrderMapper.addOrdersToOrderView(o, connectionPool);
+                                } catch (DatabaseException e) {
+                                    ctx.attribute("message", "Couldn't get orderlines for order");
+                                }
+                            }
+                            ctx.sessionAttribute("selected_order_full", o);
                         }
-                        ctx.sessionAttribute("selected_order_full", o);
-                    }
-                });
-                ctx.sessionAttribute("selected_order", selectedOrderId);
+                    });
+                    ctx.sessionAttribute("selected_order", selectedOrderId);
+                } else {
+                    ctx.sessionAttribute("selected_order_full", null);
+                    ctx.sessionAttribute("selected_order", null);
+                }
             }
         } catch(DatabaseException e){
             ctx.redirect("/");
