@@ -5,6 +5,7 @@ import app.entities.User;
 import app.exceptions.DatabaseException;
 import app.persistence.AdminMapper;
 import app.persistence.ConnectionPool;
+import app.persistence.OrderMapper;
 import app.persistence.UserMapper;
 import io.javalin.http.Context;
 
@@ -154,6 +155,17 @@ public class AdminController {
             if(ctx.formParam("selected_order")!=null) {
                 int selectedOrderId = Integer.parseInt(ctx.formParam("selected_order"));
                 System.out.println(selectedOrderId);
+                List<Order> orderList = ctx.sessionAttribute("orderlist");
+                orderList.forEach(o -> {
+                    if(o.getOrderId()==selectedOrderId){
+                        try {
+                            OrderMapper.addOrdersToOrderView(o, connectionPool);
+                        } catch (DatabaseException e) {
+                            ctx.attribute("message", "Couldn't get orderlines for order");
+                        }
+                        ctx.sessionAttribute("selected_order_full", o);
+                    }
+                });
                 ctx.sessionAttribute("selected_order", selectedOrderId);
             }
         } catch(DatabaseException e){

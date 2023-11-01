@@ -73,6 +73,5 @@ public class Main {
         app.post("/deleteAnUserByUsingUserIdAndOrderId",ctx->AdminController.deleteAnUserByUsingUserIdAndOrderId(ctx,connectionPool));
         // Routing
         app.get("/test", ctx -> ctx.render("test.html"));
-        app.get("/", ctx -> ctx.render("index.html"));
     }
 }

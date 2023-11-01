@@ -23,7 +23,6 @@ public class Order {
         this.date = date;
         this.note = note;
         this.totalPrice = totalPrice;
-        this.note = note;
     }
 
     public int getOrderId() {

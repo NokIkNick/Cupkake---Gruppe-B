@@ -7,6 +7,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="../public/css/loginStyles.css" th:href="@{/css/loginStyles.css}" rel="stylesheet"/>
         <link href="../public/css/loginStyles.css" th:href="@{/css/styles.css}" rel="stylesheet"/>
+        <link href="../public/css/loginStyles.css" th:href="@{/css/ordreStyles.css}" rel="stylesheet"/>
     </head>
 
     <body>
@@ -74,11 +75,29 @@
                     </label>
                     <button id="deleteOrderButton" type="submit" formaction="/deleteAnUserByUsingUserIdAndOrderId">delete order</button>
                 </form>
+                <div ID="Order" th:if="${session.selected_order_full != null}">
+                    <table>
+                        <tr>
+                            <th>Top</th>
+                            <th>Bottom</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                        </tr>
+                        <tr th:each="line : ${session.selected_order_full.getOrderlines()}">
+                            <td class="orderlinestat Top" th:text="${line.getTopName()}">Top</td>
+                            <td class="orderlinestat Bottom" th:text="${line.getBottomName()}">Bottom</td>
+                            <td class="orderlinestat Quantity" th:text="${line.getQuantity()}">Quantity</td>
+                            <td class="orderlinestat Price" th:text="${line.getTotalPrice()}">Price</td>
+                        </tr>
+                    </table>
+                    <hr/>
+                    <div class="orderline">
+                        <div class="orderlinestat Status">Status: <span th:text="${session.selected_order_full.getStatus()}"></span></div>
+                        <div class="orderlinestat TotalPrice">Total Price: <span th:text="${session.selected_order_full.getTotalPrice()}"></span></div>
+                    </div>
+                    <div class="orderlinestat Note">Customer Note: <span th:text="${session.selected_order_full.getNote()}"></span></div>
+                </div>
 
-                <!--<form method="post" th:action="@{/deleteAnUserByUsingUserIdAndOrderId}">
-                    <input type="hidden" name="selectedOrder" th:value="${session.selected_order}">
-                    <button id="deleteOrderButton" type="submit">delete order</button>
-                </form>-->
                 <p>indsæt penge</p>
                 <form method="post" name="updateUserBalanceThing" th:action="@{/updateUseBalance}">
                     <input type="hidden" name="userEmail" th:value="${session.admin_chosen_user.email}">
