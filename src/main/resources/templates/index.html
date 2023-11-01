@@ -25,12 +25,11 @@
                         Ordre
                     </div>
                 </a>
-                <a href="/ordersAdmin" th:if="${session.active_user!=null && session.active_user.isAdmin()}">
+                <a href="/adminInfoForUsers" th:if="${session.active_user!=null && session.active_user.isAdmin()}">
                     <div class="NavButton">
                         Alle Ordre
                     </div>
                 </a>
-                <!--<a href="/kunder" th:if="${ctx.session.activeUser.isAdmin}">Kunder</a>-->
             </div>
             <div ID="UserSpecifics">
                 <a href="/logout" th:unless="${session.active_user==null}">

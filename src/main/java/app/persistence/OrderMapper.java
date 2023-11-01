@@ -101,26 +101,30 @@ public class OrderMapper {
 
     private static void addOrdersToOrderViewList(List<Order> orders, ConnectionPool connectionPool) throws DatabaseException {
         for (Order orderView: orders) {
-            String sql = "select top_id, bottom_id, quantity, total_price from orderline where order_id = ?";
-            try(Connection connection = connectionPool.getConnection()){
-                try(PreparedStatement ps = connection.prepareStatement(sql)){
-                    ps.setInt(1, orderView.getOrderId());
-                    try(ResultSet rs = ps.executeQuery()){
-                        while(rs.next()){
-                            int top_id = rs.getInt("top_id");
-                            Top top = TopMapper.getTopById(top_id, connectionPool);
-                            int bottom_id = rs.getInt("bottom_id");;
-                            Bottom bottom = BottomMapper.getBottomById(bottom_id, connectionPool);
-                            int total_price = rs.getInt("total_price");;
-                            int quantity = rs.getInt("quantity");
-                            Orderline orderline = new Orderline(top, bottom, total_price, quantity);
-                            orderView.addOrderLine(orderline);
-                        }
+            addOrdersToOrderView(orderView, connectionPool);
+        }
+    }
+
+    public static void addOrdersToOrderView(Order orderView, ConnectionPool connectionPool) throws DatabaseException {
+        String sql = "select top_id, bottom_id, quantity, total_price from orderline where order_id = ?";
+        try(Connection connection = connectionPool.getConnection()){
+            try(PreparedStatement ps = connection.prepareStatement(sql)){
+                ps.setInt(1, orderView.getOrderId());
+                try(ResultSet rs = ps.executeQuery()){
+                    while(rs.next()){
+                        int top_id = rs.getInt("top_id");
+                        Top top = TopMapper.getTopById(top_id, connectionPool);
+                        int bottom_id = rs.getInt("bottom_id");;
+                        Bottom bottom = BottomMapper.getBottomById(bottom_id, connectionPool);
+                        int total_price = rs.getInt("total_price");;
+                        int quantity = rs.getInt("quantity");
+                        Orderline orderline = new Orderline(top, bottom, total_price, quantity);
+                        orderView.addOrderLine(orderline);
                     }
                 }
-            } catch (SQLException e) {
-                throw new DatabaseException("Something went wrong getting your order products, try again later.");
             }
+        } catch (SQLException e) {
+            throw new DatabaseException("Something went wrong getting your order products, try again later.");
         }
     }
 }
