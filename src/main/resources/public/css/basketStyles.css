@@ -126,21 +126,22 @@ a {
     background: white;
 }
 
-#orderLineForm{
-        display: flex;
-        justify-content: center;
-        flex-direction:column;
-        text-align: center;
-        border: white 5px solid;
-        margin-top: 8vh;
-        padding: 2rem;
-        margin-right:14vw;
-        margin-left:14vw;
-        margin-bottom: 2vh;
-        background-color: #DFCCFB;
-        border-radius: 2rem ;
-        font-size: 1.4rem;
+#orderLineDiv form {
+    display: flex;
+    justify-content: center;
+}
 
+#orderLineDiv {
+    text-align: center;
+    border: white 5px solid;
+    padding: 2rem;
+    margin: 2vh auto; /* top/bot left/right */
+    max-width: 32em;
+    min-width: 40vw;
+    background-color: #DFCCFB;
+    border-radius: 2rem ;
+    font-size: 1.4rem;
+    border-collapse: collapse;
 }
 
 #orderLineForm table {
@@ -187,4 +188,11 @@ h3{
     margin-bottom: 1.5rem;
     text-align: start;
 
+}
+
+#Order {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
 }

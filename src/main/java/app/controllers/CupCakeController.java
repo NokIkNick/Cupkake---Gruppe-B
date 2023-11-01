@@ -20,8 +20,8 @@ public class CupCakeController {
             ctx.attribute("top_info", TopMapper.getAllTopInfo(connectionPool));          // TODO
             ctx.attribute("bottom_info", BottomMapper.getAllBottomInfo(connectionPool)); // TODO
             User user = ctx.sessionAttribute("active_user");
-            if(user != null){
-                ctx.attribute("email", user.getEmail());
+            if(ctx.sessionAttribute("basket_orderlines") == null) {
+                ctx.sessionAttribute("basket_orderlines", new ArrayList<Orderline>());
             }
             ctx.render("index.html");    // TODO
         }catch (DatabaseException e){
@@ -32,13 +32,7 @@ public class CupCakeController {
 
 
     public static void loadInitialIndexSite(Context ctx, ConnectionPool connectionPool){
-        try{
-            //ctx.sessionAttribute("active_user", new User()); // we need to be able to log in, not have an empty user, so why?
-            ctx.sessionAttribute("basket_orderlines", new ArrayList<Orderline>());
-            loadIndexSite(ctx,connectionPool);
-        }catch(Exception e){
-
-        }
+        loadIndexSite(ctx, connectionPool);
     }
 
     public static void logout(Context ctx, ConnectionPool connectionPool){
@@ -46,7 +40,7 @@ public class CupCakeController {
             ctx.sessionAttribute("active_user", null);
             ctx.sessionAttribute("basket_orderlines", new ArrayList<Orderline>());
             loadIndexSite(ctx,connectionPool);
-        }catch(Exception e){
+        }catch(Exception ignore){
 
         }
     }

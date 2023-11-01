@@ -105,7 +105,7 @@ public class BasketController {
                     ctx.sessionAttribute("last_orderlines",orderlines);
                     ctx.sessionAttribute("basket_orderlines",emptyOrderlines);
                     ctx.attribute("message", "Your order has been successfully placed and you have been charged: "+totalprice+" you new balance is: "+newBalanceUser);
-                    ctx.render("order_successfully_placed.html"); // TODO
+                    ctx.render("order_successfully_placed.html"); // TODO ctx.redirect("/");
                 }
             }catch (DatabaseException | AssertionError e){
                 ctx.attribute("message", e.getMessage());
