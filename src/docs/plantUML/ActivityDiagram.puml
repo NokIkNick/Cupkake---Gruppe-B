@@ -4,60 +4,93 @@
 start
 :enter website;
 fork
-repeat
-:customize cupcakes;
-repeat while (done customizing cupckas?) is (no)
-->yes;
+:no login;
 fork again
+partition #lightBlue Login {
 :login website;
 if(already user?) then
 :login;
 repeat
-:check credentials;
+:enter credentials;
+|website|
 repeat while (check if credentials are valid?) is (no)
+|Kunde|
 else
 :not user?;
 repeat
 :create user;
+|website|
 repeat while (check if credentials are valid?) is (no)
-->yes;
+-> yes;
+|Kunde|
 :login;
 repeat
-:check credentials;
+:enter new credentials;
+|website|
 repeat while (check if credentials are valid?) is (no)
 endif;
+}
+|Kunde|
+fork again
+partition #lightGreen Order Overview {
+:order site;
+kill;
+}
+end merge
+partition #lightPink create cupcakes order {
 repeat
 :customize cupcakes;
 repeat while (done customizing cupckas?) is (no)
 ->yes;
-end merge
 |website|
 repeat
+|Kunde|
 :customize order;
 repeat while (done?) is (no)
-if(logged in?) then
+}
 -> yes;
-else
+if(logged in?) then
 -> no;
+partition #lightBlue Login {
 :login website;
-if(already user?) then
-:login;
-repeat
-:check credentials;
-repeat while (check if credentials are valid?) is (no)
-else
-:not user?;
-repeat
+:already user?;
+fork;
+-> yes;
+|Kunde|
+-> no;
+fork again
 :create user;
+repeat
+:enter credentials;
+|website|
 repeat while (check if credentials are valid?) is (no)
-->yes;
+|Kunde|
+end fork;
 :login;
 repeat
-:check credentials;
+:enter new credentials;
+|website|
 repeat while (check if credentials are valid?) is (no)
-endif;
+}
+else
+-> yes;
 endif
-:bestil;
+|Kunde|
+:submit order;
+|website|
+:placing order;
+fork
+|Kunde|
+:receipt]
+:go to shop;
+fork again;
+|shop|
+:create order;
+:cupcakes]
+:order ready for pick up;
+|Kunde|
+|shop|
+end fork;
+:get cupcakes and eat them;
 stop
-
 @enduml
