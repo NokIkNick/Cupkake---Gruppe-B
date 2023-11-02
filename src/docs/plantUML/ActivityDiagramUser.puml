@@ -3,15 +3,13 @@
 |Kunde|
 start
 :enter website;
-fork
-:no login;
-fork again
+repeat
+if(wanna login?) then(no);
+else (yes)
 partition #lightBlue Login {
 :login website;
-:already user?;
-fork;
-:yes;
-fork again
+if(already user?) then(yes);
+else (no)
 :create user;
 repeat
 :enter credentials;
@@ -19,7 +17,7 @@ repeat
 repeat while (check if credentials are valid?) is (no)
 -> yes;
 |Kunde|
-end fork;
+end if;
 :login;
 repeat
 :enter credentials;
@@ -27,47 +25,23 @@ repeat
 repeat while (check if credentials are valid?) is (no)
 -> yes;
 }
+end if;
 |Kunde|
-end fork
 partition #lightPink create cupcakes order {
 repeat
 :customize cupcakes;
 repeat while (done customizing cupckas?) is (no)
 ->yes;
-|website|
+}
+partition #lightGreen view basket {
+:basket;
 repeat
 |Kunde|
 :customize order;
 repeat while (done?) is (no)
 }
+repeat while(logged in) is (no)
 -> yes;
-if(logged in?) then
--> no;
-partition #lightBlue Login {
-:login website;
-:already user?;
-fork;
--> yes;
-|Kunde|
--> no;
-fork again
-:create user;
-repeat
-:enter credentials;
-|website|
-repeat while (check if credentials are valid?) is (no)
--> yes;
-|Kunde|
-end fork;
-:login;
-repeat
-:enter credentials;
-|website|
-repeat while (check if credentials are valid?) is (no)
-}
-else
--> yes;
-endif
 |Kunde|
 :submit order;
 |website|
