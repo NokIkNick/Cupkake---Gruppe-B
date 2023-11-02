@@ -3,15 +3,10 @@ package app.controllers;
 import app.entities.*;
 import app.exceptions.DatabaseException;
 import app.persistence.*;
-import com.google.gson.Gson;
-import com.sun.source.tree.AssertTree;
 import io.javalin.http.Context;
-import kotlin.text.UStringsKt;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Stream;
 
 public class BasketController {
     public static void addToBasket(Context ctx, ConnectionPool connectionPool) {
@@ -46,15 +41,14 @@ public class BasketController {
         }
     }
     public static void loadBasket(Context ctx) {
-        List<Orderline> orderlines = ctx.sessionAttribute("basket_orderlines");  // test
+        List<Orderline> orderlines = ctx.sessionAttribute("basket_orderlines");
         if(orderlines == null) {
-            orderlines = new ArrayList<Orderline>();
+            orderlines = new ArrayList<>();
             ctx.sessionAttribute("total_price", 0);
             ctx.sessionAttribute("basket_orderlines", orderlines);
         }
-        orderlines.stream().forEach(System.out::println);  // test
         ctx.sessionAttribute("total_price", updateSum(orderlines));
-        ctx.render("basket.html"); // TODO
+        ctx.render("basket.html");
     }
     public static void deleteOrderLine(Context ctx){
         try {
@@ -78,7 +72,7 @@ public class BasketController {
         User user;
         if(ctx.sessionAttribute("basket_orderlines") == null || orderlines.isEmpty()){
             ctx.attribute("message", "you dont have any order lines yet.");
-            loadBasket(ctx); // TODO
+            loadBasket(ctx);
             return;
         }
         if(ctx.sessionAttribute("active_user") == null){
@@ -109,7 +103,7 @@ public class BasketController {
                 }
             }catch (DatabaseException | AssertionError e){
                 ctx.attribute("message", e.getMessage());
-                loadBasket(ctx);       // TODO
+                loadBasket(ctx);
             }
         }
     }
@@ -120,20 +114,5 @@ public class BasketController {
             sum += o.getTotalPrice();
         }
         return sum;
-    }
-
-
-    public static void test(Context ctx,ConnectionPool connectionPool){
-        String selectedTopName = ctx.formParam("selectedTop"); // Get the selected top's name
-        String selectedTopId = ctx.formParam("selectedTopId"); // Get the selected top's id
-        String price = ctx.formParam("selectedTopPrice"); // Get the selected top's price
-        String top = ctx.formParam("selectedTop");
-        System.out.println(top);
-        /*String selectedBottomName = ctx.formParam("selectedBottom");
-        int selectedBottomId = Integer.parseInt(ctx.formParam("bottom-id")); // Get the custom data attribute
-        int selectedBottemPrice = Integer.parseInt(ctx.formParam("bottom-price"));*/
-        System.out.println(selectedTopName);
-        System.out.println(selectedTopId);
-        System.out.println(price);
     }
 }

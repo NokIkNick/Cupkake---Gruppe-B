@@ -12,20 +12,18 @@ import java.util.ArrayList;
 
 
 public class CupCakeController {
-        // TODO  make sure the names of the variables matches the thymeleaf context variables.
-        // TODO add all the extra variables that is needed to render the index page properly.
     public static void loadIndexSite(Context ctx, ConnectionPool connectionPool){
         try {
-            ctx.attribute("top_info", TopMapper.getAllTopInfo(connectionPool));          // TODO
-            ctx.attribute("bottom_info", BottomMapper.getAllBottomInfo(connectionPool)); // TODO
+            ctx.attribute("top_info", TopMapper.getAllTopInfo(connectionPool));
+            ctx.attribute("bottom_info", BottomMapper.getAllBottomInfo(connectionPool));
             User user = ctx.sessionAttribute("active_user");
             if(ctx.sessionAttribute("basket_orderlines") == null) {
                 ctx.sessionAttribute("basket_orderlines", new ArrayList<Orderline>());
             }
-            ctx.render("index.html");    // TODO
+            ctx.render("index.html");
         }catch (DatabaseException e){
             ctx.attribute("message", e.getMessage());
-            ctx.render("index.html");  // TODO
+            ctx.render("index.html");
         }
     }
 

@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Objects;
 
 public class AdminController {
-    // TODO make sure the functions render the right pages and has the correct attribute / formParam names.
     public static void deleteUser(Context ctx , ConnectionPool connectionPool){
         try{
             User user = ctx.sessionAttribute("chosen_user");
@@ -50,7 +49,7 @@ public class AdminController {
             ctx.redirect("/adminInfoForUsers");
         } catch (DatabaseException|AssertionError e){
             ctx.redirect("/adminInfoForUsers");
-            ctx.attribute("message",e.getMessage()); // TODO make this work
+            ctx.attribute("message",e.getMessage());
         }
 
     }
@@ -70,7 +69,7 @@ public class AdminController {
                ctx.render("admin.html");
         }catch (NumberFormatException e){
             ctx.attribute("message","Error, make sure you enter a number");
-            ctx.render("admin.html"); // TODO
+            ctx.render("admin.html");
         }
     }
     public static void updateUserBalance(Context ctx, ConnectionPool connectionPool){
@@ -86,7 +85,7 @@ public class AdminController {
             ctx.render("admin.html");
         }catch (NumberFormatException e){
             ctx.attribute("message","Error, make sure you enter a number");
-            ctx.render("admin.html"); // TODO
+            ctx.render("admin.html");
         }
     }
 
@@ -109,10 +108,10 @@ public class AdminController {
     public static void allUsers(Context ctx, ConnectionPool connectionPool) {
         try {
             checkUsers(ctx, connectionPool);
-            ctx.render("admin.html");        // TODO
+            ctx.render("admin.html");
         } catch (DatabaseException e) {
             ctx.attribute("message", e.getMessage());
-            ctx.render("index.html");         // TODO
+            ctx.render("index.html");
         }
     }
 
@@ -189,10 +188,10 @@ public class AdminController {
         try {
              orderList = AdminMapper.getAllOrders(connectionPool);
              ctx.sessionAttribute("orderlist", orderList);
-             ctx.render("admin.html");        // TODO
+             ctx.render("admin.html");
         }catch (DatabaseException e){
             ctx.attribute("message",e.getMessage());
-            ctx.render("admin.html");         // TODO
+            ctx.render("admin.html");
         }
     }
 }
