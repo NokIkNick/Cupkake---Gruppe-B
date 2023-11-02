@@ -10,15 +10,14 @@ partition #lightBlue Login {
 :login website;
 :already user?;
 fork;
--> yes;
-|Kunde|
--> no;
+:yes;
 fork again
 :create user;
 repeat
 :enter credentials;
 |website|
 repeat while (check if credentials are valid?) is (no)
+-> yes;
 |Kunde|
 end fork;
 :login;
@@ -26,14 +25,10 @@ repeat
 :enter credentials;
 |website|
 repeat while (check if credentials are valid?) is (no)
+-> yes;
 }
 |Kunde|
-fork again
-partition #lightGreen Order Overview {
-:order site;
-kill;
-}
-end merge
+end fork
 partition #lightPink create cupcakes order {
 repeat
 :customize cupcakes;
@@ -61,6 +56,7 @@ repeat
 :enter credentials;
 |website|
 repeat while (check if credentials are valid?) is (no)
+-> yes;
 |Kunde|
 end fork;
 :login;
