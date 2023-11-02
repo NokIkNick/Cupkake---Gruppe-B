@@ -17,13 +17,17 @@ repeat while (check if credentials are valid?) is (no)
 partition #Orange update user info {
 repeat
 :Chose a User;
-fork
-:view user order;
-fork again
-:delete user order;
-fork again
-:add money to user balance;
-end fork
+switch (action)
+case (modify order)
+ :view user order;
+ if (want to delete order?) then (yes)
+ :delete user order;
+ else (no)
+ end if
+case (want to add money)
+  :add money to user balance;
+case (nothing)
+endswitch
 repeat while (want to edit another user?) is (no)
 -> yes;
 }

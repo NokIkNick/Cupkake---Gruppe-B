@@ -1,0 +1,79 @@
+@startuml
+'https://plantuml.com/object-diagram
+
+package config {
+    class ThymeleafConfig
+}
+package controllers {
+    class AdminController
+    class BasketController
+    class CupCakeController
+    class UserController
+    class OrderViewController
+}
+package entities {
+    class Bottom
+    class Order
+    class Orderline
+    class Top
+    class User
+}
+package exceptions {
+    class DatabaseException
+}
+package persistence{
+    class AdminMapper
+    class BottomMapper
+    class ConnectionPool
+    class OrderMapper
+    class PasswordValidator
+    class TopMapper
+    class UserMapper
+}
+class Main
+UserController o---- UserMapper
+UserController o---- User
+UserController o---- ConnectionPool
+UserController o---- PasswordValidator
+UserController o---- DatabaseException
+
+CupCakeController o-- Orderline
+CupCakeController o-- User
+CupCakeController o-- DatabaseException
+CupCakeController o-- BottomMapper
+CupCakeController o-- ConnectionPool
+CupCakeController o-- TopMapper
+CupCakeController o-- TopMapper
+
+BasketController o--- Bottom
+BasketController o--- Order
+BasketController o--- Orderline
+BasketController o--- Top
+BasketController o--- User
+BasketController o--- DatabaseException
+BasketController o--- AdminMapper
+BasketController o--- BottomMapper
+BasketController o--- ConnectionPool
+BasketController o--- OrderMapper
+BasketController o--- TopMapper
+BasketController o--- UserMapper
+
+AdminController o-- Order
+AdminController o-- User
+AdminController o--- DatabaseException
+AdminController o-- ConnectionPool
+
+ConnectionPool --o AdminMapper
+ConnectionPool --o BottomMapper
+ConnectionPool --o OrderMapper
+ConnectionPool --o TopMapper
+ConnectionPool --o UserMapper
+
+Main o-- ConnectionPool
+Main o-- UserController
+Main o-- CupCakeController
+Main o-- BasketController
+Main o-- OrderViewController
+Main o-- AdminController
+
+@enduml
