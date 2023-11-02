@@ -60,7 +60,6 @@ public class Main {
         // View Orders
         app.get("/orders", ctx -> OrderViewController.viewMyOrders(ctx, connectionPool));
 
-        //app.get("/", ctx ->  ctx.render("index.html"));
 
         //admin related:
         app.get("/adminInfoForUsers",ctx->AdminController.allUsers(ctx,connectionPool));
@@ -71,7 +70,5 @@ public class Main {
             ctx.redirect("/adminInfoForUsers");
         });
         app.post("/deleteAnUserByUsingUserIdAndOrderId",ctx->AdminController.deleteAnUserByUsingUserIdAndOrderId(ctx,connectionPool));
-        // Routing
-        app.get("/test", ctx -> ctx.render("test.html"));
     }
 }
