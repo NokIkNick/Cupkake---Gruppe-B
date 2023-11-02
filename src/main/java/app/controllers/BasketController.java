@@ -3,15 +3,9 @@ package app.controllers;
 import app.entities.*;
 import app.exceptions.DatabaseException;
 import app.persistence.*;
-import com.google.gson.Gson;
-import com.sun.source.tree.AssertTree;
 import io.javalin.http.Context;
-import kotlin.text.UStringsKt;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Stream;
 
 public class BasketController {
     public static void addToBasket(Context ctx, ConnectionPool connectionPool) {
@@ -99,7 +93,7 @@ public class BasketController {
             }
         }
     }
-    public static void test(Context ctx,ConnectionPool connectionPool){
+    public static void test(Context ctx, ConnectionPool connectionPool){
         String selectedTopName = ctx.formParam("selectedTop"); // Get the selected top's name
         String selectedTopId = ctx.formParam("selectedTopId"); // Get the selected top's id
         String price = ctx.formParam("selectedTopPrice"); // Get the selected top's price

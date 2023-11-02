@@ -9,7 +9,6 @@ import app.persistence.TopMapper;
 import io.javalin.http.Context;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class CupCakeController {
